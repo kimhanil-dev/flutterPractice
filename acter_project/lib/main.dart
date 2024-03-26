@@ -104,6 +104,7 @@ class WaitConnectingPage extends StatefulWidget {
 
 class _WaitConnectingPageState extends State<WaitConnectingPage> {
   final serverComunicator = Comunicator();
+  // 접속 대기 위젯
   Widget currentWidget = const Scaffold(
     body: Center(
       child: Column(
@@ -116,9 +117,11 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
   @override
   void initState() {
+    // 서버에 접속 시도
     serverComunicator.tryToConnectServer();
+    // TODO : 접속 실패시 행동
 
-    // update widget state
+    // 위젯을 접속 대기 -> 연결 완료로 변경
     serverComunicator.bindOnConnectServerCallback(
       () {
         setState(() {
@@ -133,6 +136,7 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
           );
         });
 
+        // 연결 완료후 일정 시간 딜레이 후 연극이 시작되는 것을 기다립니다.
         Future<void>.microtask(() {
           const Duration(seconds: 5);
         }).then(
@@ -163,10 +167,8 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
 class Comunicator {
   Comunicator({this.serverIp = 'localhost', this.serverPort = 55555});
-
   final String serverIp;
   final int serverPort;
-
   Socket? _server;
   Function()? _onConnectServer;
   Function()? _onGameStart;
@@ -189,7 +191,6 @@ class Comunicator {
     }
   }
 
-  // try to connect to server
   void tryToConnectServer() {
     Socket.connect(serverIp, serverPort).then(
       (socket) {
@@ -209,8 +210,7 @@ class Comunicator {
       },
     );
   }
-
-  // error control
+  
   void _onError(error) {
     print(error.toString());
   }
