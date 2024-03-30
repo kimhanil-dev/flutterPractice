@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'dart:isolate';
 import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const MainApp());
@@ -103,11 +103,11 @@ class WaitConnectingPage extends StatefulWidget {
 }
 
 class _WaitConnectingPageState extends State<WaitConnectingPage> {
-  final serverComunicator = Comunicator();
-  // 접속 대기 위젯
+  late Communicator serverCommunicator;
   Widget currentWidget = const Scaffold(
     body: Center(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text('당신의 의지가 세계와 연결되는 중 입니다.'),
         ],
@@ -117,46 +117,65 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
   @override
   void initState() {
-    // 서버에 접속 시도
-    serverComunicator.tryToConnectServer();
-    // TODO : 접속 실패시 행동
+    serverCommunicator =
+        Communicator(onConnectServerCallback, onTheaterStartCallback);
+    serverCommunicator.tryToConnectServer();
+    super.initState();
+  }
 
-    // 위젯을 접속 대기 -> 연결 완료로 변경
-    serverComunicator.bindOnConnectServerCallback(
-      () {
+  void onConnectServerCallback() {
+    setState(() {
+      currentWidget = const Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('연결 완료'),
+            ],
+          ),
+        ),
+      );
+    });
+
+    Future<void>.microtask(() {
+      const Duration(seconds: 5);
+    }).then(
+      (value) {
         setState(() {
           currentWidget = const Scaffold(
             body: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('연결 완료'),
+                  Text('세계가 시작되기를 기다리는 중 입니다.'),
                 ],
               ),
             ),
           );
         });
-
-        // 연결 완료후 일정 시간 딜레이 후 연극이 시작되는 것을 기다립니다.
-        Future<void>.microtask(() {
-          const Duration(seconds: 5);
-        }).then(
-          (value) {
-            setState(() {
-              currentWidget = const Scaffold(
-                body: Center(
-                  child: Column(
-                    children: [
-                      Text('세계가 시작되기를 기다리는 중 입니다.'),
-                    ],
-                  ),
-                ),
-              );
-            });
-          },
-        );
       },
     );
-    super.initState();
+  }
+
+  void onTheaterStartCallback() {
+    setState(() {
+      currentWidget = const Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('세계가 시작되었습니다.'),
+            ],
+          ),
+        ),
+      );
+    });
+
+    Future<void>.microtask(() {
+      const Duration(seconds: 5);
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => SelectPage(serverCommunicator)));
+    });
   }
 
   @override
@@ -165,68 +184,140 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
   }
 }
 
-class Comunicator {
-  Comunicator({this.serverIp = 'localhost', this.serverPort = 55555});
+// 유저들이 투표를 할 수 있는 페이지
+class SelectPage extends StatefulWidget {
+  const SelectPage(this.serverCommunicator, {super.key});
+  final Communicator serverCommunicator;
+
+  @override
+  State<SelectPage> createState() => _SelectPageState();
+}
+
+class _SelectPageState extends State<SelectPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ButtonWithMessage(widget.serverCommunicator,'스킵'),
+            const SizedBox(
+              width: 20,
+              height: 20,
+            ),
+            ButtonWithMessage(widget.serverCommunicator,'액션'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// 버튼을 누르면 메세지가 띄워져 입력을 막는 위젯으로,
+// 버튼을 누르면 buttonText를 메세지로 서버로 전송합니다.
+class ButtonWithMessage extends StatefulWidget {
+  const ButtonWithMessage(this.serverCommunicator, this.buttonText, {super.key});
+  final Communicator serverCommunicator;
+  final String buttonText;
+
+  @override
+  State<ButtonWithMessage> createState() => _ButtonWithMessageState();
+}
+
+class _ButtonWithMessageState extends State<ButtonWithMessage> {
+  bool bIsButtonPressed = false;
+  @override
+  void initState() {
+    widget.serverCommunicator.addMessageListener((message) {
+      if(message == widget.buttonText) {
+        bIsButtonPressed = false;
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: bIsButtonPressed
+          ? const Card(
+              child: Text('처리 중 입니다...'),
+            )
+          : ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  bIsButtonPressed = true;
+                  widget.serverCommunicator.sendMessage(widget.buttonText);
+                });
+              },
+              child: Text(widget.buttonText)),
+    );
+  }
+}
+
+// 서버와의 통신을 담당
+class Communicator {
+  Communicator(this._onConnectServer, this._onTheaterStart,
+      {this.serverIp = 'localhost', this.serverPort = 55555});
+
   final String serverIp;
   final int serverPort;
   Socket? _server;
-  Function()? _onConnectServer;
-  Function()? _onGameStart;
+  final void Function() _onConnectServer;
+  final void Function() _onTheaterStart;
 
-  bool bindOnConnectServerCallback(Function() callback) {
-    if (_onConnectServer != null) {
-      return false;
-    } else {
-      _onConnectServer = callback;
-      return true;
-    }
+  final List<void Function(String)> listeners = [];
+  void addMessageListener(void Function(String message) listener) {
+    listeners.add(listener);
   }
 
-  bool bindOnGameStartCallback(Function() callback) {
-    if (_onGameStart != null) {
-      return false;
-    } else {
-      _onGameStart = callback;
-      return true;
-    }
+  void removeMessageListener(void Function(String message) listener) {
+    listeners.remove(listener);
   }
 
   void tryToConnectServer() {
     Socket.connect(serverIp, serverPort).then(
       (socket) {
         _server = socket;
-        _server!.listen((data) => _listen).onError((error) => _onError(error));
+        _server!
+            .listen((data) => handleReceiveData(data))
+            .onError((error) => handleReceiveError(error));
 
-        if (_onConnectServer != null) {
-          _onConnectServer!();
-        }
+        // TODO : 개발 타임에 반드시 한번은 바인딩 될 수 있도록 할 것
+        _onConnectServer();
 
         print('Connection from'
             '${_server!.remoteAddress.address}:${_server!.remotePort}');
       },
     ).onError(
       (error, stackTrace) {
-        print(error.toString());
+        print('failed to connect to server :' '${error.toString()}');
       },
     );
   }
-  
-  void _onError(error) {
-    print(error.toString());
-  }
 
   // listen for events from the server and process
-  void _listen(Uint8List data) async {
+  void handleReceiveData(Uint8List data) async {
     final message = String.fromCharCodes(data);
     print('Server: $message');
 
+    for (var listener in listeners) {
+      listener(message);
+    }
+
     if (message == 'theater_start') {
-      _onGameStart!();
+      // TODO : 개발 타임에 반드시 한번은 바인딩 될 수 있도록 할 것
+      _onTheaterStart();
     }
   }
 
+  void handleReceiveError(dynamic error) {
+    print('Server data receive error : ' '{$error.toString()}');
+  }
+
   // send message to connected server
-  void _write(String message) {
+  void sendMessage(String message) {
     _server!.write(message);
     print('Client: $message');
   }
