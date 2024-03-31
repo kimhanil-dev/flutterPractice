@@ -201,12 +201,12 @@ class _SelectPageState extends State<SelectPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ButtonWithMessage(widget.serverCommunicator,'스킵'),
+            ButtonWithMessage(widget.serverCommunicator,'스킵','skip'),
             const SizedBox(
               width: 20,
               height: 20,
             ),
-            ButtonWithMessage(widget.serverCommunicator,'액션'),
+            ButtonWithMessage(widget.serverCommunicator,'액션','action'),
           ],
         ),
       ),
@@ -215,11 +215,13 @@ class _SelectPageState extends State<SelectPage> {
 }
 
 // 버튼을 누르면 메세지가 띄워져 입력을 막는 위젯으로,
-// 버튼을 누르면 buttonText를 메세지로 서버로 전송합니다.
+// buttonText는 UI로 보여질 텍스트
+// 버튼을 누르면 message를 서버로 전송합니다.
 class ButtonWithMessage extends StatefulWidget {
-  const ButtonWithMessage(this.serverCommunicator, this.buttonText, {super.key});
+  const ButtonWithMessage(this.serverCommunicator, this.buttonText, this .message, {super.key});
   final Communicator serverCommunicator;
   final String buttonText;
+  final String message;
 
   @override
   State<ButtonWithMessage> createState() => _ButtonWithMessageState();
@@ -230,8 +232,10 @@ class _ButtonWithMessageState extends State<ButtonWithMessage> {
   @override
   void initState() {
     widget.serverCommunicator.addMessageListener((message) {
-      if(message == widget.buttonText) {
-        bIsButtonPressed = false;
+      if(message == widget.message + '_complite') {
+        setState(() {
+          bIsButtonPressed = false;
+        });
       }
     });
     super.initState();
@@ -248,7 +252,7 @@ class _ButtonWithMessageState extends State<ButtonWithMessage> {
               onPressed: () {
                 setState(() {
                   bIsButtonPressed = true;
-                  widget.serverCommunicator.sendMessage(widget.buttonText);
+                  widget.serverCommunicator.sendMessage(widget.message);
                 });
               },
               child: Text(widget.buttonText)),

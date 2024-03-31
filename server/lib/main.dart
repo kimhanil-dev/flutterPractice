@@ -6,31 +6,31 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
-  // for broadcast
-  List<Socket> clients = [];
-  // bind the socket server to an address and port
-  var server = await ServerSocket.bind(InternetAddress.anyIPv4, 55555);
-  server.listen(
-    (client) {
-      handleConnection();
-    },
-  );
-
-  runApp(MainApp(server, clients));
+  
+  runApp(const MainApp());
 }
 
 class Server {
-  ServerSocket? socket;
+  ServerSocket? server;
   List<Socket> clients = [];
   int skipCount = 0;
   int actionCount = 0;
 
   void init() async {
-    socket = await ServerSocket.bind(InternetAddress.anyIPv4, 55555);
+    server = await ServerSocket.bind(InternetAddress.anyIPv4, 55555);
+    server!.listen((client) {
+      handleConnection(client);
+    });
+  }
+
+  void broadcastMessage(String message) {
+    for (var client in clients) {
+      client.write(message);
+    }
   }
 
   // 클라이언트 연결 관리 및 로직 처리( 액션, 스킵 )
-  void handleConnection(Socket client, List<Socket> clients) {
+  void handleConnection(Socket client) {
     print('Connection from'
         ' ${client.remoteAddress.address}:${client.remotePort}');
 
@@ -42,18 +42,18 @@ class Server {
       (Uint8List data) async {
         await Future.delayed(const Duration(seconds: 1));
         final message = String.fromCharCodes(data);
-        if (message == '스킵') {
+        if (message == 'skip') {
           ++skipCount;
           if (skipCount >= (clients.length * 0.6)) {
             for (var client in clients) {
-              client.write('스킵완료');
+              client.write('skip_complite');
               skipCount = 0;
             }
           }
-        } else if (message == '액션') {
+        } else if (message == 'action') {
           ++actionCount;
           for (var client in clients) {
-            client.write('액션완료');
+            client.write('action_complite');
             actionCount = 0;
           }
         }
@@ -77,15 +77,22 @@ class Server {
 }
 
 class MainApp extends StatefulWidget {
-  const MainApp(this.server, this.clients, {super.key});
-  final ServerSocket server;
-  final List<Socket> clients;
+  const MainApp({super.key});
 
   @override
   State<MainApp> createState() => _MainAppState();
 }
 
 class _MainAppState extends State<MainApp> {
+  final Server server = Server();
+
+  @override
+  void initState() {
+    // open connection
+    server.init();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -99,9 +106,7 @@ class _MainAppState extends State<MainApp> {
             children: [
               ElevatedButton(
                   onPressed: () async {
-                    for (var client in widget.clients) {
-                      client.write('theater_start');
-                    }
+                      server.broadcastMessage('theater_start');
                   },
                   child: const Text('Start theater'))
             ],
