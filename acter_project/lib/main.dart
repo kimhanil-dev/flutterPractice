@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -9,9 +11,14 @@ void main() {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
+  @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -77,7 +84,12 @@ class MainPage extends StatelessWidget {
                   Navigator.of(context).push(_createRouteSelectPage());
                 },
                 child: const Text('선택')),
-            ElevatedButton(onPressed: () {}, child: const Text('기록')),
+            ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => ArchivePage()));
+                },
+                child: const Text('기록')),
           ],
         ),
       ),
@@ -173,8 +185,8 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
     Future<void>.microtask(() {
       const Duration(seconds: 5);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => SelectPage(serverCommunicator)));
+      Navigator.of(context).push(MaterialPageRoute(
+          builder: (context) => SelectPage(serverCommunicator)));
     });
   }
 
@@ -201,12 +213,12 @@ class _SelectPageState extends State<SelectPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ButtonWithMessage(widget.serverCommunicator,'스킵','skip'),
+            ButtonWithMessage(widget.serverCommunicator, '스킵', 'skip'),
             const SizedBox(
               width: 20,
               height: 20,
             ),
-            ButtonWithMessage(widget.serverCommunicator,'액션','action'),
+            ButtonWithMessage(widget.serverCommunicator, '액션', 'action'),
           ],
         ),
       ),
@@ -218,7 +230,9 @@ class _SelectPageState extends State<SelectPage> {
 // buttonText는 UI로 보여질 텍스트
 // 버튼을 누르면 message를 서버로 전송합니다.
 class ButtonWithMessage extends StatefulWidget {
-  const ButtonWithMessage(this.serverCommunicator, this.buttonText, this .message, {super.key});
+  const ButtonWithMessage(
+      this.serverCommunicator, this.buttonText, this.message,
+      {super.key});
   final Communicator serverCommunicator;
   final String buttonText;
   final String message;
@@ -232,7 +246,7 @@ class _ButtonWithMessageState extends State<ButtonWithMessage> {
   @override
   void initState() {
     widget.serverCommunicator.addMessageListener((message) {
-      if(message == widget.message + '_complite') {
+      if (message == widget.message + '_complite') {
         setState(() {
           bIsButtonPressed = false;
         });
@@ -246,7 +260,7 @@ class _ButtonWithMessageState extends State<ButtonWithMessage> {
     return Center(
       child: bIsButtonPressed
           ? const Card(
-              child: Text('처리 중 입니다...'),
+              child: Text('당신의 의지가 전달되고 있습니다..'),
             )
           : ElevatedButton(
               onPressed: () {
@@ -263,7 +277,7 @@ class _ButtonWithMessageState extends State<ButtonWithMessage> {
 // 서버와의 통신을 담당
 class Communicator {
   Communicator(this._onConnectServer, this._onTheaterStart,
-      {this.serverIp = 'localhost', this.serverPort = 55555});
+      {this.serverIp = '59.11.159.110', this.serverPort = 55555});
 
   final String serverIp;
   final int serverPort;
@@ -281,7 +295,8 @@ class Communicator {
   }
 
   void tryToConnectServer() {
-    Socket.connect(serverIp, serverPort).then(
+    Socket.connect(serverIp, serverPort, timeout: const Duration(minutes: 1))
+        .then(
       (socket) {
         _server = socket;
         _server!
@@ -324,5 +339,93 @@ class Communicator {
   void sendMessage(String message) {
     _server!.write(message);
     print('Client: $message');
+  }
+}
+
+// 임시 업적 구조
+class Achivement {
+  const Achivement(this.id, this.name, this.image, this.text);
+  final int id;
+  final String name;
+  final Image image;
+  final String text; // 업적 설명문
+}
+
+// 업적을 저장하고, 관리하는 클래스
+class Archive {
+  Archive();
+  Archive.init();
+  // read all achivements from server
+  void init() {
+    /* test code */
+    achivements.add(
+        Achivement(0, '첫번째 선택', Image.asset('images/0.jpg'), '당신의 첫번째 선택.'));
+
+    achivements.add(
+        Achivement(1, '첫번째 스킵', Image.asset('images/1.jpg'), '사람을 화나게하는 방법은 두가지가 있다고 합니다 그 첫번째는 말을 하다가 마는 것이고... '));
+
+    achivements.add(
+        Achivement(2, '나. 용사. 강림.', Image.asset('images/2.jpg'), '용사의 등장.'));
+
+        achivements.add(
+        Achivement(3, '의문의 음유시인', Image.asset('images/3.jpg'), 'Music is my life'));
+  }
+
+  List<Achivement> achivements = [];
+
+  List<Achivement> getAllAchivements() {
+    return achivements;
+  }
+}
+
+class ArchivePage extends StatelessWidget {
+  ArchivePage({super.key});
+  final archive = Archive.init();
+
+  @override
+  Widget build(BuildContext context) {
+    archive.init();
+    return Scaffold(
+      body: GridView(
+        gridDelegate:
+            const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+        children: [
+          for (var grid in archive.getAllAchivements())
+            Row(
+              children: [
+                Expanded(
+                    child: AspectRatio(
+                        aspectRatio: 1,
+                        child: FittedBox(
+                          child: grid.image,
+                          fit: BoxFit.fill,
+                        ))),
+                Expanded(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    AutoSizeText(
+                      grid.name,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    AutoSizeText(
+                      grid.text,
+                      style: TextStyle(
+                          fontSize: 10,
+                          color: Theme.of(context).colorScheme.primary),
+                    ),
+                  ],
+                ))
+              ],
+            ),
+        ],
+      ),
+    );
   }
 }
