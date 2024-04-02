@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
+import 'package:acter_project/public.dart';
 
 void main() {
   runApp(const MainApp());
@@ -342,14 +341,6 @@ class Communicator {
   }
 }
 
-// 임시 업적 구조
-class Achivement {
-  const Achivement(this.id, this.name, this.image, this.text);
-  final int id;
-  final String name;
-  final Image image;
-  final String text; // 업적 설명문
-}
 
 // 업적을 저장하고, 관리하는 클래스
 class Archive {
