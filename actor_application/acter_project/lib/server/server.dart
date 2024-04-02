@@ -1,7 +1,7 @@
-
-
 import 'dart:io';
 import 'dart:typed_data';
+
+import 'package:acter_project/public.dart';
 
 class Server {
   ServerSocket? server;
@@ -17,8 +17,11 @@ class Server {
   }
 
   void broadcastMessage(String message) {
+    final messageData = MessageData(Header.basic, message, 0);
+    final messageObject = MessageFactory.makeMessageClass(messageData);
+
     for (var client in clients) {
-      client.write(message);
+      client.write(messageObject.getMessage());
     }
   }
 
@@ -32,7 +35,9 @@ class Server {
     // listen for events from the client
     client.listen(
       // handle data from the client
-      handleClientData,
+      (data) {
+        handleClientData(client, data);
+      },
 
       // handle errors
       onError: (error) {
@@ -50,25 +55,19 @@ class Server {
     );
   }
 
-  void handleClientData(Uint8List data) async {
-      await Future.delayed(const Duration(seconds: 1));
-      final message = String.fromCharCodes(data);
-      if (message == 'skip') {
-        ++skipCount;
-        if (skipCount >= (clients.length * 0.6)) {
-          for (var client in clients) {
-            client.write('skip_complite');
-            skipCount = 0;
-          }
-        }
-      } else if (message == 'action') {
-        ++actionCount;
-        for (var client in clients) {
-          client.write('action_complite');
-          actionCount = 0;
-        }
-      }
+  void handleClientData(Socket client, Uint8List data) async {
+    await Future.delayed(const Duration(seconds: 1));
+    final message = Message.fromCharCodes(data);
+
+    final messageClass = MessageFactory.makeMessageClassFromMessage(message);
+    switch (messageClass.getHeader()) {
+      case Header.withCallback:
+        MessageData data = MessageData(Header.withCallback, 'complite', messageClass.getDatas().callbackId);
+        client.write(MessageFactory.makeMessageClass(data).getMessage());
+        break;
+      default:
     }
+  }
 
   // send achivement id to client
   void sendAchivement(Socket client, int id) {

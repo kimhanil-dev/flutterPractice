@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:acter_project/client/client.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
@@ -131,6 +132,12 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
     serverCommunicator =
         Communicator(onConnectServerCallback, onTheaterStartCallback);
     serverCommunicator.tryToConnectServer();
+
+    serverCommunicator.addMessageListener((message) {
+        if(message == 'theater_start') {
+          onTheaterStartCallback();
+        }
+     });
     super.initState();
   }
 
@@ -242,17 +249,6 @@ class ButtonWithMessage extends StatefulWidget {
 
 class _ButtonWithMessageState extends State<ButtonWithMessage> {
   bool bIsButtonPressed = false;
-  @override
-  void initState() {
-    widget.serverCommunicator.addMessageListener((message) {
-      if (message == widget.message + '_complite') {
-        setState(() {
-          bIsButtonPressed = false;
-        });
-      }
-    });
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -265,7 +261,13 @@ class _ButtonWithMessageState extends State<ButtonWithMessage> {
               onPressed: () {
                 setState(() {
                   bIsButtonPressed = true;
-                  widget.serverCommunicator.sendMessage(widget.message);
+                  widget.serverCommunicator.client.sendMessageWithCallback(
+                      widget.serverCommunicator._server!, widget.message,
+                      (message) {
+                    setState(() {
+                      bIsButtonPressed = false;
+                    });
+                  });
                 });
               },
               child: Text(widget.buttonText)),
@@ -274,10 +276,12 @@ class _ButtonWithMessageState extends State<ButtonWithMessage> {
 }
 
 // 서버와의 통신을 담당
+// TODO : client.dart로 합병할 것
 class Communicator {
   Communicator(this._onConnectServer, this._onTheaterStart,
       {this.serverIp = '59.11.159.110', this.serverPort = 55555});
 
+  final Client client = Client();
   final String serverIp;
   final int serverPort;
   Socket? _server;
@@ -286,11 +290,7 @@ class Communicator {
 
   final List<void Function(String)> listeners = [];
   void addMessageListener(void Function(String message) listener) {
-    listeners.add(listener);
-  }
-
-  void removeMessageListener(void Function(String message) listener) {
-    listeners.remove(listener);
+    client.addMessageListener(listener);
   }
 
   void tryToConnectServer() {
@@ -320,13 +320,10 @@ class Communicator {
     final message = String.fromCharCodes(data);
     print('Server: $message');
 
+    client.listen(data); // TODO:임시 코드로 추후 삭제
+
     for (var listener in listeners) {
       listener(message);
-    }
-
-    if (message == 'theater_start') {
-      // TODO : 개발 타임에 반드시 한번은 바인딩 될 수 있도록 할 것
-      _onTheaterStart();
     }
   }
 
@@ -340,7 +337,6 @@ class Communicator {
     print('Client: $message');
   }
 }
-
 
 // 업적을 저장하고, 관리하는 클래스
 class Archive {

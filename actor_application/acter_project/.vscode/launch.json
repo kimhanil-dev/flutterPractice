@@ -8,13 +8,15 @@
             "name": "client",
             "program": "lib/client/main.dart",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
         },
         {
             "name": "server",
             "program": "lib/server/main.dart",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "flutterMode": "debug",
+            "deviceId": "windows"
         },
         // {
         //     "name": "acter_project (profile mode)",

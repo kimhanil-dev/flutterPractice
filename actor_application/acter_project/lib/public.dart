@@ -18,9 +18,9 @@ import 'package:meta/meta.dart';
 // 
 
 // 메시지 형태를 추가할 경우 변경해야 하는 것들
-// 1. enum Header
-// 2. MessageData
-// 3. MessageFactory
+// 1. enum Header에 메시지 타입 추가
+// 2. MessageData에 데이터 추가
+// 3. MessageFactory에 생성 코드 추가
 // 4. MessageBasic을 상속한 메시지 클래스 작성
 
 // ------------------------------- Description end -------------------------------
@@ -44,7 +44,7 @@ enum Header {
 
   /// message에서 Header를 추출합니다
   static Header extractHeader(Message message) {
-    return Header.values[int.parse(message.split(message)[0])];
+    return Header.values[int.parse(message.split(',')[0])];
   }
 
   /// split된 message에서 Header 추출합니다.
@@ -77,7 +77,18 @@ class MessageFactory {
       case Header.withCallback:
         return MessageWithCallback(messageData.message,messageData.callbackId);
       default:
-        throw Exception('undefined Header : {message : ${messageData.header}}');
+        throw Exception('undefined Header : { header : ${messageData.header} }');
+    }
+  }
+
+  static MessageBasic makeMessageClassFromMessage(final Message message) {
+    switch(Header.extractHeader(message)) {
+      case Header.basic:
+        return MessageBasic.fromMessage(message);
+      case Header.withCallback:
+        return MessageWithCallback.fromMessage(message);
+      default:
+        throw Exception('undefined Header : { message : $message }');
     }
   }
 }
@@ -97,6 +108,7 @@ class MessageFactory {
       - `Message`데이터 형으로 전달한다
       - `,`문자를 구분자로 사용한다.
       - 첫 번째 데이터에는 반드시 enum Header의 index를 위치한다.
+      4. getDatas()를 재정의 하여 데이터를 반환한다.
 */
 
 /// 기본 메시지 형태
@@ -114,7 +126,7 @@ class MessageBasic {
   @mustBeOverridden
   List<String> _fromMessage(final Message message) {
     var strs = _splitMessage(message);
-    if (int.parse(strs[0]) == getHeader()) {
+    if (int.parse(strs[0]) == getHeader().index) {
       this.message = strs[1];
     } else {
       throw Exception('not matched `Header` : ${strs[0]}');
@@ -134,7 +146,12 @@ class MessageBasic {
   /// 재정의 시 super.getMessage()의 반환값의 뒤쪽에 `,`문자를 구분자로 하여 데이터를 추가합니다.
   @mustBeOverridden
   Message getMessage() {
-    return  '${Header.withCallback.index},$message';
+    return  '${getHeader().index},$message';
+  }
+
+  @mustBeOverridden
+  MessageData getDatas() {
+    return MessageData(getHeader(),message,-1);
   }
 
   /// Message를 구분 패턴을 통해 List<String>로 분리합니다.
@@ -150,7 +167,8 @@ class MessageBasic {
 /// 호출되어야 할 Callback에 대한 id를 소유
 class MessageWithCallback extends MessageBasic {
   MessageWithCallback(super.message, this.callbackId);
-  MessageWithCallback.fromMessage(super.message);
+  MessageWithCallback.fromMessage(final Message message)
+    :super.fromMessage(message);
 
   @override
   Header getHeader() {
@@ -169,7 +187,12 @@ class MessageWithCallback extends MessageBasic {
   
   @override
   Message getMessage() {
-    return '${super.message},$callbackId';
+    return '${super.getMessage()},$callbackId';
+  }
+  
+  @override
+  MessageData getDatas() {
+    return MessageData(getHeader(),message, callbackId);
   }
 }
 
