@@ -48,20 +48,23 @@ class Client {
   /// Server에서 데이터가 전달될 경우 실행되는 함수
   void listen(Uint8List data) {
     final Message message = Message.fromCharCodes(data);
-    var messageClass = MessageFactory.makeMessageClassFromMessage(message);
-    switch (messageClass.getHeader()) {
-      case Header.withCallback: // run callback
-        var datas = messageClass.getDatas();
-        _messageCallbacks[datas.callbackId](datas.message);
-        break;
-      case Header.basic: // boradcast to listeners
-        for (var listener in _messageListener) {
-          listener(messageClass.message);
-        }
-        break;
-      default:
-        throw Exception(
-            'server message not handled [Header : ${messageClass.getHeader()}]');
+    var messages = message.split('!');
+    for (var msg in messages) {
+      var messageClass = MessageFactory.makeMessageClassFromMessage(msg);
+      switch (messageClass.getHeader()) {
+        case Header.withCallback: // run callback
+          var datas = messageClass.getDatas();
+          _messageCallbacks[datas.callbackId](datas.message);
+          break;
+        case Header.basic: // boradcast to listeners
+          for (var listener in _messageListener) {
+            listener(messageClass.message);
+          }
+          break;
+        default:
+          throw Exception(
+              'server message not handled [Header : ${messageClass.getHeader()}]');
+      }
     }
   }
 }

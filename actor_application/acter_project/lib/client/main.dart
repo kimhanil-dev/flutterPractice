@@ -213,6 +213,28 @@ class SelectPage extends StatefulWidget {
 }
 
 class _SelectPageState extends State<SelectPage> {
+  bool bIsAchived = false;
+  String achivementText = '업적';
+
+  @override
+  void initState() {
+    widget.client.addMessageListener((message) {
+      if (message.contains('a0:')) {
+        setState(() {
+          bIsAchived = true;
+          achivementText = message;
+        });
+
+        Future.delayed(const Duration(seconds: 2)).then((value) {
+          setState(() {
+            bIsAchived = false;
+          });
+        });
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -220,6 +242,8 @@ class _SelectPageState extends State<SelectPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            bIsAchived ? Card(child: Text('업적 : $achivementText')) : const SizedBox(width: 0,height: 0,),
+            const SizedBox(width: 20, height: 20),
             ButtonWithMessage(widget.client, '스킵', 'skip'),
             const SizedBox(
               width: 20,

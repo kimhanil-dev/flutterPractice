@@ -32,8 +32,12 @@ class Server {
 
     clients.add(client);
 
-    final messageData = MessageData(Header.basic, MessagePreset.connected.name, -1);
+    // 클라이언트 연결시 초기 처리들 ..
+    final messageData =
+        MessageData(Header.basic, MessagePreset.connected.name, -1);
     client.write(MessageFactory.makeMessageClass(messageData).getMessage());
+
+    //
 
     // listen for events from the client
     client.listen(
@@ -65,8 +69,14 @@ class Server {
     final messageClass = MessageFactory.makeMessageClassFromMessage(message);
     switch (messageClass.getHeader()) {
       case Header.withCallback:
-        MessageData data = MessageData(Header.withCallback, MessagePreset.complite.name, messageClass.getDatas().callbackId);
-        client.write(MessageFactory.makeMessageClass(data).getMessage());
+        MessageData data = MessageData(Header.withCallback,
+            MessagePreset.complite.name, messageClass.getDatas().callbackId);
+        client.write('${MessageFactory.makeMessageClass(data).getMessage()},!');
+
+          MessageData achivementData =
+              MessageData(Header.basic, 'a0:first choice', -1);
+          client.write(
+              MessageFactory.makeMessageClass(achivementData).getMessage());
         break;
       default:
     }

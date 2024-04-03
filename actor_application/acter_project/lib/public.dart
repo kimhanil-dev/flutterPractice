@@ -40,7 +40,9 @@ enum Header {
   basic,
 
   /// Header,callbackId,message
-  withCallback;
+  withCallback,
+
+  update;
 
   /// message에서 Header를 추출합니다
   static Header extractHeader(Message message) {
@@ -60,7 +62,8 @@ enum MessagePreset {
   complite,
   start,
   action,
-  skip;
+  skip,
+  update;
 }
 // ------------------------------- 메시지 Header end -------------------------------
 
@@ -86,6 +89,7 @@ class MessageFactory {
         return MessageBasic(messageData.message);
       case Header.withCallback:
         return MessageWithCallback(messageData.message,messageData.callbackId);
+      case Header.update:
       default:
         throw Exception('undefined Header : { header : ${messageData.header} }');
     }
@@ -204,6 +208,40 @@ class MessageWithCallback extends MessageBasic {
   MessageData getDatas() {
     return MessageData(getHeader(),message, callbackId);
   }
+}
+
+class MessageUpdate extends MessageBasic {
+  MessageUpdate(super.message);
+  MessageUpdate.fromMessage(final Message message) : super.fromMessage(message);
+
+  late String actionButtonName;
+
+  @override
+  List<String> _fromMessage(Message message) {
+    var strs = super._fromMessage(message);
+    actionButtonName = strs[2];    
+
+    return strs;
+  }
+
+  @override
+  MessageData getDatas() {
+    // TODO: implement getDatas
+    throw UnimplementedError();
+  }
+
+  @override
+  Header getHeader() {
+    // TODO: implement getHeader
+    throw UnimplementedError();
+  }
+
+  @override
+  Message getMessage() {
+    // TODO: implement getMessage
+    throw UnimplementedError();
+  }
+
 }
 
 // ------------------------------- 메시지 클래스 end -------------------------------
