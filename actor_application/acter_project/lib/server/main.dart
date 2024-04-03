@@ -1,3 +1,4 @@
+import 'package:acter_project/public.dart';
 import 'package:flutter/material.dart';
 
 import 'package:acter_project/server/server.dart';
@@ -38,7 +39,7 @@ class _MainAppState extends State<MainApp> {
             children: [
               ElevatedButton(
                   onPressed: () async {
-                      server.broadcastMessage('theater_start');
+                      server.broadcastMessage(MessagePreset.start.name);
                   },
                   child: const Text('Start theater'))
             ],

@@ -52,6 +52,16 @@ enum Header {
     return Header.values[int.parse(messages[0])];
   }
 }
+
+/// 전달할 메시지의 프리셋
+/// 메시지를 하드코딩하지 않는다.
+enum MessagePreset {
+  connected,
+  complite,
+  start,
+  action,
+  skip;
+}
 // ------------------------------- 메시지 Header end -------------------------------
 
 // ------------------------------- 메시지 Factory -------------------------------

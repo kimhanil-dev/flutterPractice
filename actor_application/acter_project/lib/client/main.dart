@@ -115,7 +115,7 @@ class WaitConnectingPage extends StatefulWidget {
 }
 
 class _WaitConnectingPageState extends State<WaitConnectingPage> {
-  late Communicator serverCommunicator;
+  final Client client = Client();
   Widget currentWidget = const Scaffold(
     body: Center(
       child: Column(
@@ -129,15 +129,16 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
   @override
   void initState() {
-    serverCommunicator =
-        Communicator(onConnectServerCallback, onTheaterStartCallback);
-    serverCommunicator.tryToConnectServer();
-
-    serverCommunicator.addMessageListener((message) {
-        if(message == 'theater_start') {
-          onTheaterStartCallback();
-        }
-     });
+    client.connectToServer('59.11.159.110', 55555, (isConnected) {
+      if (isConnected) {
+        onConnectServerCallback();
+      }
+    });
+    client.addMessageListener((message) {
+      if (message == MessagePreset.start.name) {
+        onTheaterStartCallback();
+      }
+    });
     super.initState();
   }
 
@@ -191,8 +192,8 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
     Future<void>.microtask(() {
       const Duration(seconds: 5);
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => SelectPage(serverCommunicator)));
+      Navigator.of(context)
+          .push(MaterialPageRoute(builder: (context) => SelectPage(client)));
     });
   }
 
@@ -204,8 +205,8 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
 // 유저들이 투표를 할 수 있는 페이지
 class SelectPage extends StatefulWidget {
-  const SelectPage(this.serverCommunicator, {super.key});
-  final Communicator serverCommunicator;
+  const SelectPage(this.client, {super.key});
+  final Client client;
 
   @override
   State<SelectPage> createState() => _SelectPageState();
@@ -219,12 +220,12 @@ class _SelectPageState extends State<SelectPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ButtonWithMessage(widget.serverCommunicator, '스킵', 'skip'),
+            ButtonWithMessage(widget.client, '스킵', 'skip'),
             const SizedBox(
               width: 20,
               height: 20,
             ),
-            ButtonWithMessage(widget.serverCommunicator, '액션', 'action'),
+            ButtonWithMessage(widget.client, '액션', 'action'),
           ],
         ),
       ),
@@ -236,10 +237,9 @@ class _SelectPageState extends State<SelectPage> {
 // buttonText는 UI로 보여질 텍스트
 // 버튼을 누르면 message를 서버로 전송합니다.
 class ButtonWithMessage extends StatefulWidget {
-  const ButtonWithMessage(
-      this.serverCommunicator, this.buttonText, this.message,
+  const ButtonWithMessage(this.client, this.buttonText, this.message,
       {super.key});
-  final Communicator serverCommunicator;
+  final Client client;
   final String buttonText;
   final String message;
 
@@ -261,8 +261,7 @@ class _ButtonWithMessageState extends State<ButtonWithMessage> {
               onPressed: () {
                 setState(() {
                   bIsButtonPressed = true;
-                  widget.serverCommunicator.client.sendMessageWithCallback(
-                      widget.serverCommunicator._server!, widget.message,
+                  widget.client.sendMessageWithCallback(widget.message,
                       (message) {
                     setState(() {
                       bIsButtonPressed = false;
@@ -272,69 +271,6 @@ class _ButtonWithMessageState extends State<ButtonWithMessage> {
               },
               child: Text(widget.buttonText)),
     );
-  }
-}
-
-// 서버와의 통신을 담당
-// TODO : client.dart로 합병할 것
-class Communicator {
-  Communicator(this._onConnectServer, this._onTheaterStart,
-      {this.serverIp = '59.11.159.110', this.serverPort = 55555});
-
-  final Client client = Client();
-  final String serverIp;
-  final int serverPort;
-  Socket? _server;
-  final void Function() _onConnectServer;
-  final void Function() _onTheaterStart;
-
-  final List<void Function(String)> listeners = [];
-  void addMessageListener(void Function(String message) listener) {
-    client.addMessageListener(listener);
-  }
-
-  void tryToConnectServer() {
-    Socket.connect(serverIp, serverPort, timeout: const Duration(minutes: 1))
-        .then(
-      (socket) {
-        _server = socket;
-        _server!
-            .listen((data) => handleReceiveData(data))
-            .onError((error) => handleReceiveError(error));
-
-        // TODO : 개발 타임에 반드시 한번은 바인딩 될 수 있도록 할 것
-        _onConnectServer();
-
-        print('Connection from'
-            '${_server!.remoteAddress.address}:${_server!.remotePort}');
-      },
-    ).onError(
-      (error, stackTrace) {
-        print('failed to connect to server :' '${error.toString()}');
-      },
-    );
-  }
-
-  // listen for events from the server and process
-  void handleReceiveData(Uint8List data) async {
-    final message = String.fromCharCodes(data);
-    print('Server: $message');
-
-    client.listen(data); // TODO:임시 코드로 추후 삭제
-
-    for (var listener in listeners) {
-      listener(message);
-    }
-  }
-
-  void handleReceiveError(dynamic error) {
-    print('Server data receive error : ' '{$error.toString()}');
-  }
-
-  // send message to connected server
-  void sendMessage(String message) {
-    _server!.write(message);
-    print('Client: $message');
   }
 }
 

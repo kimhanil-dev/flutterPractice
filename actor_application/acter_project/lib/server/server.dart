@@ -17,7 +17,7 @@ class Server {
   }
 
   void broadcastMessage(String message) {
-    final messageData = MessageData(Header.basic, message, 0);
+    final messageData = MessageData(Header.basic, message, -1);
     final messageObject = MessageFactory.makeMessageClass(messageData);
 
     for (var client in clients) {
@@ -31,6 +31,9 @@ class Server {
         ' ${client.remoteAddress.address}:${client.remotePort}');
 
     clients.add(client);
+
+    final messageData = MessageData(Header.basic, MessagePreset.connected.name, -1);
+    client.write(MessageFactory.makeMessageClass(messageData).getMessage());
 
     // listen for events from the client
     client.listen(
@@ -62,7 +65,7 @@ class Server {
     final messageClass = MessageFactory.makeMessageClassFromMessage(message);
     switch (messageClass.getHeader()) {
       case Header.withCallback:
-        MessageData data = MessageData(Header.withCallback, 'complite', messageClass.getDatas().callbackId);
+        MessageData data = MessageData(Header.withCallback, MessagePreset.complite.name, messageClass.getDatas().callbackId);
         client.write(MessageFactory.makeMessageClass(data).getMessage());
         break;
       default:
