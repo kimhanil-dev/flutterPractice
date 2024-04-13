@@ -16,12 +16,9 @@ class Server {
     });
   }
 
-  void broadcastMessage(String message) {
-    final messageData = MessageData(Header.basic, message, -1);
-    final messageObject = MessageFactory.makeMessageClass(messageData);
-
+  void broadcastMessage(MessageType message) {
     for (var client in clients) {
-      client.write(messageObject.getMessage());
+      message.sendTo(client);
     }
   }
 
@@ -33,10 +30,7 @@ class Server {
     clients.add(client);
 
     // 클라이언트 연결시 초기 처리들 ..
-    final messageData =
-        MessageData(Header.basic, MessagePreset.connected.name, -1);
-    client.write(MessageFactory.makeMessageClass(messageData).getMessage());
-
+    MessageType.onConnected.sendTo(client);
     //
 
     // listen for events from the client
@@ -64,21 +58,18 @@ class Server {
 
   void handleClientData(Socket client, Uint8List data) async {
     await Future.delayed(const Duration(seconds: 1));
-    final message = Message.fromCharCodes(data);
+    final message = String.fromCharCodes(data);
 
-    final messageClass = MessageFactory.makeMessageClassFromMessage(message);
-    switch (messageClass.getHeader()) {
-      case Header.withCallback:
-        MessageData data = MessageData(Header.withCallback,
-            MessagePreset.complite.name, messageClass.getDatas().callbackId);
-        client.write('${MessageFactory.makeMessageClass(data).getMessage()},!');
+    switch (MessageType.getMessage(message)) {
+      case MessageType.onButtonClicked:
+        {
+          MessageType.onComplited.sendTo(client);
 
-          MessageData achivementData =
-              MessageData(Header.basic, 'a0:first choice', -1);
-          client.write(
-              MessageFactory.makeMessageClass(achivementData).getMessage());
+            MessageType.onAchivement.sendTo(client);
+        }
         break;
       default:
+        throw Exception('$message is not declared message type');
     }
   }
 

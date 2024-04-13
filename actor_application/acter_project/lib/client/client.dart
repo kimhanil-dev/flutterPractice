@@ -9,6 +9,8 @@ import 'package:acter_project/public.dart';
 class Client {
   late Socket _server;
 
+  List<Function(String message)> messageListeners = [];
+
   // TODO: 연결 실패시의 처리 추가
   /// 연결 성공시 서버로 부터 Header.basic 형태의 MessagePreset.connected가 전달 됩니다.
   void connectToServer(final String serverIp, final int serverPort,
@@ -23,48 +25,19 @@ class Client {
     });
   }
 
-  int _callbackIndex = 0;
-  // TODO:callback리스트를 청소하는 코드 작성할 것
-  final List<void Function(String)> _messageCallbacks = [];
-  final List<void Function(String)> _messageListener = [];
-
   void addMessageListener(void Function(String) messageListener) {
-    _messageListener.add(messageListener);
+    messageListeners.add(messageListener);
   }
 
-  void sendMessage(String message) {
-    final messageData = MessageData(Header.basic, message, -1);
-    _server.write(MessageFactory.makeMessageClass(messageData).getMessage());
-  }
-
-  /// 응답에 대한 처리가 존재하는 메시지를 생성하여 서버에 전달합니다.
-  void sendMessageWithCallback(String message, void Function(String) callback) {
-    final messageData =
-        MessageData(Header.withCallback, message, _callbackIndex++);
-    _server.write(MessageFactory.makeMessageClass(messageData).getMessage());
-    _messageCallbacks.add(callback);
+  void sendMessage(MessageType message) {
+    message.sendTo(_server);
   }
 
   /// Server에서 데이터가 전달될 경우 실행되는 함수
   void listen(Uint8List data) {
-    final Message message = Message.fromCharCodes(data);
-    var messages = message.split('!');
-    for (var msg in messages) {
-      var messageClass = MessageFactory.makeMessageClassFromMessage(msg);
-      switch (messageClass.getHeader()) {
-        case Header.withCallback: // run callback
-          var datas = messageClass.getDatas();
-          _messageCallbacks[datas.callbackId](datas.message);
-          break;
-        case Header.basic: // boradcast to listeners
-          for (var listener in _messageListener) {
-            listener(messageClass.message);
-          }
-          break;
-        default:
-          throw Exception(
-              'server message not handled [Header : ${messageClass.getHeader()}]');
-      }
+    final String message = String.fromCharCodes(data);
+    for (var element in messageListeners) {
+      element(message);
     }
   }
 }
