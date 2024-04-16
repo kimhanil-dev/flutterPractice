@@ -1,6 +1,6 @@
 import 'package:acter_project/client/client.dart';
-import 'package:acter_project/client/main.dart';
 import 'package:acter_project/public.dart';
+import 'package:acter_project/server/vote.dart';
 import 'package:flutter/material.dart';
 
 import 'button_with_message.dart';
@@ -21,7 +21,7 @@ class _SelectPageState extends State<SelectPage> {
   @override
   void initState() {
     widget.client.addMessageListener((message) {
-      switch (MessageType.getMessage(message)) {
+      switch (message.messageType) {
         case MessageType.activateActionButton:
           {
             setState(() {
@@ -33,7 +33,7 @@ class _SelectPageState extends State<SelectPage> {
           {
             setState(() {
               bIsAchived = true;
-              achivementText = message;
+              achivementText = String.fromCharCodes(message.datas);
             });
 
             Future.delayed(const Duration(seconds: 2)).then((value) {
@@ -63,12 +63,12 @@ class _SelectPageState extends State<SelectPage> {
                     height: 0,
                   ),
             const SizedBox(width: 20, height: 20),
-            ButtonWithMessage(widget.client, false),
+            ButtonWithMessage(widget.client, VoteType.skip),
             const SizedBox(
               width: 20,
               height: 20,
             ),
-            ButtonWithMessage(widget.client, true),
+            ButtonWithMessage(widget.client, VoteType.action),
           ],
         ),
       ),

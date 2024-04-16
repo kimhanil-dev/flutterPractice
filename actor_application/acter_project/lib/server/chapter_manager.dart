@@ -1,28 +1,33 @@
 import 'package:acter_project/server/achivement.dart';
 
 class ChapterManager {
-
-  int currentChapter = 0;
+  int currentChapter = -1;
   List<AchivementData> curChapterAchivements = [];
 
-  // final List<void Function(bool isSkipExisted, bool isActionExisted)> _onChapterStarts = [];
+  final List<void Function(bool isSkipExisted, bool isActionExisted)>
+      _onChapterStarts = [];
   final List<void Function()> _onChapterEnds = [];
 
-  // void bindOnChapterStart(void Function(bool isSkipExisted,bool isActionExisted) onChapterStart) {
-  //   _onChapterStarts.add(onChapterStart);
-  // }
-   void bindOnChapterEnd(void Function() onChapterEnd) {
+  void bindOnChapterStart(
+      void Function(bool isSkipExisted, bool isActionExisted) onChapterStart) {
+    _onChapterStarts.add(onChapterStart);
+  }
+
+  void bindOnChapterEnd(void Function() onChapterEnd) {
     _onChapterEnds.add(onChapterEnd);
   }
 
   /// return values
-  /// 
+  ///
   /// first boolean : is skip existed?
-  /// 
+  ///
   /// second boolean : is action existed?
-  (bool isSkipExisted, bool isActionExisted) changeToNextChapter(final AchivementDB achivement) {
-    //close action
-    _closeChapter();
+  (bool isSkipExisted, bool isActionExisted) changeToNextChapter(
+      final AchivementDB achivement) {
+    //close chapter
+    for (var chapterEndCallback in _onChapterEnds) {
+      chapterEndCallback();
+    }
 
     ++currentChapter;
     curChapterAchivements = achivement.getChapterAchivements(currentChapter);
@@ -31,17 +36,20 @@ class ChapterManager {
     bool isSkipExisted = false;
     bool isActionExisted = false;
 
-    for(var achivement in curChapterAchivements) {
-      isSkipExisted = achivement.condition == Condition.skip ? true : false;
-      isActionExisted = achivement.condition == Condition.action ? true : false;
+    for (var achivement in curChapterAchivements) {
+      if (achivement.condition == Condition.skip) {
+        isSkipExisted = true;
+      } else if (achivement.condition == Condition.action) {
+        isActionExisted = true;
+      }
     }
+
+    for (var chapterStartCallback in _onChapterStarts) {
+      chapterStartCallback(isSkipExisted, isActionExisted);
+    }
+
+    print('chapter started : $currentChapter');
 
     return (isSkipExisted, isActionExisted);
-  }
-
-  void _closeChapter() {
-    for (var chapterEndCallback in _onChapterEnds) {
-      chapterEndCallback();
-    }
   }
 }

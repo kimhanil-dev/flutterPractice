@@ -9,7 +9,7 @@ import 'package:acter_project/public.dart';
 class Client {
   late Socket _server;
 
-  List<Function(String message)> messageListeners = [];
+  List<Function(MessageData)> messageListeners = [];
 
   // TODO: 연결 실패시의 처리 추가
   /// 연결 성공시 서버로 부터 Header.basic 형태의 MessagePreset.connected가 전달 됩니다.
@@ -25,19 +25,21 @@ class Client {
     });
   }
 
-  void addMessageListener(void Function(String) messageListener) {
+  void addMessageListener(void Function(MessageData) messageListener) {
     messageListeners.add(messageListener);
   }
 
-  void sendMessage(MessageType message) {
-    message.sendTo(_server);
+  void sendMessage({required MessageType message, List<int>? datas}) {
+    MessageHandler.sendMessage(_server, message,datas: datas);
   }
 
   /// Server에서 데이터가 전달될 경우 실행되는 함수
   void listen(Uint8List data) {
-    final String message = String.fromCharCodes(data);
-    for (var element in messageListeners) {
-      element(message);
+    var messages = MessageHandler.getMessages(data);
+    for (var element in messageListeners) { 
+      for (var msg in messages) {
+        element(msg);
+      }
     }
   }
 }

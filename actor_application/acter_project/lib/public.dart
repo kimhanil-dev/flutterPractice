@@ -15,7 +15,7 @@ enum MessageType {
   activateSkipButton,
   activateActionButton,
   disableSkipButton,
-  disableActionButton;
+  disableActionButton,;
 
   static MessageType getMessage(String message) =>
       MessageType.values[int.parse(message)];
@@ -36,20 +36,28 @@ class MessageData {
 }
 
 class MessageHandler {
+  ///  데이터를 넘겨줄때 STX와 ETX를 회피하기 위한 편향 값
+  static int _MESSAGE_DATA_BIAS = 4;
+
   static void sendMessage(Socket dest, MessageType messageType,
-      {String? datas}) {
+      {List<int>? datas}) {
     // STX and MessageType
-    String message = String.fromCharCode(1) + messageType.index.toString();
+    List<int> message = [1,messageType.index];
 
     // Data
     if (datas != null) {
+      for(var code in datas) {
+        code += _MESSAGE_DATA_BIAS;
+      }
+
       message += datas;
     }
 
     // ETX
-    message += String.fromCharCode(3);
+    message.add(3);
 
-    dest.write(message);
+
+    dest.write(String.fromCharCodes(message));
   }
 
   static List<MessageData> getMessages(Uint8List datas) {
@@ -61,21 +69,29 @@ class MessageHandler {
       if (datas[i] == 1 /*STX*/ && !isInPacket) {
         isInPacket = true;
                         // ascii number to int
-        messageType = MessageType.values[datas[++i] - 48];
-        dataStartIndex = ++i;
+        messageType = MessageType.values[datas[++i]];
+        dataStartIndex = i + 1;
 
-        if (datas[dataStartIndex] == 3 /*ETX*/) {
-          isInPacket = false;
-        }
+        // if (datas[dataStartIndex] == 3 /*ETX*/) {
+        //   isInPacket = false;
+        // }
         
       } else if (isInPacket && datas[i] == 3 /*ETX*/) { 
-        messageDatas.add(MessageData(messageType!, datas.sublist(dataStartIndex, i - 1)));
+        var msgDatas = datas.sublist(dataStartIndex, i);
+        for (var data in msgDatas) {
+          data -= _MESSAGE_DATA_BIAS;
+        }
+        messageDatas.add(MessageData(messageType!, msgDatas));
         isInPacket = false;
       }
     }
 
     return messageDatas;
   }
+}
+
+abstract interface class MessageListener {
+  void listen(Socket socket, MessageData msgData);
 }
 
 class Achivement {

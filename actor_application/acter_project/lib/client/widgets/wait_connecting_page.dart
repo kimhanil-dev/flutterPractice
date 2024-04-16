@@ -26,13 +26,13 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
   @override
   void initState() {
-    client.connectToServer('121.165.78.156', 55555, (isConnected) {
+    client.connectToServer('121.165.78.196', 55555, (isConnected) {
       if (isConnected) {
         onConnectServerCallback();
       }
     });
     client.addMessageListener((message) {
-      if (MessageType.onTheaterStarted.equal(message)) {
+      if (MessageType.onTheaterStarted == message.messageType) {
         onTheaterStartCallback();
       }
     });

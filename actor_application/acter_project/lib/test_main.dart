@@ -5,9 +5,8 @@ import 'package:acter_project/public.dart';
 void main() async {
   ServerSocket localServer = await ServerSocket.bind('localhost', 55555);
   Socket toServer = await Socket.connect('localhost', 55555);
-  toServer.write('hello');
 
-  MessageHandler.sendMessage(toServer, MessageType.onComplited,datas: 'datatatataa');
+  MessageHandler.sendMessage(toServer, MessageType.onAchivement,datas: [15]);
 
   toServer.listen(
     (event) {
@@ -20,7 +19,7 @@ void main() async {
         var messages = MessageHandler.getMessages(event);
         for (var message in messages) {
           print(message.messageType.name);
-          print(String.fromCharCodes(message.datas));
+          print(message.datas);
         }
       });
     },

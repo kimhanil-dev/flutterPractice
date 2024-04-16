@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -9,6 +10,8 @@ class Server {
   int skipCount = 0;
   int actionCount = 0;
 
+  List<MessageListener> messageListeners = [];
+
   void init() async {
     server = await ServerSocket.bind(InternetAddress.anyIPv4, 55555);
     server!.listen((client) {
@@ -16,9 +19,23 @@ class Server {
     });
   }
 
-  void broadcastMessage(MessageType message) {
+  void addMessageListener(MessageListener msgListener) {
+    messageListeners.add(msgListener);
+  }
+
+  void broadcastMessage({required MessageType messageType, List<int>? datas}) {
     for (var client in clients) {
-      message.sendTo(client);
+      MessageHandler.sendMessage(client, messageType,datas: datas);
+    }
+  }
+
+  void sendMessage({required Socket dest,required MessageType msgType, List<int>? datas}) {
+    MessageHandler.sendMessage(dest, msgType, datas: datas);
+  }
+
+  void multicastMessage({required List<Socket> dests,required MessageType msgType, List<int>? datas}) {
+    for (var dest in dests) {
+      MessageHandler.sendMessage(dest, msgType,datas: datas);
     }
   }
 
@@ -30,7 +47,7 @@ class Server {
     clients.add(client);
 
     // 클라이언트 연결시 초기 처리들 ..
-    MessageType.onConnected.sendTo(client);
+    MessageHandler.sendMessage(client, MessageType.onConnected);
     //
 
     // listen for events from the client
@@ -58,18 +75,23 @@ class Server {
 
   void handleClientData(Socket client, Uint8List data) async {
     await Future.delayed(const Duration(seconds: 1));
-    final message = String.fromCharCodes(data);
 
-    switch (MessageType.getMessage(message)) {
-      case MessageType.onButtonClicked:
-        {
-          MessageType.onComplited.sendTo(client);
+    var messages = MessageHandler.getMessages(data);
+    for (var message in messages) {
+      for (var listener in messageListeners) {
+        listener.listen(client, message);
+      }
 
+      switch (message.messageType) {
+        case MessageType.onButtonClicked:
+          {
+            MessageHandler.sendMessage(client, MessageType.onComplited);
             MessageType.onAchivement.sendTo(client);
-        }
-        break;
-      default:
-        throw Exception('$message is not declared message type');
+          }
+          break;
+        default:
+          throw Exception('$message is not declared message type');
+      }
     }
   }
 
