@@ -18,6 +18,8 @@ enum VoteType implements MessageTransableObject {
 }
 
 class Vote implements MessageListener, MessageWriter {
+  Vote(this.onVoteEnded);
+
   late AchivementData _yayAchivement;
   AchivementData? _nayAchivement;
   bool _bIsVoteStarted = false;
@@ -29,8 +31,7 @@ class Vote implements MessageListener, MessageWriter {
 
   CancelableOperation<Null>? voteTimer;
 
-  late Function(bool result, List<Socket> yayers, List<Socket> nayers)
-      onVoteEnded;
+  final void Function(bool result) onVoteEnded;
 
   void startVote(
       {required VoteType voteType,
@@ -72,6 +73,8 @@ class Vote implements MessageListener, MessageWriter {
     _majority = 0;
     _voterNum = 0;
     _bIsVoteStarted = false;
+
+    onVoteEnded(result);
   }
 
   void sendAchivement(Socket dest, AchivementData achivement) {

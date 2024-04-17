@@ -3,20 +3,30 @@ import 'dart:io';
 import 'package:acter_project/public.dart';
 import 'package:acter_project/server/achivement.dart';
 import 'package:acter_project/server/vote.dart';
+import 'package:async/async.dart';
 
 // 흐름
 // 1. 챕터 전환
 // 2. 챕터 종료 알림
 // 3. 챕터 시작 알림
 // 4. 투표 시작
-class ChapterManager implements MessageListener, MessageWriter{
+class ChapterManager implements MessageListener, MessageWriter {
+  ChapterManager() {
+    _skipVoter = Vote(onSkipVoted);
+    _actionVoter = Vote(onActionVoted);
+  }
+
+  bool _isSkipped = false;
   int _currentChapter = -1;
   List<AchivementData> _curChapterAchivements = [];
-  final List<void Function(bool isSkipExisted, bool isActionExisted)> _onChapterStarts = [];
+  final List<void Function(bool isSkipExisted, bool isActionExisted)>
+      _onChapterStarts = [];
   final List<void Function()> _onChapterEnds = [];
 
-  final Vote _skipVoter = Vote();
-  final Vote _actionVoter = Vote();
+  late Vote _skipVoter;
+  late Vote _actionVoter;
+
+  late List<Socket> clients;
 
   void bindOnChapterStart(
       void Function(bool isSkipExisted, bool isActionExisted) onChapterStart) {
@@ -27,6 +37,14 @@ class ChapterManager implements MessageListener, MessageWriter{
     _onChapterEnds.add(onChapterEnd);
   }
 
+  void onSkipVoted(bool result) {
+    _isSkipped = result;
+  }
+
+  void onActionVoted(bool result) {
+    // TODO
+  }
+
   /// return values
   ///
   /// first boolean : is skip existed?
@@ -34,10 +52,7 @@ class ChapterManager implements MessageListener, MessageWriter{
   /// second boolean : is action existed?
   (bool isSkipExisted, bool isActionExisted) changeToNextChapter(
       final AchivementDB achivement) {
-    //close chapter
-    for (var chapterEndCallback in _onChapterEnds) {
-      chapterEndCallback();
-    }
+    _closeChapter();
 
     ++_currentChapter;
     _curChapterAchivements = achivement.getChapterAchivements(_currentChapter);
@@ -61,19 +76,22 @@ class ChapterManager implements MessageListener, MessageWriter{
     // ---------- 투표 진행
     if (isSkipExisted) {
       _skipVoter.startVote(
-          voteType: VoteType.skip,
-          majority: 1,
-          voteDuration: const Duration(days: 1),
-          yayAchivement: _curChapterAchivements.singleWhere((element) => element.condition == Condition.skip),
-          nayAchivement: _curChapterAchivements.singleWhere((element) => element.condition == Condition.nskip),
+        voteType: VoteType.skip,
+        majority: 1,
+        voteDuration: const Duration(days: 1),
+        yayAchivement: _curChapterAchivements
+            .singleWhere((element) => element.condition == Condition.skip),
+        nayAchivement: _curChapterAchivements
+            .singleWhere((element) => element.condition == Condition.nskip),
       );
     }
     if (isActionExisted) {
       _actionVoter.startVote(
-          voteType: VoteType.action,
-          majority: 1,
-          voteDuration: const Duration(minutes: 1),
-          yayAchivement: _curChapterAchivements.singleWhere((element) => element.condition == Condition.action),
+        voteType: VoteType.action,
+        majority: 1,
+        voteDuration: const Duration(minutes: 1),
+        yayAchivement: _curChapterAchivements
+            .singleWhere((element) => element.condition == Condition.action),
       );
     }
 
@@ -82,20 +100,36 @@ class ChapterManager implements MessageListener, MessageWriter{
     return (isSkipExisted, isActionExisted);
   }
 
+  void _closeChapter() {
+    if (!_isSkipped) {
+      for (var client in clients) {
+        MessageHandler.sendMessage(client, MessageType.onAchivement,
+            object: _curChapterAchivements.singleWhere(
+                (element) => element.condition == Condition.complite));
+      }
+    }
+
+    for (var chapterEndCallback in _onChapterEnds) {
+      chapterEndCallback();
+    }
+  }
+
   @override
   void listen(Socket socket, MessageData msgData) {
     _skipVoter.listen(socket, msgData);
     _actionVoter.listen(socket, msgData);
   }
-  
+
   @override
   void onRegistered(List<Socket> sockets) {
+    clients = sockets;
     _skipVoter.onRegistered(sockets);
     _actionVoter.onRegistered(sockets);
   }
-  
+
   @override
   void onSocketConnected(Socket newSocket) {
+    clients.add(newSocket);
     _skipVoter.onSocketConnected(newSocket);
     _actionVoter.onSocketConnected(newSocket);
   }
