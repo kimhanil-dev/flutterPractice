@@ -10,7 +10,7 @@
             "program": "lib/client/main.dart",
             "request": "launch",
             "type": "dart",
-            "deviceId": "emulator-5554"
+            "deviceId": "emulator-5554",
         },
         {
             "name": "server",
