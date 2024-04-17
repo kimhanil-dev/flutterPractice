@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -23,19 +22,19 @@ class Server {
     messageListeners.add(msgListener);
   }
 
-  void broadcastMessage({required MessageType messageType, List<int>? datas}) {
+  void broadcastMessage({required MessageType messageType, MessageTransableObject? object}) {
     for (var client in clients) {
-      MessageHandler.sendMessage(client, messageType,datas: datas);
+      MessageHandler.sendMessage(client, messageType,object: object);
     }
   }
 
-  void sendMessage({required Socket dest,required MessageType msgType, List<int>? datas}) {
-    MessageHandler.sendMessage(dest, msgType, datas: datas);
+  void sendMessage({required Socket dest,required MessageType msgType, MessageTransableObject? object}) {
+    MessageHandler.sendMessage(dest, msgType, object: object);
   }
 
-  void multicastMessage({required List<Socket> dests,required MessageType msgType, List<int>? datas}) {
+  void multicastMessage({required List<Socket> dests,required MessageType msgType, MessageTransableObject? object}) {
     for (var dest in dests) {
-      MessageHandler.sendMessage(dest, msgType,datas: datas);
+      MessageHandler.sendMessage(dest, msgType,object: object);
     }
   }
 

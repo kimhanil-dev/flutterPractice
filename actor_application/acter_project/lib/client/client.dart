@@ -29,8 +29,8 @@ class Client {
     messageListeners.add(messageListener);
   }
 
-  void sendMessage({required MessageType message, List<int>? datas}) {
-    MessageHandler.sendMessage(_server, message,datas: datas);
+  void sendMessage({required MessageType message, MessageTransableObject? object}) {
+    MessageHandler.sendMessage(_server, message, object: object);
   }
 
   /// Server에서 데이터가 전달될 경우 실행되는 함수

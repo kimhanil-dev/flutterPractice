@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:acter_project/public.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gsheets/gsheets.dart';
 
@@ -13,7 +14,7 @@ enum Condition {
   sequence,
 }
 
-class AchivementData {
+class AchivementData implements MessageTransableObject{
   AchivementData(this.index,this.id,this.chapter,this.condition,this.name,this.message,this.action);
   AchivementData.withRange(List<Cell> range)
   : index = int.parse(range[0].value)
@@ -31,6 +32,9 @@ class AchivementData {
   final String name;
   final String message;
   final String action;
+  
+  @override
+  List<int> getMessage() => id.toString().codeUnits;
 }
 
 class AchivementDB {

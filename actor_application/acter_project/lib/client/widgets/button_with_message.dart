@@ -4,18 +4,18 @@ import 'package:acter_project/server/vote.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-class ButtonWithMessage extends StatefulWidget {
+class MessageSendButton extends StatefulWidget {
   ///// bIsActionButton 매개변수에 따라 액션 버튼인지, 스킵 버튼인지 정해진다
-  const ButtonWithMessage(this.client, this.voteType, {super.key});
+  const MessageSendButton(this.client, this.voteType, {super.key});
   final Client client;
   final VoteType voteType;
 
   @override
-  State<ButtonWithMessage> createState() => _ButtonWithMessageState();
+  State<MessageSendButton> createState() => _MessageSendButtonState();
 }
 
 
-class _ButtonWithMessageState extends State<ButtonWithMessage> {
+class _MessageSendButtonState extends State<MessageSendButton> {
   bool bIsButtonPressed = false;
 
   @override
@@ -45,7 +45,7 @@ class _ButtonWithMessageState extends State<ButtonWithMessage> {
               onPressed: () {
                 setState(() {
                   bIsButtonPressed = true;
-                  widget.client.sendMessage(message: MessageType.onButtonClicked, datas: [widget.voteType.index]);
+                  widget.client.sendMessage(message: MessageType.onButtonClicked, object: widget.voteType);
                 });
               },
               child: Text(widget.voteType == VoteType.action ? '액션' : '스킵'),

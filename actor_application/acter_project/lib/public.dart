@@ -40,22 +40,22 @@ class MessageHandler {
   static int _MESSAGE_DATA_BIAS = 4;
 
   static void sendMessage(Socket dest, MessageType messageType,
-      {List<int>? datas}) {
+      {MessageTransableObject? object}) {
     // STX and MessageType
     List<int> message = [1,messageType.index];
 
     // Data
-    if (datas != null) {
-      for(var code in datas) {
-        code += _MESSAGE_DATA_BIAS;
+    if (object != null) {
+      var data = object.getMessage();
+      for(int i = 0; i < data.length; ++i) {
+        data[i] += _MESSAGE_DATA_BIAS;
       }
 
-      message += datas;
+      message += data;
     }
 
     // ETX
     message.add(3);
-
 
     dest.write(String.fromCharCodes(message));
   }
@@ -72,14 +72,10 @@ class MessageHandler {
         messageType = MessageType.values[datas[++i]];
         dataStartIndex = i + 1;
 
-        // if (datas[dataStartIndex] == 3 /*ETX*/) {
-        //   isInPacket = false;
-        // }
-        
       } else if (isInPacket && datas[i] == 3 /*ETX*/) { 
         var msgDatas = datas.sublist(dataStartIndex, i);
-        for (var data in msgDatas) {
-          data -= _MESSAGE_DATA_BIAS;
+        for (int i = 0; i < msgDatas.length ;++i) {
+          msgDatas[i] -= _MESSAGE_DATA_BIAS;
         }
         messageDatas.add(MessageData(messageType!, msgDatas));
         isInPacket = false;
@@ -92,6 +88,10 @@ class MessageHandler {
 
 abstract interface class MessageListener {
   void listen(Socket socket, MessageData msgData);
+}
+
+abstract interface class MessageTransableObject {
+  List<int> getMessage();
 }
 
 class Achivement {

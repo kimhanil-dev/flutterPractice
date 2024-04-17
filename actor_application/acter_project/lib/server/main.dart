@@ -1,9 +1,6 @@
-import 'dart:io';
-
 import 'package:acter_project/public.dart';
 import 'package:acter_project/server/achivement.dart';
 import 'package:acter_project/server/chapter_manager.dart';
-import 'package:acter_project/server/vote.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -41,8 +38,6 @@ class _ServerMainState extends State<ServerMain> {
   final Server server = Server();
   final ChapterManager chapterManger = ChapterManager();
   final AchivementDB achivementDB = AchivementDB();
-  final Vote skipVoter = Vote();
-  final Vote actionVoter = Vote();
 
   @override
   void initState() {
@@ -54,53 +49,7 @@ class _ServerMainState extends State<ServerMain> {
       context.loaderOverlay.hide();
     });
 
-    chapterManger.bindOnChapterStart((isSkipExisted, isActionExisted) {
-      if (isSkipExisted) {
-        skipVoter.startVote(
-            voteType: VoteType.skip,
-            majority: 1,
-            voteDuration: const Duration(days: 1),
-            onVoteEnded: onSkipVoteEnd);
-      }
-      if (isActionExisted) {
-        actionVoter.startVote(
-            voteType: VoteType.action,
-            majority: 1,
-            voteDuration: const Duration(minutes: 1),
-            onVoteEnded: onActionVoteEnd);
-      }
-    });
-
-    server.addMessageListener(skipVoter);
-    server.addMessageListener(actionVoter);
-
     super.initState();
-  }
-
-  void onSkipVoteEnd(bool result, List<Socket> yayers, List<Socket> nayers) {
-    for (var achivement in chapterManger.curChapterAchivements) {
-      if (achivement.condition == Condition.skip) {
-        server.multicastMessage(
-            dests: yayers,
-            msgType: MessageType.onAchivement,
-            datas: achivement.id.toString().codeUnits);
-      }
-    }
-
-    print('vote ended');
-  }
-
-  void onActionVoteEnd(bool result, List<Socket> yayers, List<Socket> nayers) {
-    for (var achivement in chapterManger.curChapterAchivements) {
-      if (achivement.condition == Condition.action) {
-        if (achivement.condition == Condition.skip) {
-          server.multicastMessage(
-              dests: yayers,
-              msgType: MessageType.onAchivement,
-              datas: achivement.id.toString().codeUnits);
-        }
-      }
-    }
   }
 
   @override
