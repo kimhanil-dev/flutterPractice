@@ -44,6 +44,8 @@ class _ServerMainState extends State<ServerMain> {
     context.loaderOverlay.show();
 
     server.init();
+    server.addMessageListener(chapterManger);
+    server.addMessageWriter(chapterManger);
 
     achivementDB.loadData().then((e) {
       context.loaderOverlay.hide();

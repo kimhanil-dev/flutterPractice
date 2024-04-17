@@ -35,7 +35,7 @@ class AchivementData implements MessageTransableObject {
   final String action;
 
   @override
-  List<int> getMessage() => id.toString().codeUnits;
+  List<int> getMessage() => id.toString().codeUnits.toList();
 
   @override
   bool equal(Uint8List data) {
@@ -51,7 +51,7 @@ class AchivementData implements MessageTransableObject {
 }
 
 class AchivementDB {
-  Map<int, List<AchivementData>> _chapterAchivements = {};
+  final Map<int, List<AchivementData>> _chapterAchivements = {};
 
   List<AchivementData> getChapterAchivements(final int chapter) {
     if (!_chapterAchivements.containsKey(chapter)) {
@@ -88,7 +88,8 @@ class AchivementDB {
         length: length);
     for (var row in achivementDatas) {
       var achivement = AchivementData.withRange(row);
-      (_chapterAchivements[achivement.chapter] ??= [achivement])
+      (_chapterAchivements[achivement.chapter] ??=
+              List<AchivementData>.empty(growable: true))
           .add(achivement);
     }
   }
