@@ -24,7 +24,7 @@ class Vote implements MessageListener, MessageWriter {
   AchivementData? _nayAchivement;
   bool _bIsVoteStarted = false;
   late VoteType _voteType;
-  int _majority = 0;
+  double _majority = 0.0;
   int _voterNum = 0;
 
   final Map<Socket, bool> _voters = {};
@@ -35,12 +35,11 @@ class Vote implements MessageListener, MessageWriter {
 
   void startVote(
       {required VoteType voteType,
-      required int majority,
       required Duration voteDuration,
       required AchivementData yayAchivement,
       AchivementData? nayAchivement}) {
     _voteType = voteType;
-    _majority = majority;
+    _majority = double.parse(yayAchivement.data1);
     _yayAchivement = yayAchivement;
     _nayAchivement = nayAchivement;
 
@@ -92,7 +91,7 @@ class Vote implements MessageListener, MessageWriter {
       if (_voteType.equal(msgData.datas)) {
         _voters[socket] = true;
         ++_voterNum;
-        if (_voterNum >= _majority) {
+        if (_voterNum >= (_voters.length * _majority).floor()) {
           stopVote(true);
         }
       }

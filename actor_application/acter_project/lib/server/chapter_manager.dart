@@ -77,7 +77,6 @@ class ChapterManager implements MessageListener, MessageWriter {
     if (isSkipExisted) {
       _skipVoter.startVote(
         voteType: VoteType.skip,
-        majority: 1,
         voteDuration: const Duration(days: 1),
         yayAchivement: _curChapterAchivements
             .singleWhere((element) => element.condition == Condition.skip),
@@ -88,7 +87,6 @@ class ChapterManager implements MessageListener, MessageWriter {
     if (isActionExisted) {
       _actionVoter.startVote(
         voteType: VoteType.action,
-        majority: 1,
         voteDuration: const Duration(minutes: 1),
         yayAchivement: _curChapterAchivements
             .singleWhere((element) => element.condition == Condition.action),

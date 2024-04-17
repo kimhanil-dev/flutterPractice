@@ -16,23 +16,23 @@ enum Condition {
 
 class AchivementData implements MessageTransableObject {
   AchivementData(this.index, this.id, this.chapter, this.condition, this.name,
-      this.message, this.action);
+      this.data1, this.data2);
   AchivementData.withRange(List<Cell> range)
       : index = int.parse(range[0].value),
         id = int.parse(range[1].value),
         chapter = int.parse(range[2].value),
         condition = Condition.values[(int.parse(range[1].value)) % 10],
         name = range[4].value,
-        message = range[5].value,
-        action = range[6].value;
+        data1 = range[5].value,
+        data2 = range[6].value;
 
   final int index;
   final int id;
   final int chapter;
   final Condition condition;
   final String name;
-  final String message;
-  final String action;
+  final String data1;
+  final String data2;
 
   @override
   List<int> getMessage() => id.toString().codeUnits.toList();
