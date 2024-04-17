@@ -7,25 +7,28 @@ import 'package:acter_project/server/achivement.dart';
 import 'package:async/async.dart';
 
 /// 클라이언트에게 투표를 진행하고, 찬성, 반대에 따라 등록된 업적을 전달합니다.
-enum VoteType implements MessageTransableObject{
+enum VoteType implements MessageTransableObject {
   skip,
   action;
 
   @override
   List<int> getMessage() => [index];
+  @override
   bool equal(Uint8List msgData) => msgData[0] == (index);
 }
 
-class Vote implements MessageListener {
-  late AchivementData yayAchivement;
-  AchivementData? nayAchivement;
-  bool bIsVoteStarted = false;
-  late VoteType voteType;
-  int majority = 0;
-  int voterNum = 0;
+class Vote implements MessageListener, MessageWriter {
+  late AchivementData _yayAchivement;
+  AchivementData? _nayAchivement;
+  bool _bIsVoteStarted = false;
+  late VoteType _voteType;
+  int _majority = 0;
+  int _voterNum = 0;
 
-  List<Socket> yayers = [];
-  List<Socket> nayers = [];
+  final Map<Socket, bool> _voters = {};
+
+  CancelableOperation<Null>? voteTimer;
+
   late Function(bool result, List<Socket> yayers, List<Socket> nayers)
       onVoteEnded;
 
@@ -35,50 +38,73 @@ class Vote implements MessageListener {
       required Duration voteDuration,
       required AchivementData yayAchivement,
       AchivementData? nayAchivement}) {
-    this.voteType = voteType;
-    this.majority = majority;
-    this.yayAchivement = yayAchivement;
-    this.nayAchivement = nayAchivement;
-    CancelableOperation.fromFuture(
-        Future<void>.delayed(voteDuration).then((value) {
-      stopVote(false);
-    }));
+    _voteType = voteType;
+    _majority = majority;
+    _yayAchivement = yayAchivement;
+    _nayAchivement = nayAchivement;
 
-    bIsVoteStarted = true;
+    if (voteTimer != null) {
+      voteTimer!.cancel();
+    } else {
+      voteTimer = CancelableOperation.fromFuture(
+          Future<void>.delayed(voteDuration).then((value) {
+        stopVote(false);
+      }));
+    }
+
+    _bIsVoteStarted = true;
   }
 
   void stopVote(bool result) {
-    sendAchivement(yayers, yayAchivement);
-    if(nayAchivement != null) {
-      sendAchivement(nayers, nayAchivement!);
-    }
-    majority = 0;
-    voterNum = 0;
-    yayers.clear();
-    nayers.clear();
-    bIsVoteStarted = false;
+    // send achivement to
+    _voters.forEach((socket, voted) {
+      sendAchivement(socket, voted ? _yayAchivement : _nayAchivement!);
+      voted = false;
+    });
+
+    // send vote complite
+    _voters.forEach((socket, voted) {
+      MessageHandler.sendMessage(socket, MessageType.onVoteComplited,
+          object: _voteType);
+    });
+
+    voteTimer!.cancel();
+    _majority = 0;
+    _voterNum = 0;
+    _bIsVoteStarted = false;
   }
 
-  void sendAchivement(List<Socket> group,AchivementData achivement) {
-    for (var dest in group) {
-      MessageHandler.sendMessage(dest, MessageType.onAchivement, object : achivement);
-    }
+  void sendAchivement(Socket dest, AchivementData achivement) {
+    MessageHandler.sendMessage(dest, MessageType.onAchivement,
+        object: achivement);
   }
 
   @override
   void listen(Socket socket, MessageData msgData) {
-    if (!bIsVoteStarted) {
+    if (!_bIsVoteStarted) {
       return;
     }
 
     if (msgData.messageType == MessageType.onButtonClicked) {
-      if (voteType.equal(msgData.datas)) {
-        yayers.add(socket);
-        ++voterNum;
-        if (voterNum >= majority) {
+      if (_voteType.equal(msgData.datas)) {
+        _voters[socket] = true;
+        ++_voterNum;
+        if (_voterNum >= _majority) {
           stopVote(true);
         }
       }
     }
+  }
+
+  @override
+  void onRegistered(List<Socket> sockets) {
+    for (var socket in sockets) {
+      _voters[socket] = false;
+    }
+  }
+
+  @override
+  void onSocketConnected(Socket newSocket) {
+    _voters[newSocket] = false;
   }
 }

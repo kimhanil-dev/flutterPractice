@@ -10,7 +10,7 @@ enum MessageType {
   onConnected,
   onTheaterStarted,
   onButtonClicked,
-  onComplited,
+  onVoteComplited,
   onAchivement,
   activateSkipButton,
   activateActionButton,
@@ -92,6 +92,12 @@ abstract interface class MessageListener {
 
 abstract interface class MessageTransableObject {
   List<int> getMessage();
+  bool equal(Uint8List data); 
+}
+
+abstract interface class MessageWriter {
+  void onRegistered(List<Socket> sockets);
+  void onSocketConnected(Socket newSocket);
 }
 
 class Achivement {

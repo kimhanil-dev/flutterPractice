@@ -27,7 +27,7 @@ class _MessageSendButtonState extends State<MessageSendButton> {
   @mustBeOverridden
   void onListenMessage(MessageData message) {
       
-    if (MessageType.onComplited == message.messageType) {
+    if (MessageType.onVoteComplited == message.messageType) {
       setState(() {
         bIsButtonPressed = false;
       });

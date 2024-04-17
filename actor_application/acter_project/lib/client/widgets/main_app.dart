@@ -1,4 +1,3 @@
-import 'package:acter_project/client/main.dart';
 import 'package:flutter/material.dart';
 
 import 'start_page.dart';

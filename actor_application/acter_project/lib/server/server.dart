@@ -10,6 +10,7 @@ class Server {
   int actionCount = 0;
 
   List<MessageListener> messageListeners = [];
+  List<MessageWriter> messageWriter = [];
 
   void init() async {
     server = await ServerSocket.bind(InternetAddress.anyIPv4, 55555);
@@ -20,6 +21,11 @@ class Server {
 
   void addMessageListener(MessageListener msgListener) {
     messageListeners.add(msgListener);
+  }
+
+   void addMessageWriter(MessageWriter msgWriter) {
+    msgWriter.onRegistered(clients);
+    messageWriter.add(msgWriter);
   }
 
   void broadcastMessage({required MessageType messageType, MessageTransableObject? object}) {
@@ -48,6 +54,10 @@ class Server {
     // 클라이언트 연결시 초기 처리들 ..
     MessageHandler.sendMessage(client, MessageType.onConnected);
     //
+
+    for (var element in messageWriter) {
+      element.onSocketConnected(client);
+    }
 
     // listen for events from the client
     client.listen(
@@ -79,17 +89,6 @@ class Server {
     for (var message in messages) {
       for (var listener in messageListeners) {
         listener.listen(client, message);
-      }
-
-      switch (message.messageType) {
-        case MessageType.onButtonClicked:
-          {
-            MessageHandler.sendMessage(client, MessageType.onComplited);
-            MessageType.onAchivement.sendTo(client);
-          }
-          break;
-        default:
-          throw Exception('$message is not declared message type');
       }
     }
   }
