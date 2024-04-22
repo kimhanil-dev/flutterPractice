@@ -23,24 +23,29 @@ class Server {
     messageListeners.add(msgListener);
   }
 
-   void addMessageWriter(MessageWriter msgWriter) {
+  void addMessageWriter(MessageWriter msgWriter) {
     msgWriter.onRegistered(clients);
     messageWriter.add(msgWriter);
   }
 
-  void broadcastMessage({required MessageType messageType, MessageTransableObject? object}) {
-    for (var client in clients) {
-      MessageHandler.sendMessage(client, messageType,object: object);
-    }
-  }
-
-  void sendMessage({required Socket dest,required MessageType msgType, MessageTransableObject? object}) {
+  void sendMessage(
+      {required Socket dest,
+      required MessageType msgType,
+      MessageTransableObject? object}) {
     MessageHandler.sendMessage(dest, msgType, object: object);
   }
 
-  void multicastMessage({required List<Socket> dests,required MessageType msgType, MessageTransableObject? object}) {
+  void broadcastMessage(
+      {required MessageType messageType, MessageTransableObject? object}) {
+        multicastMessage(dests: clients, msgType: messageType,object: object);
+  }
+
+  void multicastMessage(
+      {required List<Socket> dests,
+      required MessageType msgType,
+      MessageTransableObject? object}) {
     for (var dest in dests) {
-      MessageHandler.sendMessage(dest, msgType,object: object);
+      sendMessage(dest: dest, msgType: msgType, object: object);
     }
   }
 

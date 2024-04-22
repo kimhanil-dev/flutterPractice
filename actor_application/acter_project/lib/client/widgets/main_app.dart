@@ -1,3 +1,4 @@
+import 'package:acter_project/client/Services/achivement_image_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -11,6 +12,12 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+  @override
+  void initState() {
+    AchivementImageLoader.downloadImages();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

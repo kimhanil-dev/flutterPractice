@@ -13,13 +13,11 @@ class TestApp extends StatefulWidget {
 }
 
 class _TestAppState extends State<TestApp> {
-  late AchivementImageLoader imageLoader;
   List<String> imageWebUrls = [];
   @override
   void initState() {
-    imageLoader = AchivementImageLoader();
-    imageLoader.downloadImages();
-    imageLoader.getImageWebLinks().then((value) {
+    AchivementImageLoader.downloadImages();
+    AchivementImageLoader.getImageWebLinks().then((value) {
       setState(() {
         imageWebUrls.addAll(value);
       });

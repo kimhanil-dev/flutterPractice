@@ -56,7 +56,7 @@ class MessageHandler {
 
     // ETX
     message.add(3);
-
+    
     dest.write(String.fromCharCodes(message));
   }
 

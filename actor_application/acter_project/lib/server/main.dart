@@ -79,7 +79,13 @@ class _ServerMainState extends State<ServerMain> {
                   server.broadcastMessage(
                       messageType: MessageType.onTheaterStarted);
                 },
-                child: const Text('Start theater'))
+                child: const Text('Start theater')),
+            ElevatedButton(
+                onPressed: () async {
+                  server.broadcastMessage(
+                      messageType: MessageType.onAchivement,object: AchivementData(1, 0, 1, Condition.skip, 'name', '', ''));
+                },
+                child: const Text('achivement test'))
           ],
         ),
       ),

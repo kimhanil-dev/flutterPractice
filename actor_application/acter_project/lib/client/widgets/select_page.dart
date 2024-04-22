@@ -1,3 +1,4 @@
+import 'package:acter_project/client/Services/achivement_image_loader.dart';
 import 'package:acter_project/client/Services/archive.dart';
 import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/public.dart';
@@ -16,10 +17,49 @@ class SelectPage extends StatefulWidget {
 }
 
 class _SelectPageState extends State<SelectPage> {
-  bool bIsAchived = false;
   bool bIsActionEnabled = false;
   String achivementText = '업적';
   late Archive archive;
+
+  OverlayEntry? _overlayEntry;
+
+  void overlay(int achivementId) {
+    removeOverlay();
+
+    assert(_overlayEntry == null);
+
+    _overlayEntry = OverlayEntry(builder: (BuildContext context) {
+      return SafeArea(
+        child: Align(
+          alignment: Alignment.center,
+          child: Container(
+            width: 100,
+            height: 100,
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.red, width: 4.0)),
+            child: AchivementImageLoader.getImage(achivementId),
+          ),
+        ),
+      );
+    });
+
+    Overlay.of(context, debugRequiredFor: widget).insert(_overlayEntry!);
+
+    Future<void>.delayed(const Duration(seconds: 5))
+        .then((value) => removeOverlay());
+  }
+
+  void removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry?.dispose();
+    _overlayEntry = null;
+  }
+
+  @override
+  void dispose() {
+    removeOverlay();
+    super.dispose();
+  }
 
   @override
   void initState() {
@@ -34,17 +74,11 @@ class _SelectPageState extends State<SelectPage> {
           break;
         case MessageType.onAchivement:
           {
-            setState(() {
-              bIsAchived = true;
-              achivementText = String.fromCharCodes(message.datas);
-              archive.addAchivement(int.parse(String.fromCharCodes(message.datas)));
-            });
+            achivementText = String.fromCharCodes(message.datas);
+            var achivementId = int.parse(String.fromCharCodes(message.datas));
+            archive.addAchivement(achivementId);
 
-            Future.delayed(const Duration(seconds: 2)).then((value) {
-              setState(() {
-                bIsAchived = false;
-              });
-            });
+            overlay(achivementId);
           }
           break;
         default:
@@ -61,13 +95,6 @@ class _SelectPageState extends State<SelectPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            bIsAchived
-                ? Card(child: Text('업적 : $achivementText'))
-                : const SizedBox(
-                    width: 0,
-                    height: 0,
-                  ),
-            const SizedBox(width: 20, height: 20),
             MessageSendButton(widget.client, VoteType.skip),
             const SizedBox(
               width: 20,

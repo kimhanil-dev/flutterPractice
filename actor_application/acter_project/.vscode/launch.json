@@ -6,11 +6,25 @@
     "configurations": [
 
         {
-            "name": "client",
+            "name": "client_android",
             "program": "lib/client/main.dart",
             "request": "launch",
             "type": "dart",
             "deviceId": "SM G977N",
+        },
+        {
+            "name": "client_emul_android",
+            "program": "lib/client/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "emulator-5554",
+        },
+        {
+            "name": "client_windows",
+            "program": "lib/client/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "deviceId": "windows",
         },
         {
             "name": "server",
