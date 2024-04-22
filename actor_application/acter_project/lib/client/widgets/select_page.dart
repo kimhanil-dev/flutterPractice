@@ -1,11 +1,10 @@
-import 'package:acter_project/client/client.dart';
-import 'package:acter_project/client/main.dart';
+import 'package:acter_project/client/Services/archive.dart';
+import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/public.dart';
 import 'package:acter_project/server/vote.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../archive.dart';
 import 'button_with_message.dart';
 
 class SelectPage extends StatefulWidget {

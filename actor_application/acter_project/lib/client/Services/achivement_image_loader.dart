@@ -6,7 +6,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:googleapis_auth/auth_io.dart';
 
 // google drive로부터 achivement에 대한 이미지 파일들을 불러옵니다.
-// google api를 사용하는 모든 함수들은 함수의 시작에 await _waitForInitComplited()
 // 구문을 반드시 추가해야 합니다.
 class AchivementImageLoader {
 
@@ -22,7 +21,7 @@ class AchivementImageLoader {
     // connect to google `Drive Api`;
     var client = await clientViaServiceAccount(
         ServiceAccountCredentials.fromJson(
-            await rootBundle.loadString('assets/google-drive-api-key.json')),
+            await rootBundle.loadString('assets/api-key/google-drive-api-key.json')),
         [DriveApi.driveReadonlyScope]);
     _driveApi = DriveApi(client);
 

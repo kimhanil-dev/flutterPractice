@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 import 'start_page.dart';
 
@@ -17,9 +18,11 @@ class _MainAppState extends State<MainApp> {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: const Scaffold(
-        body: Center(
-          child: StartPage(),
+      home: const LoaderOverlay(
+        child: Scaffold(
+          body: Center(
+            child: StartPage(),
+          ),
         ),
       ),
     );

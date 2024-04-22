@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:acter_project/public.dart';
 import 'package:acter_project/server/achivement.dart';
 import 'package:acter_project/server/vote.dart';
-import 'package:async/async.dart';
 
 // 흐름
 // 1. 챕터 전환

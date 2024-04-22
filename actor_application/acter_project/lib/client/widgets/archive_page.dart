@@ -1,16 +1,31 @@
-import 'package:acter_project/client/main.dart';
+import 'package:acter_project/client/Services/archive.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
-import '../archive.dart';
+class ArchivePage extends StatefulWidget {
+  const ArchivePage({super.key});
 
-class ArchivePage extends StatelessWidget {
-  ArchivePage({super.key});
+  @override
+  State<ArchivePage> createState() => _ArchivePageState();
+}
+
+class _ArchivePageState extends State<ArchivePage> {
+  late Archive archive;
 
   @override
   Widget build(BuildContext context) {
-    var archive = Provider.of<Archive>(context);
+    context.loaderOverlay.show();
+    archive = Provider.of<Archive>(context);
+    ArchiveSaveLoader.load(archive)
+        .then((value) {
+          setState(() {
+            // for image loading
+          });
+          context.loaderOverlay.hide();
+        });
+
     return Scaffold(
       body: GridView(
         gridDelegate:
@@ -24,7 +39,8 @@ class ArchivePage extends StatelessWidget {
                         aspectRatio: 1,
                         child: FittedBox(
                           fit: BoxFit.fill,
-                          child: Image.network('https://drive.google.com/uc?export=view&id=14QBvq8HL7-jSmU0-PLDxZ6mt4IFD1i3p'),
+                          child: Image.network(
+                              'https://drive.google.com/uc?export=view&id=14QBvq8HL7-jSmU0-PLDxZ6mt4IFD1i3p'),
                         ))),
                 Expanded(
                     child: Column(

@@ -37,7 +37,7 @@ class MessageData {
 
 class MessageHandler {
   ///  데이터를 넘겨줄때 STX와 ETX를 회피하기 위한 편향 값
-  static int _MESSAGE_DATA_BIAS = 4;
+  static const int _messageDataBias = 4;
 
   static void sendMessage(Socket dest, MessageType messageType,
       {MessageTransableObject? object}) {
@@ -48,7 +48,7 @@ class MessageHandler {
     if (object != null) {
       var data = object.getMessage();
       for(int i = 0; i < data.length; ++i) {
-        data[i] += _MESSAGE_DATA_BIAS;
+        data[i] += _messageDataBias;
       }
 
       message += data;
@@ -75,7 +75,7 @@ class MessageHandler {
       } else if (isInPacket && datas[i] == 3 /*ETX*/) { 
         var msgDatas = datas.sublist(dataStartIndex, i);
         for (int i = 0; i < msgDatas.length ;++i) {
-          msgDatas[i] -= _MESSAGE_DATA_BIAS;
+          msgDatas[i] -= _messageDataBias;
         }
         messageDatas.add(MessageData(messageType!, msgDatas));
         isInPacket = false;

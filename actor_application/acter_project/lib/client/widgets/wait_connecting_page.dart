@@ -1,4 +1,4 @@
-import 'package:acter_project/client/client.dart';
+import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/public.dart';
 import 'package:flutter/material.dart';
 
@@ -26,13 +26,14 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
   @override
   void initState() {
-    client.connectToServer('192.168.219.111', 55555, (isConnected) {
+    client.connectToServer('121.165.78.196', 55555, (isConnected) {
       if (isConnected) {
         onConnectServerCallback();
       }
     });
     client.addMessageListener((message) {
       if (MessageType.onTheaterStarted == message.messageType) {
+   
         onTheaterStartCallback();
       }
     });
