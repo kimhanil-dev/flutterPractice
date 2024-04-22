@@ -92,6 +92,8 @@ class AchivementDB {
               List<AchivementData>.empty(growable: true))
           .add(achivement);
     }
+
+    print("AchivementDB : data loaded (num : ${achivementDatas.length})");
   }
 }
 

@@ -99,11 +99,19 @@ class ChapterManager implements MessageListener, MessageWriter {
   }
 
   void _closeChapter() {
-    if (!_isSkipped) {
+    if (_isSkipped) {
+      return;
+    }
+    
+    try {
       for (var client in clients) {
         MessageHandler.sendMessage(client, MessageType.onAchivement,
             object: _curChapterAchivements.singleWhere(
                 (element) => element.condition == Condition.complite));
+      }
+    } catch (e) {
+      if(e is StateError) {
+          assert(_currentChapter == -1); // complite achivement is not found in relative database 
       }
     }
 

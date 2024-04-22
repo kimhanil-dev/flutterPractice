@@ -1,8 +1,11 @@
 import 'package:acter_project/client/client.dart';
+import 'package:acter_project/client/main.dart';
 import 'package:acter_project/public.dart';
 import 'package:acter_project/server/vote.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../archive.dart';
 import 'button_with_message.dart';
 
 class SelectPage extends StatefulWidget {
@@ -17,6 +20,7 @@ class _SelectPageState extends State<SelectPage> {
   bool bIsAchived = false;
   bool bIsActionEnabled = false;
   String achivementText = '업적';
+  late Archive archive;
 
   @override
   void initState() {
@@ -34,6 +38,7 @@ class _SelectPageState extends State<SelectPage> {
             setState(() {
               bIsAchived = true;
               achivementText = String.fromCharCodes(message.datas);
+              archive.addAchivement(int.parse(String.fromCharCodes(message.datas)));
             });
 
             Future.delayed(const Duration(seconds: 2)).then((value) {
@@ -51,6 +56,7 @@ class _SelectPageState extends State<SelectPage> {
 
   @override
   Widget build(BuildContext context) {
+    archive = Provider.of<Archive>(context);
     return Scaffold(
       body: Center(
         child: Column(

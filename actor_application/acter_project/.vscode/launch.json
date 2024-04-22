@@ -10,7 +10,7 @@
             "program": "lib/client/main.dart",
             "request": "launch",
             "type": "dart",
-            "deviceId": "emulator-5554",
+            "deviceId": "SM G977N",
         },
         {
             "name": "server",
@@ -33,7 +33,6 @@
             "request":"launch",
             "type": "dart",
             "flutterMode": "debug",
-            "deviceId": "windows"
         }
         // {
         //     "name": "acter_project (profile mode)",

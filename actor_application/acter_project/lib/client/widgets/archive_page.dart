@@ -1,35 +1,37 @@
 import 'package:acter_project/client/main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../archive.dart';
 
 class ArchivePage extends StatelessWidget {
   ArchivePage({super.key});
-  final archive = Archive.init();
 
   @override
   Widget build(BuildContext context) {
-    archive.init();
+    var archive = Provider.of<Archive>(context);
     return Scaffold(
       body: GridView(
         gridDelegate:
             const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
         children: [
-          for (var grid in archive.getAllAchivements())
+          for (var id in archive.achivements)
             Row(
               children: [
                 Expanded(
                     child: AspectRatio(
                         aspectRatio: 1,
                         child: FittedBox(
-                          child: grid.image,
                           fit: BoxFit.fill,
+                          child: Image.network('https://drive.google.com/uc?export=view&id=14QBvq8HL7-jSmU0-PLDxZ6mt4IFD1i3p'),
                         ))),
                 Expanded(
                     child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     AutoSizeText(
-                      grid.name,
+                      id.toString(),
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -39,7 +41,7 @@ class ArchivePage extends StatelessWidget {
                       height: 10,
                     ),
                     AutoSizeText(
-                      grid.text,
+                      id.toString(),
                       style: TextStyle(
                           fontSize: 10,
                           color: Theme.of(context).colorScheme.primary),

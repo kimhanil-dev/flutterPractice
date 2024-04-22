@@ -26,7 +26,7 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
   @override
   void initState() {
-    client.connectToServer('121.165.78.196', 55555, (isConnected) {
+    client.connectToServer('192.168.219.111', 55555, (isConnected) {
       if (isConnected) {
         onConnectServerCallback();
       }
