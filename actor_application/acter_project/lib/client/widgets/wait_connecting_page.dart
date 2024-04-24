@@ -1,9 +1,8 @@
 import 'package:acter_project/client/Services/client.dart';
+import 'package:acter_project/client/widgets/play_widget.dart';
 import 'package:acter_project/public.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'select_page.dart';
 
 class WaitConnectingPage extends StatefulWidget {
   const WaitConnectingPage({super.key});
@@ -97,7 +96,8 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
     Future<void>.microtask(() {
       const Duration(seconds: 5);
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const SelectPage()));
+          MaterialPageRoute(builder: (context) => const PlayWidget()));
+
     });
   }
 

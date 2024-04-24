@@ -15,7 +15,7 @@ class SelectPage extends StatefulWidget {
   State<SelectPage> createState() => _SelectPageState();
 }
 
-class _SelectPageState extends State<SelectPage> {
+class _SelectPageState extends State<SelectPage> with AutomaticKeepAliveClientMixin<SelectPage>{
   bool bIsActionEnabled = false;
   late Archive archive;
   late Client client;
@@ -24,7 +24,6 @@ class _SelectPageState extends State<SelectPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     client = context.read<Client>();
     client.addMessageListener((message) {
@@ -51,6 +50,7 @@ class _SelectPageState extends State<SelectPage> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     archive = Provider.of<Archive>(context);
 
     return Scaffold(
@@ -107,4 +107,7 @@ class _SelectPageState extends State<SelectPage> {
     _overlayEntry?.dispose();
     _overlayEntry = null;
   }
+  
+  @override
+  bool get wantKeepAlive => true;
 }

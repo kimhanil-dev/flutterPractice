@@ -4,25 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
-class ArchivePage extends StatefulWidget {
+
+class ArchivePage extends StatelessWidget {
   const ArchivePage({super.key});
-
-  @override
-  State<ArchivePage> createState() => _ArchivePageState();
-}
-
-class _ArchivePageState extends State<ArchivePage> {
-  late Archive archive;
 
   @override
   Widget build(BuildContext context) {
     context.loaderOverlay.show();
-    archive = Provider.of<Archive>(context);
+    var archive = Provider.of<Archive>(context);
     ArchiveSaveLoader.load(archive)
         .then((value) {
-          setState(() {
-            // for image loading
-          });
           context.loaderOverlay.hide();
         });
 
