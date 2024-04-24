@@ -2,14 +2,14 @@ import 'package:acter_project/client/widgets/archive_page.dart';
 import 'package:acter_project/client/widgets/select_page.dart';
 import 'package:flutter/material.dart';
 
-class PlayWidget extends StatefulWidget {
-  const PlayWidget({super.key});
+class PlayPage extends StatefulWidget {
+  const PlayPage({super.key});
 
   @override
-  State<PlayWidget> createState() => _PlayWidgetState();
+  State<PlayPage> createState() => _PlayPageState();
 }
 
-class _PlayWidgetState extends State<PlayWidget> with TickerProviderStateMixin {
+class _PlayPageState extends State<PlayPage> with TickerProviderStateMixin {
   late PageController _pageController;
   late TabController _tabController;
   late SelectPage _selectPage;

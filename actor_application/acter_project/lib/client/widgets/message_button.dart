@@ -4,18 +4,18 @@ import 'package:acter_project/server/vote.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
-class MessageSendButton extends StatefulWidget {
+class MessageButtton extends StatefulWidget {
   ///// bIsActionButton 매개변수에 따라 액션 버튼인지, 스킵 버튼인지 정해진다
-  const MessageSendButton(this.client, this.voteType, {super.key});
+  const MessageButtton(this.client, this.voteType, {super.key});
   final Client client;
   final VoteType voteType;
 
   @override
-  State<MessageSendButton> createState() => _MessageSendButtonState();
+  State<MessageButtton> createState() => _MessageButttonState();
 }
 
 
-class _MessageSendButtonState extends State<MessageSendButton> {
+class _MessageButttonState extends State<MessageButtton> {
   bool bIsButtonPressed = false;
 
   @override

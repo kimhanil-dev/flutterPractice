@@ -6,7 +6,7 @@ import 'package:acter_project/server/vote.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'button_with_message.dart';
+import 'message_button.dart';
 
 class SelectPage extends StatefulWidget {
   const SelectPage({super.key});
@@ -58,12 +58,12 @@ class _SelectPageState extends State<SelectPage> with AutomaticKeepAliveClientMi
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            MessageSendButton(client, VoteType.skip),
+            MessageButtton(client, VoteType.skip),
             const SizedBox(
               width: 20,
               height: 20,
             ),
-            MessageSendButton(client, VoteType.action),
+            MessageButtton(client, VoteType.action),
           ],
         ),
       ),
