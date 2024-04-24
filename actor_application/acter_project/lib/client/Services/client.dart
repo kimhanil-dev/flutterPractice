@@ -57,4 +57,8 @@ class Client {
       }
     }
   }
+
+  void close() {
+    _server?.close();
+  }
 }

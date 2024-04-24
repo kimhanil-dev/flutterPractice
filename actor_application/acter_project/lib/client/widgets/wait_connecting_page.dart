@@ -1,6 +1,7 @@
 import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/public.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'select_page.dart';
 
@@ -12,7 +13,7 @@ class WaitConnectingPage extends StatefulWidget {
 }
 
 class _WaitConnectingPageState extends State<WaitConnectingPage> {
-  final Client client = Client();
+  late Client client;
   Widget currentWidget = const Scaffold(
     body: Center(
       child: Column(
@@ -26,6 +27,13 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
   @override
   void initState() {
+    // TODO: implement initState
+    super.initState();
+    client = context.read<Client>();
+    initClient();
+  }
+
+  void initClient() {
     client.connectToServer('121.165.78.196', 55555, (isConnected) {
       if (isConnected) {
         onConnectServerCallback();
@@ -33,11 +41,9 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
     });
     client.addMessageListener((message) {
       if (MessageType.onTheaterStarted == message.messageType) {
-   
         onTheaterStartCallback();
       }
     });
-    super.initState();
   }
 
   void onConnectServerCallback() {
@@ -90,8 +96,8 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
     Future<void>.microtask(() {
       const Duration(seconds: 5);
-      Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => const SelectPage()));
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const SelectPage()));
     });
   }
 

@@ -37,7 +37,7 @@ class Server {
 
   void broadcastMessage(
       {required MessageType messageType, MessageTransableObject? object}) {
-        multicastMessage(dests: clients, msgType: messageType,object: object);
+    multicastMessage(dests: clients, msgType: messageType, object: object);
   }
 
   void multicastMessage(
@@ -74,15 +74,15 @@ class Server {
       // handle errors
       onError: (error) {
         print(error);
+        clients.removeWhere((element) => element.address == client.address);
         client.close();
-        clients.remove(client);
       },
 
       // handle the client closing the connection
       onDone: () {
         print('Client left');
+        clients.removeWhere((element) => element.address == client.address);
         client.close();
-        clients.remove(client);
       },
     );
   }
@@ -90,12 +90,15 @@ class Server {
   void handleClientData(Socket client, Uint8List data) async {
     await Future.delayed(const Duration(seconds: 1));
 
+    print('listen : ${client.address}, ');
     var messages = MessageHandler.getMessages(data);
     for (var message in messages) {
+    print('type : ${message.messageType} , datas : ${message.datas}');
       for (var listener in messageListeners) {
         listener.listen(client, message);
       }
     }
+
   }
 
   // send achivement id to client

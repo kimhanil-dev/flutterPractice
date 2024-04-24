@@ -15,7 +15,8 @@ enum MessageType {
   activateSkipButton,
   activateActionButton,
   disableSkipButton,
-  disableActionButton,;
+  disableActionButton,
+  ;
 
   static MessageType getMessage(String message) =>
       MessageType.values[int.parse(message)];
@@ -42,12 +43,12 @@ class MessageHandler {
   static void sendMessage(Socket dest, MessageType messageType,
       {MessageTransableObject? object}) {
     // STX and MessageType
-    List<int> message = [1,messageType.index];
+    List<int> message = [1, messageType.index];
 
     // Data
     if (object != null) {
       var data = object.getMessage();
-      for(int i = 0; i < data.length; ++i) {
+      for (int i = 0; i < data.length; ++i) {
         data[i] += _messageDataBias;
       }
 
@@ -56,7 +57,7 @@ class MessageHandler {
 
     // ETX
     message.add(3);
-    
+
     dest.write(String.fromCharCodes(message));
   }
 
@@ -68,13 +69,12 @@ class MessageHandler {
     for (int i = 0; i < datas.length; ++i) {
       if (datas[i] == 1 /*STX*/ && !isInPacket) {
         isInPacket = true;
-                        // ascii number to int
+        // ascii number to int
         messageType = MessageType.values[datas[++i]];
         dataStartIndex = i + 1;
-
-      } else if (isInPacket && datas[i] == 3 /*ETX*/) { 
+      } else if (isInPacket && datas[i] == 3 /*ETX*/) {
         var msgDatas = datas.sublist(dataStartIndex, i);
-        for (int i = 0; i < msgDatas.length ;++i) {
+        for (int i = 0; i < msgDatas.length; ++i) {
           msgDatas[i] -= _messageDataBias;
         }
         messageDatas.add(MessageData(messageType!, msgDatas));
@@ -92,7 +92,7 @@ abstract interface class MessageListener {
 
 abstract interface class MessageTransableObject {
   List<int> getMessage();
-  bool equal(Uint8List data); 
+  bool equal(Uint8List data);
 }
 
 abstract interface class MessageWriter {

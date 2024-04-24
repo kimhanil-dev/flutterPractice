@@ -11,8 +11,8 @@ import 'package:acter_project/server/vote.dart';
 // 4. 투표 시작
 class ChapterManager implements MessageListener, MessageWriter {
   ChapterManager() {
-    _skipVoter = Vote(onSkipVoted);
-    _actionVoter = Vote(onActionVoted);
+    _skipVote = Vote(onSkipVoted);
+    _actionVote = Vote(onActionVoted);
   }
 
   bool _isSkipped = false;
@@ -22,10 +22,10 @@ class ChapterManager implements MessageListener, MessageWriter {
       _onChapterStarts = [];
   final List<void Function()> _onChapterEnds = [];
 
-  late Vote _skipVoter;
-  late Vote _actionVoter;
+  late Vote _skipVote;
+  late Vote _actionVote;
 
-  late List<Socket> clients;
+  List<Socket> clients = [];
 
   void bindOnChapterStart(
       void Function(bool isSkipExisted, bool isActionExisted) onChapterStart) {
@@ -74,7 +74,7 @@ class ChapterManager implements MessageListener, MessageWriter {
 
     // ---------- 투표 진행
     if (isSkipExisted) {
-      _skipVoter.startVote(
+      _skipVote.startVote(
         voteType: VoteType.skip,
         voteDuration: const Duration(days: 1),
         yayAchivement: _curChapterAchivements
@@ -84,7 +84,7 @@ class ChapterManager implements MessageListener, MessageWriter {
       );
     }
     if (isActionExisted) {
-      _actionVoter.startVote(
+      _actionVote.startVote(
         voteType: VoteType.action,
         voteDuration: const Duration(minutes: 1),
         yayAchivement: _curChapterAchivements
@@ -121,21 +121,21 @@ class ChapterManager implements MessageListener, MessageWriter {
 
   @override
   void listen(Socket socket, MessageData msgData) {
-    _skipVoter.listen(socket, msgData);
-    _actionVoter.listen(socket, msgData);
+    _skipVote.listen(socket, msgData);
+    _actionVote.listen(socket, msgData);
   }
 
   @override
   void onRegistered(List<Socket> sockets) {
-    clients = sockets;
-    _skipVoter.onRegistered(sockets);
-    _actionVoter.onRegistered(sockets);
+    clients.addAll(sockets);
+    _skipVote.onRegistered(sockets);
+    _actionVote.onRegistered(sockets);
   }
 
   @override
   void onSocketConnected(Socket newSocket) {
     clients.add(newSocket);
-    _skipVoter.onSocketConnected(newSocket);
-    _actionVoter.onSocketConnected(newSocket);
+    _skipVote.onSocketConnected(newSocket);
+    _actionVote.onSocketConnected(newSocket);
   }
 }
