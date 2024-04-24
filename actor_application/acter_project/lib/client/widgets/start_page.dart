@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'main_page.dart';
+import 'routing_page.dart';
 
 class StartPage extends StatelessWidget {
   const StartPage({super.key});

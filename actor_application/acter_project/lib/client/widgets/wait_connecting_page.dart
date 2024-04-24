@@ -91,7 +91,7 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
     Future<void>.microtask(() {
       const Duration(seconds: 5);
       Navigator.of(context)
-          .push(MaterialPageRoute(builder: (context) => SelectPage(client)));
+          .push(MaterialPageRoute(builder: (context) => const SelectPage()));
     });
   }
 

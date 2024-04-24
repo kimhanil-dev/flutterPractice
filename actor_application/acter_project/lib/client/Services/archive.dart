@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
 
+// 업적 데이터 메모리 저장
 class Archive {
   Archive();
 
@@ -24,6 +25,8 @@ class Archive {
   }
 }
 
+
+// 업적 데이터 저장, 불러오기 (로컬 파일 저장)
 class ArchiveSaveLoader {
 
   static Future<void> save(final Archive archive) async {

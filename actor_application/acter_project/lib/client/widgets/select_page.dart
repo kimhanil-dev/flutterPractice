@@ -9,8 +9,7 @@ import 'package:provider/provider.dart';
 import 'button_with_message.dart';
 
 class SelectPage extends StatefulWidget {
-  const SelectPage(this.client, {super.key});
-  final Client client;
+  const SelectPage({super.key});
 
   @override
   State<SelectPage> createState() => _SelectPageState();
@@ -18,10 +17,64 @@ class SelectPage extends StatefulWidget {
 
 class _SelectPageState extends State<SelectPage> {
   bool bIsActionEnabled = false;
-  String achivementText = '업적';
   late Archive archive;
+  late Client client;
 
   OverlayEntry? _overlayEntry;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    client = context.read<Client>();
+    client.addMessageListener((message) {
+      switch (message.messageType) {
+        case MessageType.activateActionButton:
+          {
+            setState(() {
+              bIsActionEnabled = true;
+            });
+          }
+          break;
+        case MessageType.onAchivement:
+          {
+            var achivementId = int.parse(String.fromCharCodes(message.datas));
+            archive.addAchivement(achivementId);
+
+            overlay(achivementId);
+          }
+          break;
+        default:
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    archive = Provider.of<Archive>(context);
+
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            MessageSendButton(client, VoteType.skip),
+            const SizedBox(
+              width: 20,
+              height: 20,
+            ),
+            MessageSendButton(client, VoteType.action),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    removeOverlay();
+    super.dispose();
+  }
 
   void overlay(int achivementId) {
     removeOverlay();
@@ -53,57 +106,5 @@ class _SelectPageState extends State<SelectPage> {
     _overlayEntry?.remove();
     _overlayEntry?.dispose();
     _overlayEntry = null;
-  }
-
-  @override
-  void dispose() {
-    removeOverlay();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    widget.client.addMessageListener((message) {
-      switch (message.messageType) {
-        case MessageType.activateActionButton:
-          {
-            setState(() {
-              bIsActionEnabled = true;
-            });
-          }
-          break;
-        case MessageType.onAchivement:
-          {
-            achivementText = String.fromCharCodes(message.datas);
-            var achivementId = int.parse(String.fromCharCodes(message.datas));
-            archive.addAchivement(achivementId);
-
-            overlay(achivementId);
-          }
-          break;
-        default:
-      }
-    });
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    archive = Provider.of<Archive>(context);
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            MessageSendButton(widget.client, VoteType.skip),
-            const SizedBox(
-              width: 20,
-              height: 20,
-            ),
-            MessageSendButton(widget.client, VoteType.action),
-          ],
-        ),
-      ),
-    );
   }
 }
