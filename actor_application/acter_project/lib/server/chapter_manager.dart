@@ -98,10 +98,15 @@ class ChapterManager implements MessageListener, MessageWriter {
   }
 
   void _closeChapter() {
+    for (var chapterEndCallback in _onChapterEnds) {
+      chapterEndCallback();
+    }
+
     if (_isSkipped) {
+      _isSkipped = false;
       return;
     }
-    
+
     try {
       for (var client in clients) {
         MessageHandler.sendMessage(client, MessageType.onAchivement,
@@ -109,13 +114,10 @@ class ChapterManager implements MessageListener, MessageWriter {
                 (element) => element.condition == Condition.complite));
       }
     } catch (e) {
-      if(e is StateError) {
-          assert(_currentChapter == -1); // complite achivement is not found in relative database 
+      if (e is StateError) {
+        assert(_currentChapter ==
+            -1); // complite achivement is not found in relative database
       }
-    }
-
-    for (var chapterEndCallback in _onChapterEnds) {
-      chapterEndCallback();
     }
   }
 

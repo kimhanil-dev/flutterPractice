@@ -1,5 +1,6 @@
 import 'package:acter_project/client/Services/archive.dart';
 import 'package:acter_project/client/Services/client.dart';
+import 'package:acter_project/server/achivement.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -11,9 +12,8 @@ void main() {
   runApp(MultiProvider(
     providers: [
       Provider<Client>(create: (_) => Client()),
-      Provider<Archive>(
-        create: (_) => Archive(),
-      ),
+      Provider<Archive>(create: (_) => Archive(),),
+      Provider<AchivementDB>(create: (_) => AchivementDB(),),
     ],
     child: MainApp(key: UniqueKey(),),
   ));

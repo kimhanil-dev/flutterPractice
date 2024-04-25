@@ -20,7 +20,7 @@ class MainApp extends StatelessWidget {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
       ),
-      home: LoaderOverlay(
+      home: const LoaderOverlay(
         child: ServerMain(),
       ),
     );
@@ -28,7 +28,7 @@ class MainApp extends StatelessWidget {
 }
 
 class ServerMain extends StatefulWidget {
-  ServerMain({super.key});
+  const ServerMain({super.key});
 
   @override
   State<ServerMain> createState() => _ServerMainState();

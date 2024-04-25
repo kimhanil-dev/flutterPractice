@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:acter_project/public.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:gsheets/gsheets.dart';
 
@@ -11,7 +12,10 @@ enum Condition {
   nskip,
   complite,
   action,
-  sequence,
+  sequence;
+
+  static Condition convert(String achivementId) => Condition.values[
+      int.parse(achivementId.characters.elementAt(achivementId.length - 2))];
 }
 
 class AchivementData implements MessageTransableObject {
@@ -21,7 +25,7 @@ class AchivementData implements MessageTransableObject {
       : index = int.parse(range[0].value),
         id = int.parse(range[1].value),
         chapter = int.parse(range[2].value),
-        condition = Condition.values[(int.parse(range[1].value)) % 10],
+        condition = Condition.convert(range[1].value),
         name = range[4].value,
         data1 = range[5].value,
         data2 = range[6].value;
@@ -51,13 +55,25 @@ class AchivementData implements MessageTransableObject {
 }
 
 class AchivementDB {
-  final Map<int, List<AchivementData>> _chapterAchivements = {};
+  final Map<int, AchivementData> _achivements = {};
+
+  AchivementData? getAchivementData(int id) {
+    return _achivements[id];
+  }
 
   List<AchivementData> getChapterAchivements(final int chapter) {
-    if (!_chapterAchivements.containsKey(chapter)) {
+    List<AchivementData> result = [];
+    _achivements.forEach((key, value) {
+      if (value.chapter == chapter) {
+        result.add(value);
+      }
+    });
+
+    if (result.isEmpty) {
       throw Exception('Chapter : $chapter\'s achivements not founded');
     }
-    return _chapterAchivements[chapter]!;
+
+    return result;
   }
 
   Future<void> loadData() async {
@@ -88,9 +104,7 @@ class AchivementDB {
         length: length);
     for (var row in achivementDatas) {
       var achivement = AchivementData.withRange(row);
-      (_chapterAchivements[achivement.chapter] ??=
-              List<AchivementData>.empty(growable: true))
-          .add(achivement);
+      _achivements[achivement.id] = achivement;
     }
 
     print("AchivementDB : data loaded (num : ${achivementDatas.length})");

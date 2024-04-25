@@ -2,6 +2,7 @@ import 'package:acter_project/client/Services/achivement_image_loader.dart';
 import 'package:acter_project/client/Services/archive.dart';
 import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/public.dart';
+import 'package:acter_project/server/achivement.dart';
 import 'package:acter_project/server/vote.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +16,13 @@ class SelectPage extends StatefulWidget {
   State<SelectPage> createState() => _SelectPageState();
 }
 
-class _SelectPageState extends State<SelectPage> with AutomaticKeepAliveClientMixin<SelectPage>{
+class _SelectPageState extends State<SelectPage>
+    with AutomaticKeepAliveClientMixin<SelectPage> {
   bool bIsActionEnabled = false;
   late Archive archive;
   late Client client;
-
-  OverlayEntry? _overlayEntry;
+  int achivementId = 0;
+  bool bIsAchived = false;
 
   @override
   void initState() {
@@ -37,10 +39,16 @@ class _SelectPageState extends State<SelectPage> with AutomaticKeepAliveClientMi
           break;
         case MessageType.onAchivement:
           {
-            var achivementId = int.parse(String.fromCharCodes(message.datas));
+            achivementId = int.parse(String.fromCharCodes(message.datas));
             archive.addAchivement(achivementId);
+            setState(() {
+              bIsAchived = true;
+            });
 
-            overlay(achivementId);
+            Future<void>.delayed(const Duration(seconds: 3))
+                .then((value) => setState(() {
+                      bIsAchived = false;
+                    }));
           }
           break;
         default:
@@ -54,7 +62,15 @@ class _SelectPageState extends State<SelectPage> with AutomaticKeepAliveClientMi
     archive = Provider.of<Archive>(context);
 
     return Scaffold(
-      body: Center(
+      body: Stack(
+        children: _pageBuilder(),
+      ),
+    );
+  }
+
+  List<Widget> _pageBuilder() {
+    final List<Widget> widgets = [
+      Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -66,48 +82,33 @@ class _SelectPageState extends State<SelectPage> with AutomaticKeepAliveClientMi
             MessageButtton(client, VoteType.action),
           ],
         ),
-      ),
-    );
-  }
+      )
+    ];
 
-  @override
-  void dispose() {
-    removeOverlay();
-    super.dispose();
-  }
-
-  void overlay(int achivementId) {
-    removeOverlay();
-
-    assert(_overlayEntry == null);
-
-    _overlayEntry = OverlayEntry(builder: (BuildContext context) {
-      return SafeArea(
+    if (bIsAchived) {
+      widgets.add(SafeArea(
         child: Align(
           alignment: Alignment.center,
           child: Container(
             width: 100,
-            height: 100,
+            height: 300,
             decoration: BoxDecoration(
                 border: Border.all(color: Colors.red, width: 4.0)),
-            child: AchivementImageLoader.getImage(achivementId),
+            child: Column(mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AchivementImageLoader.getImage(achivementId)!,
+                Text(Provider.of<AchivementDB>(context).getAchivementData(achivementId)!.name),
+              ],
+            ),
           ),
         ),
-      );
-    });
+      ));
+    }
 
-    Overlay.of(context, debugRequiredFor: widget).insert(_overlayEntry!);
-
-    Future<void>.delayed(const Duration(seconds: 5))
-        .then((value) => removeOverlay());
+    return widgets;
   }
 
-  void removeOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry?.dispose();
-    _overlayEntry = null;
-  }
-  
   @override
   bool get wantKeepAlive => true;
 }

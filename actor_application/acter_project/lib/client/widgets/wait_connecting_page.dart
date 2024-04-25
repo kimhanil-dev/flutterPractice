@@ -1,6 +1,7 @@
 import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/client/widgets/play_page.dart';
 import 'package:acter_project/public.dart';
+import 'package:acter_project/server/achivement.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -43,6 +44,8 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
         onTheaterStartCallback();
       }
     });
+    // TODO:임시 데이터 로드
+    context.read<AchivementDB>().loadData();
   }
 
   void onConnectServerCallback() {

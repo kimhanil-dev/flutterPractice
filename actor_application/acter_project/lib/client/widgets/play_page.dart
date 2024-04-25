@@ -1,6 +1,7 @@
 import 'package:acter_project/client/widgets/archive_page.dart';
 import 'package:acter_project/client/widgets/select_page.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class PlayPage extends StatefulWidget {
   const PlayPage({super.key});
@@ -34,7 +35,7 @@ class _PlayPageState extends State<PlayPage> with TickerProviderStateMixin {
           PageView(
             controller: _pageController,
             onPageChanged: _handlePageViewChanged,
-            children: <Widget>[_selectPage, _archivePage],
+            children: <Widget>[LoaderOverlay(child: _selectPage), _archivePage],
 
           ),
           TabBar(

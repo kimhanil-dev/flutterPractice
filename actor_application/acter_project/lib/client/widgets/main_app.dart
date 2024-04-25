@@ -25,11 +25,9 @@ class _MainAppState extends State<MainApp> {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
-      home: const LoaderOverlay(
-        child: Scaffold(
-          body: Center(
-            child: StartPage(),
-          ),
+      home: const Scaffold(
+        body: Center(
+          child: StartPage(),
         ),
       ),
     );
