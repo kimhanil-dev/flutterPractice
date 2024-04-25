@@ -92,7 +92,7 @@ class AchivementDB {
     }
 
     // load achivement datas
-    var achivementRange = ss.data.namedRanges.byName['achivementRows']?.range;
+    var achivementRange = ss.data.namedRanges.byName['achivementRange']?.range;
     int fromRow = achivementRange?.startRowIndex ?? 0;
     int fromColumn = achivementRange?.startColumnIndex ?? 0;
     int count = (achivementRange?.endRowIndex ?? 0) - fromRow;
@@ -108,13 +108,5 @@ class AchivementDB {
     }
 
     print("AchivementDB : data loaded (num : ${achivementDatas.length})");
-  }
-}
-
-class AchivementManager {
-  AchivementDB achivementDB = AchivementDB();
-
-  void init() async {
-    await achivementDB.loadData();
   }
 }

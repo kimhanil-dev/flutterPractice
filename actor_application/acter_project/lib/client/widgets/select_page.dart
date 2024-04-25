@@ -1,6 +1,6 @@
-import 'package:acter_project/client/Services/achivement_image_loader.dart';
 import 'package:acter_project/client/Services/archive.dart';
 import 'package:acter_project/client/Services/client.dart';
+import 'package:acter_project/client/Services/achivement_manager.dart';
 import 'package:acter_project/public.dart';
 import 'package:acter_project/server/achivement.dart';
 import 'package:acter_project/server/vote.dart';
@@ -69,6 +69,8 @@ class _SelectPageState extends State<SelectPage>
   }
 
   List<Widget> _pageBuilder() {
+    final achivementDataManger = Provider.of<AchivementDataManger>(context);
+
     final List<Widget> widgets = [
       Center(
         child: Column(
@@ -97,8 +99,8 @@ class _SelectPageState extends State<SelectPage>
             child: Column(mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                AchivementImageLoader.getImage(achivementId)!,
-                Text(Provider.of<AchivementDB>(context).getAchivementData(achivementId)!.name),
+                achivementDataManger.getImage(achivementId)!,
+                Text(achivementDataManger.getData(achivementId).name),
               ],
             ),
           ),

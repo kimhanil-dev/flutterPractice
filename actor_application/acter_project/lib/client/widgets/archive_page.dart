@@ -1,5 +1,6 @@
-import 'package:acter_project/client/Services/achivement_image_loader.dart';
+import 'package:acter_project/client/Services/google_drive_image_downloader.dart';
 import 'package:acter_project/client/Services/archive.dart';
+import 'package:acter_project/client/Services/achivement_manager.dart';
 import 'package:acter_project/server/achivement.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,8 @@ class ArchivePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     context.loaderOverlay.show();
-    var archive = Provider.of<Archive>(context);
+    final achivementDataManager = Provider.of<AchivementDataManger>(context);
+    final archive = Provider.of<Archive>(context);
     ArchiveSaveLoader.load(archive)
         .then((value) {
           context.loaderOverlay.hide();
@@ -32,7 +34,7 @@ class ArchivePage extends StatelessWidget {
                         aspectRatio: 1,
                         child: FittedBox(
                           fit: BoxFit.fill,
-                          child: AchivementImageLoader.getImage(id),
+                          child: achivementDataManager.getImage(id),
                         ))),
                 Expanded(
                     child: Column(

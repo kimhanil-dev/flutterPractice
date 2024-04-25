@@ -13,8 +13,6 @@ class PlayPage extends StatefulWidget {
 class _PlayPageState extends State<PlayPage> with TickerProviderStateMixin {
   late PageController _pageController;
   late TabController _tabController;
-  late SelectPage _selectPage;
-  late ArchivePage _archivePage;
 
   @override
   void initState() {
@@ -22,8 +20,6 @@ class _PlayPageState extends State<PlayPage> with TickerProviderStateMixin {
     _pageController = PageController();
     _tabController = TabController(length: 2, vsync: this);
 
-    _selectPage = const SelectPage();
-    _archivePage = const ArchivePage();
   }
 
   @override
@@ -35,7 +31,7 @@ class _PlayPageState extends State<PlayPage> with TickerProviderStateMixin {
           PageView(
             controller: _pageController,
             onPageChanged: _handlePageViewChanged,
-            children: <Widget>[LoaderOverlay(child: _selectPage), _archivePage],
+            children: const <Widget>[LoaderOverlay(child: SelectPage()), ArchivePage()],
 
           ),
           TabBar(
