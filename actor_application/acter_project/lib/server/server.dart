@@ -1,10 +1,18 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:acter_project/public.dart';
 
+class Ping {
+  Ping(this.dest, this.millisec);
+  Socket dest;
+  int millisec = 0;
+}
+
 class Server {
   ServerSocket? server;
+  List<Socket> allSockets = [];
   List<Socket> clients = [];
   int skipCount = 0;
   int actionCount = 0;
@@ -17,6 +25,15 @@ class Server {
     server!.listen((client) {
       handleConnection(client);
     });
+  }
+
+  void close() {
+    if (_pingStreamController != null) {
+      _pingStreamController!.close();
+    }
+    if (_pingtimer != null) {
+      _pingtimer!.cancel();
+    }
   }
 
   void addMessageListener(MessageListener msgListener) {
@@ -54,15 +71,11 @@ class Server {
     print('Connection from'
         ' ${client.remoteAddress.address}:${client.remotePort}');
 
-    clients.add(client);
-
     // 클라이언트 연결시 초기 처리들 ..
-    MessageHandler.sendMessage(client, MessageType.onConnected);
-    //
+    allSockets.add(client);
 
-    for (var element in messageWriter) {
-      element.onSocketConnected(client);
-    }
+    sendMessage(dest: client, msgType: MessageType.onConnected);
+    sendMessage(dest: client, msgType: MessageType.reqeustWhoAryYou);
 
     // listen for events from the client
     client.listen(
@@ -74,35 +87,77 @@ class Server {
       // handle errors
       onError: (error) {
         print(error);
-        clients.removeWhere((element) => element.address == client.address);
-        client.close();
+        allSockets.removeWhere(
+            (element) => element.address.address == client.address.address);
+        clients.removeWhere(
+            (element) => element.address.address == client.address.address);
+        client.flush().then((value) => client.close());
       },
 
       // handle the client closing the connection
       onDone: () {
         print('Client left');
-        clients.removeWhere((element) => element.address == client.address);
-        client.close();
+        for (var e in messageListeners) {
+          e.onDone(client);
+        }
+
+        clients.removeWhere(
+            (element) => element.address.address == client.address.address);
+        client.flush().then((value) => client.close());
       },
     );
   }
 
   void handleClientData(Socket client, Uint8List data) async {
-    await Future.delayed(const Duration(seconds: 1));
-
     print('listen : ${client.address}, ');
     var messages = MessageHandler.getMessages(data);
     for (var message in messages) {
-    print('type : ${message.messageType} , datas : ${message.datas}');
+      // 연결이 client, controller, screen인지 파악
+      if (message.messageType == MessageType.reqeustWhoAryYou) {
+        if (message.datas[0] == Who.client.index) {
+          for (var element in messageWriter) {
+            clients.add(client);
+            element.onSocketConnected(client);
+          }
+        }
+
+        continue;
+      }
+
+      // 연결 상태를 업데이트
+      if (message.messageType == MessageType.ping) {
+        if (_pingStreamController != null) {
+          var deltaTime =
+              DateTime.timestamp().difference(_pingStartTime).inMilliseconds;
+          _pingStreamController!.sink.add(Ping(client, deltaTime));
+        }
+        continue;
+      }
+
+      print('type : ${message.messageType} , datas : ${message.datas}');
+
       for (var listener in messageListeners) {
         listener.listen(client, message);
       }
     }
-
   }
 
   // send achivement id to client
   void sendAchivement(Socket client, int id) {
     client.write(id.toString());
+  }
+
+  DateTime _pingStartTime = DateTime.now();
+  StreamController<Ping>? _pingStreamController;
+  Timer? _pingtimer;
+  Stream<Ping> createPingStream(Duration pingDuration) {
+    _pingStreamController ??= StreamController<Ping>();
+
+    _pingtimer ??= Timer.periodic(pingDuration, (timer) {
+      _pingStartTime = DateTime.timestamp();
+      broadcastMessage(messageType: MessageType.ping);
+    });
+
+    return _pingStreamController!.stream;
   }
 }

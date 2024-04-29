@@ -18,20 +18,37 @@ enum VoteType implements MessageTransableObject {
 }
 
 class Vote implements MessageListener, MessageWriter {
-  Vote(this.onVoteEnded);
+  Vote(this.onVoteEnded, {this.onVoteIncrease});
 
-  late AchivementData _yayAchivement;
+  void Function(Socket newVoter, int num)? onVoteIncrease;
+
+  AchivementData? _yayAchivement;
   AchivementData? _nayAchivement;
   bool _bIsVoteStarted = false;
   late VoteType _voteType;
   double _majority = 0.0;
-  int _voterNum = 0;
+  int _voteCount = 0;
+
+  int get voteCount => _voteCount;
 
   final Map<Socket, bool> _voters = {};
 
   CancelableOperation<Null>? voteTimer;
 
   final void Function(bool result) onVoteEnded;
+
+  void init() {
+    _yayAchivement = null;
+    _nayAchivement = null;
+    _bIsVoteStarted = false;
+    _voteCount = 0;
+    _voters.forEach((key, value) {
+      value = false;
+    });
+    if (voteTimer != null) {
+      voteTimer!.cancel();
+    }
+  }
 
   void startVote(
       {required VoteType voteType,
@@ -58,7 +75,7 @@ class Vote implements MessageListener, MessageWriter {
   void stopVote(bool result) {
     // send achivement to
     _voters.forEach((socket, voted) {
-      sendAchivement(socket, voted ? _yayAchivement : _nayAchivement!);
+      sendAchivement(socket, voted ? _yayAchivement! : _nayAchivement!);
       voted = false;
     });
 
@@ -70,7 +87,7 @@ class Vote implements MessageListener, MessageWriter {
 
     voteTimer!.cancel();
     _majority = 0;
-    _voterNum = 0;
+    _voteCount = 0;
     _bIsVoteStarted = false;
 
     onVoteEnded(result);
@@ -90,8 +107,11 @@ class Vote implements MessageListener, MessageWriter {
     if (msgData.messageType == MessageType.onButtonClicked) {
       if (_voteType.equal(msgData.datas)) {
         _voters[socket] = true;
-        ++_voterNum;
-        if (_voterNum >= (_voters.length * _majority).floor()) {
+        ++_voteCount;
+        if (onVoteIncrease != null) {
+          onVoteIncrease!(socket, _voteCount);
+        }
+        if (_voteCount >= (_voters.length * _majority).floor()) {
           stopVote(true);
         }
       }
@@ -108,5 +128,10 @@ class Vote implements MessageListener, MessageWriter {
   @override
   void onSocketConnected(Socket newSocket) {
     _voters[newSocket] = false;
+  }
+
+  @override
+  void onDone(Socket socket) {
+    _voters.remove(socket);
   }
 }

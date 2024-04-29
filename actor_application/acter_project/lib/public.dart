@@ -6,6 +6,23 @@ import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
+enum Who implements MessageTransableObject{
+  client,
+  controller,
+  screen
+  ;
+
+  @override
+  bool equal(Uint8List data) {
+    return data[0] == index;
+  }
+
+  @override
+  List<int> getMessage() {
+    return [index];
+  }
+}
+
 enum MessageType {
   onConnected,
   onTheaterStarted,
@@ -16,6 +33,25 @@ enum MessageType {
   activateActionButton,
   disableSkipButton,
   disableActionButton,
+  onVote,
+  ping,
+
+  reqeustWhoAryYou,
+
+  // controller to server
+  onControllerConnected,
+  requestStartThater,
+  requestNextChapter,
+  requestBroadcastSequenceAchivement,
+  requestCurrentChapter,
+  requestPlayerInfos,
+  requestRestartTheater,
+
+  // server to client
+  answerControllerConnected,
+  answerCurrentChapter,
+  answerCurrentSequenceAchive,
+  answerPlayerInfos,
   ;
 
   static MessageType getMessage(String message) =>
@@ -88,11 +124,28 @@ class MessageHandler {
 
 abstract interface class MessageListener {
   void listen(Socket socket, MessageData msgData);
+  void onDone(Socket socket);
 }
 
 abstract interface class MessageTransableObject {
   List<int> getMessage();
   bool equal(Uint8List data);
+}
+
+class InstantMessageObject<T> implements MessageTransableObject{
+  InstantMessageObject(this.data, this.toListFunc);
+  final T data;
+  final List<int> Function() toListFunc;
+
+  @override
+  bool equal(Uint8List data) {
+    return this.data == data;
+  }
+
+  @override
+  List<int> getMessage() {
+    return toListFunc();
+  }
 }
 
 abstract interface class MessageWriter {

@@ -52,6 +52,7 @@ class AchivementData implements MessageTransableObject {
 
     return true;
   }
+
 }
 
 class AchivementDB {
@@ -68,10 +69,6 @@ class AchivementDB {
         result.add(value);
       }
     });
-
-    if (result.isEmpty) {
-      throw Exception('Chapter : $chapter\'s achivements not founded');
-    }
 
     return result;
   }

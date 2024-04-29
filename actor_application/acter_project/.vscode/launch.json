@@ -27,27 +27,43 @@
             "deviceId": "windows",
         },
         {
-            "name": "server",
+            "name": "server_debug",
             "program": "lib/server/main.dart",
             "request": "launch",
             "type": "dart",
+            "flutterMode": "debug"
+        },
+        {
+            "name": "server_release",
+            "program": "lib/server/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
+            "name": "controller_debug",
+            "program": "lib/controller/main.dart",
+            "request":"launch",
+            "type": "dart",
             "flutterMode": "debug",
             "deviceId": "windows"
-        },
+        } ,
         {
-            "name": "unit test",
-            "program": "test/gsheets_test.dart",
+            "name": "controller_release",
+            "program": "lib/controller/main.dart",
             "request":"launch",
             "type": "dart",
-            "flutterMode": "debug",
-        },
+            "flutterMode": "release",
+            "deviceId": "windows"
+        } ,
         {
-            "name": "test",
-            "program": "lib/test_main.dart",
+            "name": "screen_debug",
+            "program": "lib/screen/main.dart",
             "request":"launch",
             "type": "dart",
-            "flutterMode": "debug",
-        }
+            "flutterMode": "release",
+            "deviceId": "windows"
+        } 
         // {
         //     "name": "acter_project (profile mode)",
         //     "request": "launch",

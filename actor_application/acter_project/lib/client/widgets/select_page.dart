@@ -2,7 +2,6 @@ import 'package:acter_project/client/Services/archive.dart';
 import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/client/Services/achivement_manager.dart';
 import 'package:acter_project/public.dart';
-import 'package:acter_project/server/achivement.dart';
 import 'package:acter_project/server/vote.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -99,7 +98,7 @@ class _SelectPageState extends State<SelectPage>
             child: Column(mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                achivementDataManger.getImage(achivementId)!,
+                achivementDataManger.getImage(achivementId),
                 Text(achivementDataManger.getData(achivementId).name),
               ],
             ),
