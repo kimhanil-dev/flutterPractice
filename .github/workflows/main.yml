@@ -57,25 +57,27 @@ jobs:
 
       - name: create api key file
         run: |
-          touch google-drive-api-key.json
-          echo "${{ secrets.GOOGLE_API_KEY }}" >> google-drive-api-key.json
-          touch .env
-          echo "${{ secrets.GSHEET_API_KEY }}" >> .env
+          touch "${{ secrets.API_KEY_PATH }}"
+          echo "${{ secrets.GOOGLE_API_KEY }}" >> "${{ secrets.API_KEY_PATH }}"
+          touch "${{ secrets.ENV_PATH }}"
+          echo "${{ secrets.GSHEET_API_KEY }}" >> "${{ secrets.ENV_PATH }}"
       
-      # 빌드된 결과 파일들을 aws S3에 배포하겠습니다.
-      # 우선 aws S3 환경 설정을 합니다.
-      # 두개의 gitgub secret을 이용합니다.
-      # 깃허브 시크릿은 다음과 같이 ${{ secrets.이름 }} 으로 사용합니다.
-      # - name: Init aws S3
-      #   uses: aws-actions/configure-aws-credentials@v1
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
-      #     aws-region: us-east-1
-          
-      # 빌드된 결과 파일들을 aws S3에 배포하겠습니다.
-      # web-deploy에 있는 모든 파일및 폴더들을 
-      # counter_s3라는 이름의 S3버켓에 올리는 명령어 입니다.
-      # - name: Upload to S3
-      #   run: |
-      #     aws s3 cp --region us-east-1 web-deploy s3://counter_s3/ --recursive
+      - name: 📦 Zip project files
+        run: zip -r ./$GITHUB_SHA.zip .
+
+      - name: 🌎 Access to AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+        aws-region: ap-northeast-2a
+
+        - name: 🚛 Upload to S3
+          run: aws s3 cp --region ap-northeast-2a ./$GITHUB_SHA.zip s3://${{ secrets.S3_BUCKET_NAME }}/${{ env.S3_BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
+
+          - name: 🚀 Deploy to EC2 with CodeDeploy
+            run: aws deploy create-deployment
+                --application-name hero
+                --deployment-config-name CodeDeployDefault.AllAtOnce
+                --deployment-group-name deploy-user
+                --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=${{ env.S3_BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
