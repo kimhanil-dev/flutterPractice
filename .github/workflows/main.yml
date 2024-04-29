@@ -34,7 +34,8 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-          flutter-version: '3.3.2'
+          flutter-version: 3.19.0
+      - run: flutter --version
       
       # 세번째 step은 해당 레포지토리가 사용하는 패키지를
       #  import하는 단계입니다. 직접 인스턴스에 커맨드를 입력합니다.
