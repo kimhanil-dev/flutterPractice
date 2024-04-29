@@ -59,7 +59,7 @@ jobs:
         run: |
           mkdir -p "${{ secrets.API_KEY_PATH }}"
           cd "${{ secrets.API_KEY_PATH }}"
-          touch "${{ secrets.API_KEY_FILE }}"
+          touch "${{ secrets.GOOGLE_API_KEY_FILE }}"
           echo "${{ secrets.GOOGLE_API_KEY }}" >> "${{ secrets.API_KEY_FILE }}"
           mkdir "${{ secrets.ENV_PATH }}"
           cd "${{ secrets.ENV_PATH }}"
