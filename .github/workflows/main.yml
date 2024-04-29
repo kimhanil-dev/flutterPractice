@@ -63,7 +63,7 @@ jobs:
           echo "${{ secrets.GSHEET_API_KEY }}" >> "${{ secrets.ENV_PATH }}"
       
       - name: 📦 Zip project files
-        run: zip -r ./$GITHUB_SHA.zip .
+        run: zip -r ./$GITHUB_SHA.zip
 
       - name: 🌎 Access to AWS
         uses: aws-actions/configure-aws-credentials@v2
