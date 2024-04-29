@@ -35,6 +35,7 @@ jobs:
         with:
           channel: 'stable'
           flutter-version: '3.3.2'
+          working-directory: 
       
       # 세번째 step은 해당 레포지토리가 사용하는 패키지를
       #  import하는 단계입니다. 직접 인스턴스에 커맨드를 입력합니다.
@@ -53,7 +54,13 @@ jobs:
         run: |
           flutter build linux --release --target=lib/server/main.dart
           mv ./build/server .
-          
+
+      - name: create api key file
+        run: |
+          touch google-drive-api-key.json
+          echo "${{ secrets.GOOGLE_API_KEY }}" >> google-drive-api-key.json
+          touch .env
+          echo "${{ secrets.GSHEET_API_KEY }}" >> .env
       
       # 빌드된 결과 파일들을 aws S3에 배포하겠습니다.
       # 우선 aws S3 환경 설정을 합니다.
