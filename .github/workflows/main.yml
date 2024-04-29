@@ -35,7 +35,6 @@ jobs:
         with:
           channel: 'stable'
           flutter-version: '3.3.2'
-          working-directory: 
       
       # 세번째 step은 해당 레포지토리가 사용하는 패키지를
       #  import하는 단계입니다. 직접 인스턴스에 커맨드를 입력합니다.
@@ -68,15 +67,15 @@ jobs:
       - name: 🌎 Access to AWS
         uses: aws-actions/configure-aws-credentials@v2
         with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
-        aws-region: ap-northeast-2a
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-region: ap-northeast-2a  .
 
-        - name: 🚛 Upload to S3
-          run: aws s3 cp --region ap-northeast-2a ./$GITHUB_SHA.zip s3://${{ secrets.S3_BUCKET_NAME }}/${{ env.S3_BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
+      - name: 🚛 Upload to S3
+        run: aws s3 cp --region ap-northeast-2a ./$GITHUB_SHA.zip s3://${{ secrets.S3_BUCKET_NAME }}/${{ env.S3_BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
 
-          - name: 🚀 Deploy to EC2 with CodeDeploy
-            run: aws deploy create-deployment
+      - name: 🚀 Deploy to EC2 with CodeDeploy
+        run: aws deploy create-deployment
                 --application-name hero
                 --deployment-config-name CodeDeployDefault.AllAtOnce
                 --deployment-group-name deploy-user
