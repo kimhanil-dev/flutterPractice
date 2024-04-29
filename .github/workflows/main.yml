@@ -54,34 +54,5 @@ jobs:
       - name: Build Flutter linux
         run: |
           flutter build linux --release --target=lib/server/main.dart
-
-      - name: create api key file
-        run: |
-          mkdir -p "${{ secrets.API_KEY_PATH }}"
-          cd "${{ secrets.API_KEY_PATH }}"
-          touch "${{ secrets.GOOGLE_API_KEY_FILE }}"
-          echo "${{ secrets.GOOGLE_API_KEY }}" >> "${{ secrets.API_KEY_FILE }}"
-          mkdir "${{ secrets.ENV_PATH }}"
-          cd "${{ secrets.ENV_PATH }}"
-          touch .env
-          echo "${{ secrets.GSHEET_API_KEY }}" >> .env
+          mv /build
       
-      - name: 📦 Zip project files
-        run: zip -r ./$GITHUB_SHA.zip
-
-      - name: 🌎 Access to AWS
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY }}
-          aws-region: ap-northeast-2a  .
-
-      - name: 🚛 Upload to S3
-        run: aws s3 cp --region ap-northeast-2a ./$GITHUB_SHA.zip s3://${{ secrets.S3_BUCKET_NAME }}/${{ env.S3_BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
-
-      - name: 🚀 Deploy to EC2 with CodeDeploy
-        run: aws deploy create-deployment
-                --application-name hero
-                --deployment-config-name CodeDeployDefault.AllAtOnce
-                --deployment-group-name deploy-user
-                --s3-location bucket=${{ secrets.S3_BUCKET_NAME }},bundleType=zip,key=${{ env.S3_BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
