@@ -57,10 +57,14 @@ jobs:
 
       - name: create api key file
         run: |
-          touch "${{ secrets.API_KEY_PATH }}"
-          echo "${{ secrets.GOOGLE_API_KEY }}" >> "${{ secrets.API_KEY_PATH }}"
-          touch "${{ secrets.ENV_PATH }}"
-          echo "${{ secrets.GSHEET_API_KEY }}" >> "${{ secrets.ENV_PATH }}"
+          mkdir -p "${{ secrets.API_KEY_PATH }}"
+          cd "${{ secrets.API_KEY_PATH }}"
+          touch "${{ secrets.API_KEY_FILE }}"
+          echo "${{ secrets.GOOGLE_API_KEY }}" >> "${{ secrets.API_KEY_FILE }}"
+          mkdir "${{ secrets.ENV_PATH }}"
+          cd "${{ secrets.ENV_PATH }}"
+          touch .env
+          echo "${{ secrets.GSHEET_API_KEY }}" >> .env
       
       - name: 📦 Zip project files
         run: zip -r ./$GITHUB_SHA.zip
