@@ -54,7 +54,6 @@ jobs:
       - name: Build Flutter linux
         run: |
           flutter build linux --release --target=lib/server/main.dart
-          mv ./build/server .
 
       - name: create api key file
         run: |
