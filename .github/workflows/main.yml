@@ -48,6 +48,7 @@ jobs:
           flutter doctor
           sudo apt-get update -y
           sudo apt-get install -y ninja-build
+          sudo apt-get install libgtk-3-dev
           flutter doctor
       
       - name: Build Flutter linux
