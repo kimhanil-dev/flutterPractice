@@ -1,4 +1,4 @@
-# 하나의 workflow를 정의하는 파일입니다.
+(# 하나의 workflow를 정의하는 파일입니다.
 # 해당 workflow의 이름
 name: Flutter_GitHub_Actions
 # Event를 정의하는 곳입니다.
@@ -70,7 +70,7 @@ jobs:
       - name: github release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/linux/x64/release/*"
+          artifacts: ".build/linux/*"
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
