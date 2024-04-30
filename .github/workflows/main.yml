@@ -58,7 +58,8 @@ jobs:
       - name: Build Flutter linux
         run: |
           flutter build linux --target=lib/server/main.dart
-          mv ./build/linux .
+          mkdir builds/linux
+          mv ./build/linux builds/linux
 
       - name: Bump version and push tag
         id: tag_version
