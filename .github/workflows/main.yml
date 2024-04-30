@@ -58,8 +58,16 @@ jobs:
       - name: Build Flutter linux
         run: |
           flutter build linux --release --target=lib/server/main.dart
-          cd build/linux/x64/release/bundle
-          dir
+          cd build/linux/x64/release/bundle/data
+          mkdir -p "${{ secrets.APP_KEY_PATH }}"
+          cd "${{ secrets.APP_KEY_PATH }}"
+          touch "${{ secrets.GOOGLE_API_KEY_FILE }}"
+          echo "${{ secrets.GOOGLE_API_KEY }}" >> "${{ secrets.GOOGLE_API_KEY_FILE }}"
+          cd build/linux/x64/release/bundle/data
+          cd "${{ secrets.ENV_PATH }}"
+          touch .env
+          echo "${{ secrets.GSHEET_API_KEY }}" >> .env
+          
           zip release.zip ./*
 
       - name: Bump version and push tag
