@@ -57,7 +57,7 @@ jobs:
       
       - name: Build Flutter linux
         run: |
-          flutter build linux --target=lib/server/main.dart
+          flutter build linux --release --target=lib/server/main.dart
           cd ./build
           zip release.zip linux/
 
