@@ -58,8 +58,9 @@ jobs:
       - name: Build Flutter linux
         run: |
           flutter build linux --release --target=lib/server/main.dart
-          cd ./build
-          zip release.zip linux/
+          cd build/linux/release/bundle
+          dir
+          zip release.zip ./*
 
       - name: Bump version and push tag
         id: tag_version
