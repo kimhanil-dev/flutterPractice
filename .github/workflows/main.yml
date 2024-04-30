@@ -59,8 +59,8 @@ jobs:
         run: |
           flutter build linux --release --target=lib/server/main.dart
           cd build/linux/x64/release/bundle/data
-          mkdir -p "${{ secrets.APP_KEY_PATH }}"
-          cd "${{ secrets.APP_KEY_PATH }}"
+          mkdir -p assets/api-key
+          cd assets/api-key
           touch "${{ secrets.GOOGLE_API_KEY_FILE }}"
           echo "${{ secrets.GOOGLE_API_KEY }}" >> "${{ secrets.GOOGLE_API_KEY_FILE }}"
           cd build/linux/x64/release/bundle/data
