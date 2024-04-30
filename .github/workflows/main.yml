@@ -54,7 +54,7 @@ jobs:
       - name: Build Flutter linux
         run: |
           flutter build linux --target=lib/server/main.dart
-          mv ./builds/linux server
+          mv ./build/linux server
 
       - name: github release
         uses: ncipollo/release-action@v1
