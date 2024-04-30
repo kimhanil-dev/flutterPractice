@@ -53,7 +53,7 @@ jobs:
       
       - name: Build Flutter linux
         run: |
-          flutter build linux --release --target=lib/server/main.dart
+          flutter build linux --target=lib/server/main.dart
           mv ./builds/linux server
 
       - name: github release
