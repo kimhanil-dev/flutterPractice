@@ -1,4 +1,4 @@
-&# 하나의 workflow를 정의하는 파일입니다.
+# 하나의 workflow를 정의하는 파일입니다.
 # 해당 workflow의 이름
 name: Flutter_GitHub_Actions
 # Event를 정의하는 곳입니다.
