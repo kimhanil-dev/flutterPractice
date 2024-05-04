@@ -1,8 +1,8 @@
 import 'package:acter_project/client/Services/archive.dart';
 import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/client/Services/achivement_manager.dart';
-import 'package:acter_project/public.dart';
-import 'package:acter_project/server/vote.dart';
+import 'package:theater_publics/public.dart';
+import 'package:theater_publics/vote.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

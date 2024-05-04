@@ -1,5 +1,6 @@
 import 'package:acter_project/client/Services/google_drive_image_downloader.dart';
-import 'package:acter_project/server/achivement.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:theater_publics/achivement.dart';
 import 'package:flutter/material.dart';
 
 class AchivementDataManger {
@@ -7,7 +8,10 @@ class AchivementDataManger {
   final Map<int, Image> _achivementImages = {};
 
   Future<void> loadDatas() async {
-    _achivementDB.loadData();
+    var dotEnv = DotEnv(); 
+    dotEnv.load(fileName: 'assets/.env');
+    
+    _achivementDB.loadData(dotEnv.env['GSHEETS_CREDENTIALS']!);
     final images = await GoogleDriveImageDownloader.downloadImages();
 
     // Organize images by id

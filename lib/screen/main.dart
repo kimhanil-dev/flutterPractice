@@ -1,4 +1,5 @@
 
+import 'package:acter_project/screen/event_manager.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -10,8 +11,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw MaterialApp(home: ScreenPage(),);
+    return MaterialApp(home: ScreenPage(),);
   }
 }
 
@@ -20,9 +20,30 @@ class ScreenPage extends StatefulWidget {  @override
 }
 
 class _ScreenPageState extends State<ScreenPage> {
+  EventManager eventManager = EventManager();
+  Image? image = Image.asset('assets/images/bg/bg_0.jpg');
+
+  @override
+  void initState() {
+    super.initState();
+    eventManager.connect();
+    eventManager.bindOnBackgroundChanged(onImageChanged);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Image.network('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWYpQ1rvhVh1-Er_sAh7jptqf8cGrvz0UC0EJCiz7KFwKWiQ0pujBu3SpQb3Lhq1uQl8s&usqp=CAU'),
+      body: Stack(children: [
+        getBackgroundImage(),
+      ],),
     );
-  }}
+  }
+  
+  Widget getBackgroundImage() {
+    return image!;
+  }
+
+  void onImageChanged(Image background) {
+   image = background; 
+  }
+ }

@@ -41,6 +41,13 @@
             "flutterMode": "release"
         },
         {
+            "name": "server_release_linux",
+            "program": "lib/server/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release"
+        },
+        {
             "name": "controller_debug",
             "program": "lib/controller/main.dart",
             "request":"launch",
@@ -55,14 +62,30 @@
             "type": "dart",
             "flutterMode": "release",
             "deviceId": "windows"
-        } ,
+        },
+        {
+            "name": "controller_debug_linux",
+            "program": "lib/controller/main.dart",
+            "request":"launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "deviceId": "linux"
+        },
+        {
+            "name": "controller_release_linux",
+            "program": "lib/controller/main.dart",
+            "request":"launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "deviceId": "linux"
+        },
         {
             "name": "screen_debug",
             "program": "lib/screen/main.dart",
             "request":"launch",
             "type": "dart",
-            "flutterMode": "release",
-            "deviceId": "windows"
+            "flutterMode": "debug",
+            "deviceId": "linux"
         } 
         // {
         //     "name": "acter_project (profile mode)",

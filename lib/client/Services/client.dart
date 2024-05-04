@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:acter_project/public.dart';
+import 'package:theater_publics/public.dart';
 
 /// connectToServer로 서버에 연결합니다.
 /// addMessageListener()에 함수를 추가하여 서버로 부터 데이터를 받습니다.

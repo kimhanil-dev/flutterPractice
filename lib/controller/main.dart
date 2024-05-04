@@ -1,6 +1,9 @@
 import 'package:acter_project/controller/commnuicator.dart';
-import 'package:acter_project/public.dart';
-import 'package:acter_project/server/achivement.dart';
+import 'package:acter_project/screen/event_manager.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:global_configuration/global_configuration.dart';
+import 'package:theater_publics/public.dart';
+import 'package:theater_publics/achivement.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -60,14 +63,27 @@ class ServerMain extends StatefulWidget {
 class _ServerMainState extends State<ServerMain> {
   late Communicator_controller controller;
   AchivementDB achivementDB = AchivementDB();
+  bool bIsInited = false;
 
   @override
   void initState() {
     context.loaderOverlay.show();
 
-    achivementDB.loadData().then((value) => context.loaderOverlay.hide());
-    controller = Communicator_controller(achivementDB, refresh);
-    controller.connect('121.165.78.196', 55555);
+    Future<void>.microtask(() async {
+      var dotEnv = DotEnv();
+      await dotEnv.load(fileName: 'assets/.env');
+      await achivementDB.loadData(dotEnv.env['GSHEETS_CREDENTIALS']!);
+
+      controller = Communicator_controller(achivementDB, refresh);
+
+      var config = await GlobalConfiguration().loadFromAsset('config.json');
+      controller.connect(config.getValue<String>('server-ip'),
+          config.getValue<int>('server-port'));
+
+      context.loaderOverlay.hide();
+
+      bIsInited = true;
+    });
 
     super.initState();
   }
@@ -78,6 +94,10 @@ class _ServerMainState extends State<ServerMain> {
 
   @override
   Widget build(BuildContext context) {
+    if (!bIsInited) {
+      return const Scaffold();
+    }
+
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -278,8 +298,16 @@ class _ServerMainState extends State<ServerMain> {
                 padding: const EdgeInsets.all(15.0),
                 child: Column(
                   children: [
-                    makeProgressBar('스킵', (controller.skipMajority * controller.players.length).round(), controller.skipVoteCount),
-                    makeProgressBar('액션', (controller.actionMajority * controller.players.length).round(), controller.actionVoteCount),
+                    makeProgressBar(
+                        '스킵',
+                        (controller.skipMajority * controller.players.length)
+                            .round(),
+                        controller.skipVoteCount),
+                    makeProgressBar(
+                        '액션',
+                        (controller.actionMajority * controller.players.length)
+                            .round(),
+                        controller.actionVoteCount),
                   ],
                 ),
               ),
@@ -368,7 +396,11 @@ class _ServerMainState extends State<ServerMain> {
             )
           ]),
           makeInterfaceWidget('화면', [
-            OutlinedButton(onPressed: () {}, child: const Text('화면 전환')),
+            OutlinedButton(
+                onPressed: () {
+                  showScreenEffectList();
+                },
+                child: const Text('화면 전환')),
             OutlinedButton(onPressed: () {}, child: const Text('효과 재생')),
             OutlinedButton(onPressed: () {}, child: const Text('소리 재생')),
           ]),
@@ -379,6 +411,36 @@ class _ServerMainState extends State<ServerMain> {
 
   void _refresh() {
     setState(() {});
+  }
+
+  void showScreenEffectList() {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(
+              '리스트',
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
+            content: SizedBox(
+              width: 500,
+              height: 300,
+              child: ListView.builder(
+                  itemCount: 15,
+                  itemBuilder: (context, index) {
+                    return ElevatedButton(onPressed: (){
+                      controller.sendMessage(MessageType.screenMessage,data: ScreenMessage(MessageType.changeImage, [index]));
+                    },
+                      child: Row(children: [
+                        const Text('이름'),
+                        Image.asset('assets/images/bg/bg_1.jpg',width: 100,height: 50,),
+                      ]),
+                    );
+                  }),
+            ),
+          );
+        });
   }
 
   // @override
