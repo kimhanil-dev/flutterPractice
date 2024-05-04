@@ -1,0 +1,253 @@
+-- Merging decision tree log ---
+application
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:2:5-32:19
+MERGED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
+MERGED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:24:5-31:19
+MERGED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:22:5-38:19
+MERGED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:22:5-38:19
+MERGED from [com.google.android.gms:play-services-fido:20.0.1] /home/kimhanil/.gradle/caches/transforms-3/c80e2c6f1d012244ce9283e8a836bab9/transformed/jetified-play-services-fido-20.0.1/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-fido:20.0.1] /home/kimhanil/.gradle/caches/transforms-3/c80e2c6f1d012244ce9283e8a836bab9/transformed/jetified-play-services-fido-20.0.1/AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/456feef7530341a2c919967cc4dde951/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/456feef7530341a2c919967cc4dde951/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:19:5-23:19
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/27ae9ec8f9ede3e7e77656dc26717f96/transformed/jetified-play-services-tasks-18.0.1/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/27ae9ec8f9ede3e7e77656dc26717f96/transformed/jetified-play-services-tasks-18.0.1/AndroidManifest.xml:5:5-20
+MERGED from [com.google.android.gms:play-services-basement:18.2.0] /home/kimhanil/.gradle/caches/transforms-3/ac75f0103db428c146f97c47712df49a/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:20:5-24:19
+MERGED from [com.google.android.gms:play-services-basement:18.2.0] /home/kimhanil/.gradle/caches/transforms-3/ac75f0103db428c146f97c47712df49a/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:20:5-24:19
+MERGED from [androidx.core:core:1.8.0] /home/kimhanil/.gradle/caches/transforms-3/a2b50384b70976202bef0997ec6dfff6/transformed/core-1.8.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.8.0] /home/kimhanil/.gradle/caches/transforms-3/a2b50384b70976202bef0997ec6dfff6/transformed/core-1.8.0/AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/kimhanil/.gradle/caches/transforms-3/6668cc85eff5929d44d91f927ab7e655/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/kimhanil/.gradle/caches/transforms-3/6668cc85eff5929d44d91f927ab7e655/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.8.0] /home/kimhanil/.gradle/caches/transforms-3/a2b50384b70976202bef0997ec6dfff6/transformed/core-1.8.0/AndroidManifest.xml:24:18-86
+	android:label
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:3:9-38
+	android:icon
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:5:9-43
+	android:name
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:4:9-42
+manifest
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:1-46:12
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:1-46:12
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:1-46:12
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:1-46:12
+MERGED from [:path_provider_android] /home/kimhanil/Desktop/Project/test/flutterPractice/build/path_provider_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-9:12
+MERGED from [:google_sign_in_android] /home/kimhanil/Desktop/Project/test/flutterPractice/build/google_sign_in_android/intermediates/merged_manifest/release/AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.window:window-java:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/142c24f2530665bb6deb4123ab140714/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:17:1-23:12
+MERGED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:17:1-33:12
+MERGED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:17:1-40:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] /home/kimhanil/.gradle/caches/transforms-3/7b87a6d3ba44b8c375cf5c47f9028bd9/transformed/jetified-play-services-auth-api-phone-18.0.2/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.10] /home/kimhanil/.gradle/caches/transforms-3/db4fbbb7d049d7b5d566282aa1a789a3/transformed/jetified-play-services-auth-base-18.0.10/AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-fido:20.0.1] /home/kimhanil/.gradle/caches/transforms-3/c80e2c6f1d012244ce9283e8a836bab9/transformed/jetified-play-services-fido-20.0.1/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/456feef7530341a2c919967cc4dde951/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:16:1-24:12
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/27ae9ec8f9ede3e7e77656dc26717f96/transformed/jetified-play-services-tasks-18.0.1/AndroidManifest.xml:2:1-6:12
+MERGED from [com.google.android.gms:play-services-basement:18.2.0] /home/kimhanil/.gradle/caches/transforms-3/ac75f0103db428c146f97c47712df49a/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:16:1-26:12
+MERGED from [androidx.fragment:fragment:1.5.7] /home/kimhanil/.gradle/caches/transforms-3/29452fca93ea4b3edc5e6f01432f2023/transformed/fragment-1.5.7/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.activity:activity:1.5.1] /home/kimhanil/.gradle/caches/transforms-3/8a72391f64d3cba1d071905fbea5489b/transformed/jetified-activity-1.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.loader:loader:1.1.0] /home/kimhanil/.gradle/caches/transforms-3/88249e9eadc93a91747b4dd73e118061/transformed/loader-1.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/53f06a3afe9c4ae74e89cf13d2d15784/transformed/lifecycle-viewmodel-2.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/c716edde0156fdb489470c2308bd437c/transformed/jetified-lifecycle-viewmodel-savedstate-2.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.tracing:tracing:1.0.0] /home/kimhanil/.gradle/caches/transforms-3/fcf486669bd3283ac86e13b69736f6ad/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core-ktx:1.2.0] /home/kimhanil/.gradle/caches/transforms-3/fe24093fba216a85e19d906c06d68634/transformed/jetified-core-ktx-1.2.0/AndroidManifest.xml:2:1-9:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/kimhanil/.gradle/caches/transforms-3/aa3cbedcef3ee23bf0d03abede347041/transformed/viewpager-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] /home/kimhanil/.gradle/caches/transforms-3/9addb396269c3fa35a089f701280c3bf/transformed/customview-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.core:core:1.8.0] /home/kimhanil/.gradle/caches/transforms-3/a2b50384b70976202bef0997ec6dfff6/transformed/core-1.8.0/AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/kimhanil/.gradle/caches/transforms-3/6668cc85eff5929d44d91f927ab7e655/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.savedstate:savedstate:1.2.0] /home/kimhanil/.gradle/caches/transforms-3/93b2fe162feeddf86c57cc9f9fbf694c/transformed/jetified-savedstate-1.2.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/1a935933a7516d6e9c6665303d4a2768/transformed/lifecycle-runtime-2.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/08e3c1416e9dac0acae1c24bfe9ac6e9/transformed/lifecycle-livedata-core-2.5.1/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/kimhanil/.gradle/caches/transforms-3/e706f819c67a6a189962ffd22caace4e/transformed/core-runtime-2.1.0/AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] /home/kimhanil/.gradle/caches/transforms-3/3f96ca76068ab400b494bc7d541ee256/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:17:1-24:12
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:1-46:12
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:1-46:12
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:1-46:12
+	package
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:1-46:12
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:1-46:12
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:1-46:12
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:1:11-69
+queries
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:38:5-43:15
+intent#action:name:android.intent.action.PROCESS_TEXT+data:mimeType:text/plain
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:39:9-42:18
+action#android.intent.action.PROCESS_TEXT
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:40:13-72
+	android:name
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:40:21-70
+data
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:41:13-50
+	android:mimeType
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:41:19-48
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:44:9-83
+	android:name
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:44:26-81
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:45:9-84
+	android:name
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:45:26-82
+uses-sdk
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+MERGED from [:path_provider_android] /home/kimhanil/Desktop/Project/test/flutterPractice/build/path_provider_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:path_provider_android] /home/kimhanil/Desktop/Project/test/flutterPractice/build/path_provider_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:google_sign_in_android] /home/kimhanil/Desktop/Project/test/flutterPractice/build/google_sign_in_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [:google_sign_in_android] /home/kimhanil/Desktop/Project/test/flutterPractice/build/google_sign_in_android/intermediates/merged_manifest/release/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.window:window-java:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/142c24f2530665bb6deb4123ab140714/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
+MERGED from [androidx.window:window-java:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/142c24f2530665bb6deb4123ab140714/transformed/jetified-window-java-1.0.0-beta04/AndroidManifest.xml:19:5-21:41
+MERGED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:20:5-22:41
+MERGED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] /home/kimhanil/.gradle/caches/transforms-3/7b87a6d3ba44b8c375cf5c47f9028bd9/transformed/jetified-play-services-auth-api-phone-18.0.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:18.0.2] /home/kimhanil/.gradle/caches/transforms-3/7b87a6d3ba44b8c375cf5c47f9028bd9/transformed/jetified-play-services-auth-api-phone-18.0.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.10] /home/kimhanil/.gradle/caches/transforms-3/db4fbbb7d049d7b5d566282aa1a789a3/transformed/jetified-play-services-auth-base-18.0.10/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:18.0.10] /home/kimhanil/.gradle/caches/transforms-3/db4fbbb7d049d7b5d566282aa1a789a3/transformed/jetified-play-services-auth-base-18.0.10/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-fido:20.0.1] /home/kimhanil/.gradle/caches/transforms-3/c80e2c6f1d012244ce9283e8a836bab9/transformed/jetified-play-services-fido-20.0.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-fido:20.0.1] /home/kimhanil/.gradle/caches/transforms-3/c80e2c6f1d012244ce9283e8a836bab9/transformed/jetified-play-services-fido-20.0.1/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/456feef7530341a2c919967cc4dde951/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-base:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/456feef7530341a2c919967cc4dde951/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/27ae9ec8f9ede3e7e77656dc26717f96/transformed/jetified-play-services-tasks-18.0.1/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-tasks:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/27ae9ec8f9ede3e7e77656dc26717f96/transformed/jetified-play-services-tasks-18.0.1/AndroidManifest.xml:4:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.2.0] /home/kimhanil/.gradle/caches/transforms-3/ac75f0103db428c146f97c47712df49a/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:18:5-43
+MERGED from [com.google.android.gms:play-services-basement:18.2.0] /home/kimhanil/.gradle/caches/transforms-3/ac75f0103db428c146f97c47712df49a/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:18:5-43
+MERGED from [androidx.fragment:fragment:1.5.7] /home/kimhanil/.gradle/caches/transforms-3/29452fca93ea4b3edc5e6f01432f2023/transformed/fragment-1.5.7/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.5.7] /home/kimhanil/.gradle/caches/transforms-3/29452fca93ea4b3edc5e6f01432f2023/transformed/fragment-1.5.7/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.5.1] /home/kimhanil/.gradle/caches/transforms-3/8a72391f64d3cba1d071905fbea5489b/transformed/jetified-activity-1.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.5.1] /home/kimhanil/.gradle/caches/transforms-3/8a72391f64d3cba1d071905fbea5489b/transformed/jetified-activity-1.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.loader:loader:1.1.0] /home/kimhanil/.gradle/caches/transforms-3/88249e9eadc93a91747b4dd73e118061/transformed/loader-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.loader:loader:1.1.0] /home/kimhanil/.gradle/caches/transforms-3/88249e9eadc93a91747b4dd73e118061/transformed/loader-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/53f06a3afe9c4ae74e89cf13d2d15784/transformed/lifecycle-viewmodel-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/53f06a3afe9c4ae74e89cf13d2d15784/transformed/lifecycle-viewmodel-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/c716edde0156fdb489470c2308bd437c/transformed/jetified-lifecycle-viewmodel-savedstate-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/c716edde0156fdb489470c2308bd437c/transformed/jetified-lifecycle-viewmodel-savedstate-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /home/kimhanil/.gradle/caches/transforms-3/fcf486669bd3283ac86e13b69736f6ad/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.tracing:tracing:1.0.0] /home/kimhanil/.gradle/caches/transforms-3/fcf486669bd3283ac86e13b69736f6ad/transformed/jetified-tracing-1.0.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core-ktx:1.2.0] /home/kimhanil/.gradle/caches/transforms-3/fe24093fba216a85e19d906c06d68634/transformed/jetified-core-ktx-1.2.0/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.core:core-ktx:1.2.0] /home/kimhanil/.gradle/caches/transforms-3/fe24093fba216a85e19d906c06d68634/transformed/jetified-core-ktx-1.2.0/AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/kimhanil/.gradle/caches/transforms-3/aa3cbedcef3ee23bf0d03abede347041/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] /home/kimhanil/.gradle/caches/transforms-3/aa3cbedcef3ee23bf0d03abede347041/transformed/viewpager-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/kimhanil/.gradle/caches/transforms-3/9addb396269c3fa35a089f701280c3bf/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] /home/kimhanil/.gradle/caches/transforms-3/9addb396269c3fa35a089f701280c3bf/transformed/customview-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [androidx.core:core:1.8.0] /home/kimhanil/.gradle/caches/transforms-3/a2b50384b70976202bef0997ec6dfff6/transformed/core-1.8.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.8.0] /home/kimhanil/.gradle/caches/transforms-3/a2b50384b70976202bef0997ec6dfff6/transformed/core-1.8.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/kimhanil/.gradle/caches/transforms-3/6668cc85eff5929d44d91f927ab7e655/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] /home/kimhanil/.gradle/caches/transforms-3/6668cc85eff5929d44d91f927ab7e655/transformed/versionedparcelable-1.1.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.2.0] /home/kimhanil/.gradle/caches/transforms-3/93b2fe162feeddf86c57cc9f9fbf694c/transformed/jetified-savedstate-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.2.0] /home/kimhanil/.gradle/caches/transforms-3/93b2fe162feeddf86c57cc9f9fbf694c/transformed/jetified-savedstate-1.2.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/1a935933a7516d6e9c6665303d4a2768/transformed/lifecycle-runtime-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/1a935933a7516d6e9c6665303d4a2768/transformed/lifecycle-runtime-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/08e3c1416e9dac0acae1c24bfe9ac6e9/transformed/lifecycle-livedata-core-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.5.1] /home/kimhanil/.gradle/caches/transforms-3/08e3c1416e9dac0acae1c24bfe9ac6e9/transformed/lifecycle-livedata-core-2.5.1/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/kimhanil/.gradle/caches/transforms-3/e706f819c67a6a189962ffd22caace4e/transformed/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.arch.core:core-runtime:2.1.0] /home/kimhanil/.gradle/caches/transforms-3/e706f819c67a6a189962ffd22caace4e/transformed/core-runtime-2.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] /home/kimhanil/.gradle/caches/transforms-3/3f96ca76068ab400b494bc7d541ee256/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.annotation:annotation-experimental:1.1.0] /home/kimhanil/.gradle/caches/transforms-3/3f96ca76068ab400b494bc7d541ee256/transformed/jetified-annotation-experimental-1.1.0/AndroidManifest.xml:20:5-22:41
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+		INJECTED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml
+activity#com.example.acter_project.MainActivity
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:6:9-26:20
+	android:launchMode
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:9:13-43
+	android:hardwareAccelerated
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:12:13-47
+	android:windowSoftInputMode
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:13:13-55
+	android:exported
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:8:13-36
+	android:configChanges
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:11:13-163
+	android:theme
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:10:13-47
+	android:name
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:7:13-41
+meta-data#io.flutter.embedding.android.NormalTheme
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:18:13-21:17
+	android:resource
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:20:15-52
+	android:name
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:19:15-70
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:22:13-25:29
+action#android.intent.action.MAIN
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:23:17-68
+	android:name
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:23:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:24:17-76
+	android:name
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:24:27-74
+meta-data#flutterEmbedding
+ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:29:9-31:33
+	android:value
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:31:13-30
+	android:name
+		ADDED from /home/kimhanil/Desktop/Project/test/flutterPractice/android/app/src/main/AndroidManifest.xml:30:13-44
+uses-permission#android.permission.INTERNET
+ADDED from [:google_sign_in_android] /home/kimhanil/Desktop/Project/test/flutterPractice/build/google_sign_in_android/intermediates/merged_manifest/release/AndroidManifest.xml:9:5-67
+	android:name
+		ADDED from [:google_sign_in_android] /home/kimhanil/Desktop/Project/test/flutterPractice/build/google_sign_in_android/intermediates/merged_manifest/release/AndroidManifest.xml:9:22-64
+uses-library#androidx.window.extensions
+ADDED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:25:9-27:40
+	android:required
+		ADDED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:27:13-37
+	android:name
+		ADDED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:26:13-54
+uses-library#androidx.window.sidecar
+ADDED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:28:9-30:40
+	android:required
+		ADDED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:30:13-37
+	android:name
+		ADDED from [androidx.window:window:1.0.0-beta04] /home/kimhanil/.gradle/caches/transforms-3/032f4dff274e516110d9363a9793a3e3/transformed/jetified-window-1.0.0-beta04/AndroidManifest.xml:29:13-51
+activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
+ADDED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:23:9-27:75
+	android:excludeFromRecents
+		ADDED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:25:13-46
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:26:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:27:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:24:13-93
+service#com.google.android.gms.auth.api.signin.RevocationBoundService
+ADDED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:33:9-37:51
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:35:13-36
+	android:visibleToInstantApps
+		ADDED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:37:13-48
+	android:permission
+		ADDED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:36:13-107
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:21.0.0] /home/kimhanil/.gradle/caches/transforms-3/a1cb5f9282e217f7e2ac7dbaa94bb3d3/transformed/jetified-play-services-auth-21.0.0/AndroidManifest.xml:34:13-89
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/456feef7530341a2c919967cc4dde951/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:9-22:45
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/456feef7530341a2c919967cc4dde951/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:22:19-43
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/456feef7530341a2c919967cc4dde951/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:21:19-78
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:18.0.1] /home/kimhanil/.gradle/caches/transforms-3/456feef7530341a2c919967cc4dde951/transformed/jetified-play-services-base-18.0.1/AndroidManifest.xml:20:19-85
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:18.2.0] /home/kimhanil/.gradle/caches/transforms-3/ac75f0103db428c146f97c47712df49a/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:21:9-23:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:18.2.0] /home/kimhanil/.gradle/caches/transforms-3/ac75f0103db428c146f97c47712df49a/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:23:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:18.2.0] /home/kimhanil/.gradle/caches/transforms-3/ac75f0103db428c146f97c47712df49a/transformed/jetified-play-services-basement-18.2.0/AndroidManifest.xml:22:13-58

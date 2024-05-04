@@ -1,0 +1,4 @@
+#Thu May 02 19:33:12 UTC 2024
+base.0=/home/kimhanil/Desktop/Project/test/flutterPractice/build/app/intermediates/dex/release/minifyReleaseWithR8/classes.dex
+path.0=classes.dex
+renamed.0=classes.dex

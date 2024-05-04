@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "theater-project-420007",
+  "private_key_id": "ba9caeecad4e5f3ff41859c7d77950084b88d075",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDeZVDpmR12IiSD\nPI8Ua+ywvcwbZifB+Z0qib/XkzFq2kL6nPioOR2D8enPiELt8dXB7NCds1huvzsz\nMumQg0lxq9tk074Fo9aViq6fOmxVpvnFhrEsjVj9YjBO8jnTZ+IzQMiPyjMUkLx/\nBSOq5KR8Ln4kb69i5GvNIXSa6GLVRgX8C0VVGUE2ZaxN+fwb5lO/W1lfcPPE7jTr\ncpNpSVuxvynimR4qiVpWNXPUZ4u4J1dXNLLTx+iJYxZS0noKmQEhEoA3Kyg9XHzT\n+jTjdVyib+zSFMzXDLJZn4Isc5UDcFoOgV3FScpBbMMig/sP3xhDpV16p2kCRNrt\nVD0zJyUVAgMBAAECggEAAK3UtratEUCSCPglEORld097cVssZIC559I+cwHz8cYT\nba12BH/fWBkW5Cqf10pYozw9+AVL3O0Z8qv4n5eiOhK5KEONpHnEFkMAPOQFeahG\nKFuJbFmAIihSSnA3fsg/hHWLRzkdH9AM60kqOzbYgIXDawjcqboinboFuTiPBX5G\nrgIleX+NtkBkndW0mDfAZO/jiimx/w544JS+RdSC1KspxVqdas/UTSdURwX72qfs\np+782KXSFKLCF6ckRAHxBza0wMu2p7kQNcKDxhxEXopiLOWSE0Nb/ptLmmphnnRZ\nyrnCjstJfT1yjqy15ygzc1YKfQft/qr1JL/zyyCzkQKBgQD+lJcfyM7GkTGmZJad\nUmHghMYJeN7cd6/82+lcydPsr1LAJKHZr1zgPBgCF7Ufewcoi/KqpObssVqnCqBh\nuW063O+cbEjWNsykRipkFoE/SQD/yW2Xn9lC+7IP0owu+1nIVEgJLUl/5p/hTh6t\nhxGN4dU2LMc4PvcvOb/f3SOwWQKBgQDfoshZsFU2cusDMH4SQHBZRbw8ASL3gd10\nwyHFsH6x8i70BNxPUk13sWyY0XjhYJdnZTyvOOZy4VKZ/5zFGHx01AVASbYeCXsU\nA7y1xh7fCOTcz6msqivQIUx9mHwEHV1CLnOQA8s35bEfmC3Oqc4rqXfYqNCtYDbB\ncO4ezQAjHQKBgQDjBAvzWvUQ2t7Ee0RXy+Pd+2hBgBhzzwMPX+csSAoEMJ+BGel+\nHcObbdsW2p84EFRk0s81XlFSViD5fh9gpaKC8At3mJQm+bzo7GzWzb65eVc7wRpK\nME/kTGAPffhl2NvKKWYHUOwO8tA1cJ0orp53wB+J7MpGHNf9s+inLyKpGQKBgB3m\nK5ciJiJjdtw0TYavKtYkpqf3Fu+0YyFLPWaq1CWCVZi2VaYdQNIx3G0KBHlNarCe\nLmDW4KiXS23faNxJC8qq1hDkSf72EYh5f29mD5aOH9sNwIefMMBg01MvYdVC/8br\nYvPsLe1JPkcVF3q75R6dR7Klz1B+vpNaP9vKWKxZAoGBAIvZzsnLZXC6ykISTcd5\n+LHswh1hFPGQ4vt+Qq+wuVbtxWHp4DAqdQq7CRqzW3ZvbY1mx27a1d2Y4Xec4yJY\n9qIwyJG3Fbm0WQeZwjg1ducwUNkyLP28nTi5dL18AmJfwbNC1dF2W9RaoyVZUNvN\nK//AyuUXNQfYWUcSQystMLw9\n-----END PRIVATE KEY-----\n",
+  "client_email": "gsheets@theater-project-420007.iam.gserviceaccount.com",
+  "client_id": "116456240437097617029",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/gsheets%40theater-project-420007.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

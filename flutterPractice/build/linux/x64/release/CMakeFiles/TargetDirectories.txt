@@ -1,0 +1,14 @@
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/CMakeFiles/acter_project.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/CMakeFiles/edit_cache.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/CMakeFiles/rebuild_cache.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/CMakeFiles/list_install_components.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/CMakeFiles/install.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/CMakeFiles/install/local.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/CMakeFiles/install/strip.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/flutter/CMakeFiles/flutter_assemble.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/flutter/CMakeFiles/edit_cache.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/flutter/CMakeFiles/rebuild_cache.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/flutter/CMakeFiles/list_install_components.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/flutter/CMakeFiles/install.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/flutter/CMakeFiles/install/local.dir
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/flutter/CMakeFiles/install/strip.dir

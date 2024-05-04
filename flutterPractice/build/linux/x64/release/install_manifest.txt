@@ -1,0 +1,16 @@
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/acter_project
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/icudtl.dat
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/lib/libflutter_linux_gtk.so
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/AssetManifest.bin
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/NOTICES.Z
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/FontManifest.json
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/version.json
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/fonts/MaterialIcons-Regular.otf
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/assets/images/bg/bg_1.jpg
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/assets/images/bg/bg_0.jpg
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/assets/images/bg/bg_error.jpg
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/assets/cfg/config.json
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/assets/.env
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/AssetManifest.json
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/data/flutter_assets/shaders/ink_sparkle.frag
+/home/kimhanil/Desktop/Project/test/flutterPractice/build/linux/x64/release/bundle/lib/libapp.so
