@@ -85,7 +85,7 @@
             "request":"launch",
             "type": "dart",
             "flutterMode": "debug",
-            "deviceId": "linux"
+            "deviceId": "windows"
         } 
         // {
         //     "name": "acter_project (profile mode)",

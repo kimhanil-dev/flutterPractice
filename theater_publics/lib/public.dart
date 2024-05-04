@@ -27,6 +27,7 @@ enum MessageType {
   onButtonClicked,
   onVoteComplited,
   onAchivement,
+  onChapterChanged,
   activateSkipButton,
   activateActionButton,
   disableSkipButton,
@@ -53,7 +54,7 @@ enum MessageType {
 
   //screen
   screenMessage,
-  changeImage,
+  nextSFX,
   ;
 
   static MessageType getMessage(String message) =>

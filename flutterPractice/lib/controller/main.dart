@@ -396,13 +396,30 @@ class _ServerMainState extends State<ServerMain> {
             )
           ]),
           makeInterfaceWidget('화면', [
-            OutlinedButton(
-                onPressed: () {
-                  showScreenEffectList();
-                },
-                child: const Text('화면 전환')),
-            OutlinedButton(onPressed: () {}, child: const Text('효과 재생')),
-            OutlinedButton(onPressed: () {}, child: const Text('소리 재생')),
+            OutlinedButton(onPressed: () {}, child: const Text('화면 전환')),
+            SizedBox(
+              width: 500,
+              height: 300,
+              child: ListView.builder(
+                  itemCount: 15,
+                  itemBuilder: (context, index) {
+                    return ElevatedButton(
+                      onPressed: () {
+                        controller.sendMessage(MessageType.screenMessage,
+                            data:
+                                ScreenMessage(MessageType.nextSFX));
+                      },
+                      child: Row(children: [
+                        const Text('이름'),
+                        Image.asset(
+                          'assets/images/bg/bg_1.jpg',
+                          width: 100,
+                          height: 50,
+                        ),
+                      ]),
+                    );
+                  }),
+            ),
           ]),
         ],
       ),
@@ -411,36 +428,6 @@ class _ServerMainState extends State<ServerMain> {
 
   void _refresh() {
     setState(() {});
-  }
-
-  void showScreenEffectList() {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text(
-              '리스트',
-              style: Theme.of(context).textTheme.displayMedium,
-            ),
-            content: SizedBox(
-              width: 500,
-              height: 300,
-              child: ListView.builder(
-                  itemCount: 15,
-                  itemBuilder: (context, index) {
-                    return ElevatedButton(onPressed: (){
-                      controller.sendMessage(MessageType.screenMessage,data: ScreenMessage(MessageType.changeImage, [index]));
-                    },
-                      child: Row(children: [
-                        const Text('이름'),
-                        Image.asset('assets/images/bg/bg_1.jpg',width: 100,height: 50,),
-                      ]),
-                    );
-                  }),
-            ),
-          );
-        });
   }
 
   // @override

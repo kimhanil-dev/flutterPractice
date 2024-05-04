@@ -44,4 +44,4 @@ app.*.map.json
 
 .env
 
-assets/api-key
+**/assets/api-key
