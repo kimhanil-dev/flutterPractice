@@ -58,7 +58,7 @@ class Communicator_controller {
           skipMajority = double.parse(curChapterAchivs
               .singleWhere((element) => element.condition == Condition.skip)
               .data1);
-        } on StateError catch (e) {
+        } on StateError {
           skipMajority = 0;
         }
 
@@ -66,7 +66,7 @@ class Communicator_controller {
           actionMajority = double.parse(curChapterAchivs
               .singleWhere((element) => element.condition == Condition.action)
               .data1);
-        } on StateError catch (e) {
+        } on StateError {
           actionMajority = 0;
         }
 
@@ -98,7 +98,7 @@ class Communicator_controller {
       return curChapterAchivs
           .singleWhere((element) => element.id == currentSequenceAchivement)
           .name;
-    } on StateError catch (e) {
+    } on StateError {
       return '없음';
     }
   }

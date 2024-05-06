@@ -34,6 +34,10 @@ class Client {
           _bIsConnected = false;
         });
 
+        _server!.handleError((Object error){
+          print('server connection closed : $error');          
+        });
+
         _bIsConnected = true;
 
         print('Connection from'

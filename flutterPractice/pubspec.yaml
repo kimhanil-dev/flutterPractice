@@ -26,8 +26,8 @@ dependencies:
   global_configuration: ^2.0.0
   theater_publics:
     path : ../theater_publics
-  just_audio: ^0.9.37
-  fluttertoast: ^8.2.5
+  audioplayers: ^6.0.0
+
 
 dev_dependencies:
   flutter_test:
@@ -41,3 +41,4 @@ flutter:
     - assets/.env
     - assets/cfg/
     - assets/images/bg/
+    - assets/api-key/

@@ -1,0 +1,49 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/nuget-populate"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/0d3b82af17ab4f9f59d2875b00684f3f/nuget-populate.rule"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/d6de616b0302c39b933a07c881c33323/nuget-populate-complete.rule"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/bccc304c50e6f1326b5150a031e68750/nuget-populate-build.rule"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/bccc304c50e6f1326b5150a031e68750/nuget-populate-configure.rule"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/bccc304c50e6f1326b5150a031e68750/nuget-populate-copyfile.rule"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/bccc304c50e6f1326b5150a031e68750/nuget-populate-download.rule"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/bccc304c50e6f1326b5150a031e68750/nuget-populate-install.rule"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/bccc304c50e6f1326b5150a031e68750/nuget-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/bccc304c50e6f1326b5150a031e68750/nuget-populate-patch.rule"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/bccc304c50e6f1326b5150a031e68750/nuget-populate-test.rule"
+		},
+		{
+			"file" : "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps/nuget-subbuild/CMakeFiles/bccc304c50e6f1326b5150a031e68750/nuget-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"nuget-populate"
+		],
+		"name" : "nuget-populate"
+	}
+}

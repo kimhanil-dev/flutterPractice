@@ -1,5 +1,5 @@
 import 'package:acter_project/controller/commnuicator.dart';
-import 'package:acter_project/screen/event_manager.dart';
+import 'package:acter_project/screen/service/screen_message.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:theater_publics/public.dart';
@@ -371,11 +371,13 @@ class _ServerMainState extends State<ServerMain> {
             OutlinedButton(
                 onPressed: () {
                   controller.sendMessage(MessageType.requestStartThater);
+                  controller.sendMessage(MessageType.screenMessage, data : ScreenMessage(MessageType.onChapterChanged));
                 },
                 child: const Text('공연 시작')),
             OutlinedButton(
                 onPressed: () {
                   controller.sendMessage(MessageType.requestNextChapter);
+                  controller.sendMessage(MessageType.screenMessage, data : ScreenMessage(MessageType.onChapterChanged));
                   controller.skipVoteCount = 0;
                   controller.actionVoteCount = 0;
                   _refresh();
@@ -396,30 +398,9 @@ class _ServerMainState extends State<ServerMain> {
             )
           ]),
           makeInterfaceWidget('화면', [
-            OutlinedButton(onPressed: () {}, child: const Text('화면 전환')),
-            SizedBox(
-              width: 500,
-              height: 300,
-              child: ListView.builder(
-                  itemCount: 15,
-                  itemBuilder: (context, index) {
-                    return ElevatedButton(
-                      onPressed: () {
-                        controller.sendMessage(MessageType.screenMessage,
-                            data:
-                                ScreenMessage(MessageType.nextSFX));
-                      },
-                      child: Row(children: [
-                        const Text('이름'),
-                        Image.asset(
-                          'assets/images/bg/bg_1.jpg',
-                          width: 100,
-                          height: 50,
-                        ),
-                      ]),
-                    );
-                  }),
-            ),
+            OutlinedButton(onPressed: () {
+              controller.sendMessage(MessageType.screenMessage, data: ScreenMessage(MessageType.nextSFX));
+            }, child: const Text('화면 전환')),
           ]),
         ],
       ),

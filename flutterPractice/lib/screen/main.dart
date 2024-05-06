@@ -1,10 +1,11 @@
-
+import 'package:acter_project/client/Services/achivement_manager.dart';
 import 'package:acter_project/client/Services/client.dart';
-import 'package:acter_project/screen/event_manager.dart';
-import 'package:acter_project/screen/screen_effect_manager.dart';
+import 'package:acter_project/screen/service/screen_effect_manager.dart';
+import 'package:acter_project/screen/widget/achivement_notification.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:global_configuration/global_configuration.dart';
-import 'package:just_audio/just_audio.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:theater_publics/public.dart';
 
 abstract class ScreenEffect {
@@ -14,10 +15,12 @@ abstract class ScreenEffect {
   String name;
 
   void startEffect();
+  void endEffect();
 }
 
 class ImageEffect extends ScreenEffect {
-  ImageEffect(this._bgImageSetter, this._bgImage,super.chapter, super.id, super.name);
+  ImageEffect(
+      this._bgImageSetter, this._bgImage, super.chapter, super.id, super.name);
 
   final BackgroundImageSetter _bgImageSetter;
   final Image _bgImage;
@@ -26,33 +29,38 @@ class ImageEffect extends ScreenEffect {
   void startEffect() {
     _bgImageSetter.setImage(_bgImage);
   }
+
+  @override
+  void endEffect() {}
 }
 
 class SoundEffect extends ScreenEffect {
-  SoundEffect(this.audioPlayer, this.audioPath,super.chapter, super.id, super.name);
+  SoundEffect(
+      this.audioPlayer, this.audioSource, super.chapter, super.id, super.name);
 
-  final String audioPath;
+  final Source audioSource;
   final AudioPlayer audioPlayer;
-
 
   @override
   void startEffect() {
-    audioPlayer.setAsset(audioPath);
-    audioPlayer.play();
+    audioPlayer.play(audioSource);
+  }
+
+  @override
+  void endEffect() {
+    audioPlayer.stop();
   }
 }
 
 class VfxEffect extends ScreenEffect {
   VfxEffect(super.chapter, super.id, super.name);
 
-
+  @override
+  void startEffect() {}
 
   @override
-  void startEffect() {
-  }
+  void endEffect() {}
 }
-
-
 
 void main() {
   runApp(const MainApp());
@@ -63,39 +71,107 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(home: ScreenPage(),);
+    return MaterialApp(
+      theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: const ColorScheme.light(background: Colors.black)),
+      home: const LoaderOverlay(child: ScreenPage()),
+    );
   }
 }
 
-class ScreenPage extends StatefulWidget {  @override
+class ScreenPage extends StatefulWidget {
+  const ScreenPage({super.key});
+
+  @override
   State<ScreenPage> createState() => _ScreenPageState();
 }
 
-class _ScreenPageState extends State<ScreenPage> {
-  Client client = Client(clientType: Who.screen);
+class _ScreenPageState extends State<ScreenPage> with TickerProviderStateMixin {
+  final Client client = Client(clientType: Who.screen);
   late ScreenEffectManager screenEffectManager;
-  final EventManager eventManager = EventManager();
+  final AchivementDataManger achivementDataManager = AchivementDataManger();
+  final List<Widget> dynamicWidgets = [];
   Image? image = Image.asset('assets/images/bg/bg_0.jpg');
+
+  late AchivementNotificator notificator = AchivementNotificator(this);
+  bool bIsLoading = true;
 
   @override
   void initState() {
     super.initState();
 
-    GlobalConfiguration().loadFromAsset('config.json').then((config){
-        client.connectToServer(config.getValue<String>('server-ip'),
-        config.getValue<int>('server-port'), (p0) {});
+    context.loaderOverlay.show();
+    screenEffectManager = ScreenEffectManager(() {
+      setState(() {});
     });
 
-    screenEffectManager = ScreenEffectManager((){setState(() {});});
+    // loading
+    Future<void>.microtask(() async {
+      List<Future<void>> tasks = [];
+
+      tasks.add(
+          GlobalConfiguration().loadFromAsset('config.json').then((config) {
+        client.connectToServer(config.getValue<String>('server-ip'),
+            config.getValue<int>('server-port'), (p0) {});
+      }));
+
+      tasks.add(achivementDataManager.loadDatas());
+
+      tasks.add(screenEffectManager.loadScreenEffects());
+
+      await Future.wait(tasks);
+    }).then((value) {
+      context.loaderOverlay.hide();
+      bIsLoading = false;
+    });
+    // end loading
+
     client.addMessageListener(screenEffectManager.onMessage);
+    client.addMessageListener(messageListener);
+
+    // notification widget
   }
 
   @override
   Widget build(BuildContext context) {
+    if (bIsLoading) {
+      return Container();
+    }
+
     return Scaffold(
-      body: Stack(children: [
-        screenEffectManager.backgroundImage,
-      ],),
+      body: Stack(
+        alignment: Alignment.center,
+        children: [
+          Image(
+            image: screenEffectManager.backgroundImage.image,
+            fit: BoxFit.fill,
+            width: double.infinity,
+            height: double.infinity,
+          ),
+          Stack(
+              alignment: Alignment.center,
+              children: notificator.getAllNotiWidgets()),
+        ],
+      ),
     );
   }
- }
+
+  void messageListener(MessageData msgData) {
+    switch (msgData.messageType) {
+      case MessageType.onAchivement:
+        var achivementId = int.parse(String.fromCharCodes(msgData.datas));
+        var achivementData = achivementDataManager.getData(achivementId);
+        notificator
+            .showNotification(
+                achivementDataManager.getImage(achivementId).image,
+                achivementData.name,
+                const Duration(seconds: 1, milliseconds: 500),
+                MediaQuery.of(context).size / 2,
+                const Duration(milliseconds: 250))
+            .then((value) => setState(() {}));
+        break;
+      default:
+    }
+  }
+}

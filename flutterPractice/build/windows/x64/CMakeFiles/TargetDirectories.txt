@@ -8,3 +8,6 @@ D:/Programming/flutterPractice/flutterPractice/build/windows/x64/flutter/CMakeFi
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/CMakeFiles/acter_project.dir
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/CMakeFiles/INSTALL.dir
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/CMakeFiles/ALL_BUILD.dir
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/CMakeFiles/audioplayers_windows_plugin.dir
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/CMakeFiles/INSTALL.dir
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/CMakeFiles/ALL_BUILD.dir

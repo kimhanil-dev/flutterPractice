@@ -144,6 +144,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{55A79E33-F7B4-379C-A746-9EE7FABDB1DF}</Project>
       <Name>acter_project</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\plugins\audioplayers_windows\audioplayers_windows_plugin.vcxproj">
+      <Project>{EEFC7483-85DB-3332-8F20-E3C0E42A19D6}</Project>
+      <Name>audioplayers_windows_plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\flutter\flutter_wrapper_app.vcxproj">
       <Project>{5C6F1E2C-97B1-3B1B-AA81-0848B77C8082}</Project>
       <Name>flutter_wrapper_app</Name>

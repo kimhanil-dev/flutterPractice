@@ -1,8 +1,11 @@
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/icudtl.dat
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/flutter_windows.dll
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/audioplayers_windows_plugin.dll
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/AssetManifest.bin
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/AssetManifest.json
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/assets/.env
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/assets/0.wav
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/assets/api-key/google-drive-api-key.json
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/assets/cfg/config.json
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/assets/images/bg/bg_0.jpg
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/assets/images/bg/bg_1.jpg
@@ -10,7 +13,5 @@ D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/FontManifest.json
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/fonts/MaterialIcons-Regular.otf
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/NOTICES.Z
-D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/packages/fluttertoast/assets/toastify.css
-D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/packages/fluttertoast/assets/toastify.js
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/flutter_assets/shaders/ink_sparkle.frag
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/data/app.so

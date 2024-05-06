@@ -103,6 +103,21 @@ CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 //Value Computed by CMake
 CMAKE_PROJECT_NAME:STATIC=acter_project
 
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION:STATIC=1.0.0
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_MAJOR:STATIC=1
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_MINOR:STATIC=0
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_PATCH:STATIC=0
+
+//Value Computed by CMake
+CMAKE_PROJECT_VERSION_TWEAK:STATIC=
+
 //RC compiler
 CMAKE_RC_COMPILER:FILEPATH=rc
 
@@ -185,8 +200,34 @@ CMAKE_STATIC_LINKER_FLAGS_RELWITHDEBINFO:STRING=
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
 
+//Directory under which to collect all populated content
+FETCHCONTENT_BASE_DIR:PATH=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/_deps
+
+//Disables all attempts to download or update content and assumes
+// source dirs already exist
+FETCHCONTENT_FULLY_DISCONNECTED:BOOL=OFF
+
+//Enables QUIET option for all content population
+FETCHCONTENT_QUIET:BOOL=ON
+
+//When not empty, overrides where to find pre-populated content
+// for nuget
+FETCHCONTENT_SOURCE_DIR_NUGET:PATH=
+
+//Enables UPDATE_DISCONNECTED behavior for all content population
+FETCHCONTENT_UPDATES_DISCONNECTED:BOOL=OFF
+
+//Enables UPDATE_DISCONNECTED behavior just for population of nuget
+FETCHCONTENT_UPDATES_DISCONNECTED_NUGET:BOOL=OFF
+
 //No help, variable specified on the command line.
 FLUTTER_TARGET_PLATFORM:UNINITIALIZED=windows-x64
+
+//package:media_kit libraries are available.
+MEDIA_KIT_LIBS_AVAILABLE:BOOL=ON
+
+//Path to a program.
+NUGET:FILEPATH=NUGET-NOTFOUND
 
 //Value Computed by CMake
 acter_project_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64
@@ -198,6 +239,63 @@ acter_project_IS_TOP_LEVEL:STATIC=ON
 acter_project_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows
 
 //Value Computed by CMake
+audioplayers_windows_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows
+
+//Value Computed by CMake
+audioplayers_windows_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+audioplayers_windows_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/flutter/ephemeral/.plugin_symlinks/audioplayers_windows/windows
+
+//Value Computed by CMake
+media_kit_libs_windows_audio_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/media_kit_libs_windows_audio
+
+//Value Computed by CMake
+media_kit_libs_windows_audio_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+media_kit_libs_windows_audio_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/flutter/ephemeral/.plugin_symlinks/media_kit_libs_windows_audio/windows
+
+//Value Computed by CMake
+media_kit_libs_windows_video_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/media_kit_libs_windows_video
+
+//Value Computed by CMake
+media_kit_libs_windows_video_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+media_kit_libs_windows_video_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/flutter/ephemeral/.plugin_symlinks/media_kit_libs_windows_video/windows
+
+//Value Computed by CMake
+media_kit_native_event_loop_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/media_kit_native_event_loop
+
+//Value Computed by CMake
+media_kit_native_event_loop_IS_TOP_LEVEL:STATIC=OFF
+
+//Dependencies for the target
+media_kit_native_event_loop_LIB_DEPENDS:STATIC=general;D:/Programming/flutterPractice/flutterPractice/build/windows/x64/libmpv/libmpv.dll.a;
+
+//Value Computed by CMake
+media_kit_native_event_loop_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/flutter/ephemeral/.plugin_symlinks/media_kit_native_event_loop/windows
+
+//Value Computed by CMake
+media_kit_native_event_loop_library_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/media_kit_native_event_loop/shared
+
+//Value Computed by CMake
+media_kit_native_event_loop_library_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+media_kit_native_event_loop_library_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/flutter/ephemeral/.plugin_symlinks/media_kit_native_event_loop/src
+
+//Value Computed by CMake
+media_kit_video_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/media_kit_video
+
+//Value Computed by CMake
+media_kit_video_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+media_kit_video_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/flutter/ephemeral/.plugin_symlinks/media_kit_video/windows
+
+//Value Computed by CMake
 runner_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner
 
 //Value Computed by CMake
@@ -205,6 +303,15 @@ runner_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
 runner_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/runner
+
+//Value Computed by CMake
+screen_brightness_windows_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/screen_brightness_windows
+
+//Value Computed by CMake
+screen_brightness_windows_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+screen_brightness_windows_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/flutter/ephemeral/.plugin_symlinks/screen_brightness_windows/windows
 
 
 ########################
@@ -285,7 +392,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=3
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib

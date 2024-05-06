@@ -9,10 +9,11 @@ class AchivementDataManger {
 
   Future<void> loadDatas() async {
     var dotEnv = DotEnv(); 
-    dotEnv.load(fileName: 'assets/.env');
+    await dotEnv.load(fileName: 'assets/.env');
     
-    _achivementDB.loadData(dotEnv.env['GSHEETS_CREDENTIALS']!);
-    final images = await GoogleDriveImageDownloader.downloadImages();
+    await _achivementDB.loadData(dotEnv.env['GSHEETS_CREDENTIALS']!);
+    var gdDownloader = GoogleDriveDownloader<Image>();
+    final images = await gdDownloader.downloadFiles('1uR1WyjYKLvcdz1EHQCYpPOGuNLK_0a_m','image',GoogleDriveDownloader.imageLoader);
 
     // Organize images by id
     images.forEach((key, value) {
