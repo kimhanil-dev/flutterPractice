@@ -44,6 +44,6 @@ app.*.map.json
 
 .env
 
-ssh/
+ssh/*
 
 **/assets/api-key
