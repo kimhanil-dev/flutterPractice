@@ -20,7 +20,7 @@ class Server {
   List<MessageListener> messageListeners = [];
   List<MessageWriter> messageWriter = [];
 
-  late Socket screen;
+  Socket? screen;
 
   void init() async {
     server = await ServerSocket.bind(InternetAddress.anyIPv4, 55555);
@@ -93,7 +93,7 @@ class Server {
             (element) => element.address.address == client.address.address);
         clients.removeWhere(
             (element) => element.address.address == client.address.address);
-        client.flush().then((value) => client.close());
+        client.close();
       },
 
       // handle the client closing the connection
@@ -105,7 +105,7 @@ class Server {
 
         clients.removeWhere(
             (element) => element.address.address == client.address.address);
-        client.flush().then((value) => client.close());
+        client.close();
       },
     );
   }
@@ -117,20 +117,11 @@ class Server {
       // 연결이 client, controller, screen인지 파악
       if (message.messageType == MessageType.reqeustWhoAryYou) {
         if (message.datas[0] == Who.client.index) {
+          clients.add(client);
           for (var element in messageWriter) {
-            clients.add(client);
             element.onSocketConnected(client);
           }
-        } else if(message.datas[0] == Who.screen.index) {
-          screen = client;
         }
-
-        continue;
-      }
-
-      if (message.messageType == MessageType.screenMessage) {
-        sendMessage(dest: screen, msgType: MessageType.screenMessage, object: BytesData(message.datas));
-        continue;
       }
 
       // 연결 상태를 업데이트
@@ -143,7 +134,7 @@ class Server {
         continue;
       }
 
-      print('type : ${message.messageType} , datas : ${message.datas}');
+      print('received : ${message.messageType} : ${message.datas}');
 
       for (var listener in messageListeners) {
         listener.listen(client, message);

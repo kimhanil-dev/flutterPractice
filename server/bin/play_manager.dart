@@ -8,6 +8,9 @@ import 'package:theater_publics/vote.dart';
 import 'server.dart';
 import 'vote.dart';
 
+abstract interface class PlayInfoListener {
+  void onPlayInfo(Condition condition, {AchivementData? achivement});
+}
 
 // 흐름
 // 1. 챕터 전환
@@ -56,6 +59,18 @@ class PlayManager implements MessageListener, MessageWriter {
   List<AchivementData> _curChapterAchives = [];
   int _sequenceCounter = 0;
 
+  final List<PlayInfoListener> _playInfoListeners = [];
+
+  void addPlayInfoListener(PlayInfoListener listener) {
+    _playInfoListeners.add(listener);
+  }
+
+  void notifyPlayInfo(Condition condition, {AchivementData? achivement}) {
+    for (var e in _playInfoListeners) {
+      e.onPlayInfo(condition, achivement: achivement);
+    }
+  }
+
   final List<void Function(bool isSkipExisted, bool isActionExisted)>
       _onChapterStarts = [];
   final List<void Function()> _onChapterEnds = [];
@@ -91,10 +106,16 @@ class PlayManager implements MessageListener, MessageWriter {
 
   void onSkipVoted(bool result) {
     _isSkipped = result;
+    if (result) {
+      notifyPlayInfo(Condition.skip, achivement: _curSkipAchivement);
+    }
   }
 
   void onActionVoted(bool result) {
     // TODO
+    if (result) {
+      notifyPlayInfo(Condition.action, achivement: _curActionAchivement);
+    }
   }
 
   /// return values
@@ -119,37 +140,22 @@ class PlayManager implements MessageListener, MessageWriter {
     bool isSkipExisted = false;
     bool isActionExisted = false;
 
-    for (var achivement in _curChapterAchives) {
-      if (achivement.condition == Condition.skip) {
-        isSkipExisted = true;
-      } else if (achivement.condition == Condition.action) {
-        isActionExisted = true;
-      }
-    }
+    _curSkipAchivement = findAchivement(Condition.skip);
+    isSkipExisted = _curSkipAchivement != null;
+
+    _curActionAchivement = findAchivement(Condition.action);
+    isActionExisted = _curActionAchivement != null;
 
     for (var chapterStartCallback in _onChapterStarts) {
       chapterStartCallback(isSkipExisted, isActionExisted);
     }
-
-    _curSkipAchivement = _curChapterAchives
-        .singleWhere((element) => element.condition == Condition.skip);
-
-    try {
-      _curActionAchivement = _curChapterAchives
-          .singleWhere((element) => element.condition == Condition.action);
-    } on StateError catch (e) {
-      _curActionAchivement = null;
-    }
-
     // ---------- 투표 진행
     if (isSkipExisted) {
       _skipVote.startVote(
-        voteType: VoteType.skip,
-        voteDuration: const Duration(days: 1),
-        yayAchivement: _curSkipAchivement!,
-        nayAchivement: _curChapterAchives
-            .singleWhere((element) => element.condition == Condition.nskip),
-      );
+          voteType: VoteType.skip,
+          voteDuration: const Duration(days: 1),
+          yayAchivement: _curSkipAchivement!,
+          nayAchivement: findAchivement(Condition.nskip));
     }
     if (isActionExisted) {
       _actionVote.startVote(
@@ -159,9 +165,40 @@ class PlayManager implements MessageListener, MessageWriter {
       );
     }
 
+    var startAchivement = findAchivement(Condition.start);
+    broadcastAchivement(startAchivement);
+
     print('chapter started : $_currentChapter');
 
     return (isSkipExisted, isActionExisted);
+  }
+
+  AchivementData? findAchivement(Condition condition) {
+    AchivementData? result;
+
+    try {
+      result = curChapterAchives
+          .singleWhere((element) => element.condition == condition);
+      // ignore: empty_catches
+    } on StateError {}
+
+    return result;
+  }
+
+  /// failed if achivement is null
+  bool broadcastAchivement(AchivementData? achivement) {
+    if (achivement == null) return false;
+
+    for (var client in clients) {
+      MessageHandler.sendMessage(client, MessageType.onAchivement,
+          object: achivement);
+    }
+
+    notifyPlayInfo(achivement.condition, achivement: achivement);
+
+    print('broadcast achivement : ${achivement.name}');
+
+    return true;
   }
 
   void _closeChapter() {
@@ -169,21 +206,24 @@ class PlayManager implements MessageListener, MessageWriter {
       chapterEndCallback();
     }
 
+    final endAchivement = findAchivement(Condition.end);
+    broadcastAchivement(endAchivement);
+
     if (_isSkipped) {
       _isSkipped = false;
       return;
     }
 
+    // 스킵으로 인해 전달되지 않은, sequence 업적 일괄 전달
+    for(int i = _sequenceCounter; i < _curSequenceAchivement.length ; ++i) {
+      boradcastSequenceAchivement();
+    }
+
     // skip이 되지 않았다면 complite 업적 전달
     try {
-      var compliteAchivement = _curChapterAchives
-          .singleWhere((element) => element.condition == Condition.complite);
-
-      for (var client in clients) {
-        MessageHandler.sendMessage(client, MessageType.onAchivement,
-            object: compliteAchivement);
-      }
-    } on StateError catch (e) {
+      var compliteAchivement = findAchivement(Condition.complite);
+      broadcastAchivement(compliteAchivement);
+    } on StateError {
       if (_currentChapter > 0) {
         // 1번 챕터부터는 complite가 존재해야 함
         assert(false);
@@ -193,10 +233,8 @@ class PlayManager implements MessageListener, MessageWriter {
 
   bool boradcastSequenceAchivement() {
     if (_sequenceCounter < _curSequenceAchivement.length) {
-      for (var client in clients) {
-        MessageHandler.sendMessage(client, MessageType.onAchivement,
-            object: _curSequenceAchivement[_sequenceCounter]);
-      }
+      var achivement = _curSequenceAchivement[_sequenceCounter];
+      broadcastAchivement(achivement);
       ++_sequenceCounter;
       return true;
     }
@@ -209,14 +247,14 @@ class PlayManager implements MessageListener, MessageWriter {
     _skipVote.listen(socket, msgData);
     _actionVote.listen(socket, msgData);
 
-    if(msgData.messageType == MessageType.requestRestartTheater) {
+    if (msgData.messageType == MessageType.requestRestartTheater) {
       _currentChapter = -1;
       _curChapterAchives.clear();
       _curSequenceAchivement.clear();
       _curActionAchivement = null;
       _curSkipAchivement = null;
       _sequenceCounter = 0;
-      
+
       _isSkipped = false;
       _skipVote.init();
       _actionVote.init();
@@ -236,7 +274,7 @@ class PlayManager implements MessageListener, MessageWriter {
 
   @override
   void onSocketConnected(Socket newSocket) {
-    _players[newSocket] = Player(newSocket,_idPool++);
+    _players[newSocket] = Player(newSocket, _idPool++);
     clients.add(newSocket);
     _skipVote.onSocketConnected(newSocket);
     _actionVote.onSocketConnected(newSocket);
@@ -245,7 +283,7 @@ class PlayManager implements MessageListener, MessageWriter {
   void pingListener(Ping ping) {
     _players[ping.dest]!.ping = ping.millisec;
   }
-  
+
   @override
   void onDone(Socket socket) {
     _skipVote.onDone(socket);
