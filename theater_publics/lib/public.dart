@@ -98,6 +98,8 @@ class MessageHandler {
     message.add(3);
 
     dest.write(String.fromCharCodes(message));
+
+    print('send : ${dest.address} : ${messageType.name}');
   }
 
   static List<MessageData> getMessages(Uint8List datas) {

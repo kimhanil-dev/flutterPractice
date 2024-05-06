@@ -91,7 +91,7 @@ class Vote implements MessageListener, MessageWriter {
 
   @override
   void listen(Socket socket, MessageData msgData) {
-    if (!_bIsVoteStarted) {
+    if (!_bIsVoteStarted || _voters.isEmpty) {
       return;
     }
 
