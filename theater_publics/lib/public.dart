@@ -29,10 +29,7 @@ enum MessageType {
   onAchivement,
   onChapterChanged,
   onChapterEnd,
-  activateSkipButton,
-  activateActionButton,
-  disableSkipButton,
-  disableActionButton,
+  onUpdateButtonState,
   onVote,
   ping,
 
