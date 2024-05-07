@@ -170,6 +170,35 @@ class InstantMessageObject<T> implements MessageTransableObject {
   }
 }
 
+class ButtonStates implements MessageTransableObject {
+  ButtonStates(this.isSkipEnabled, this.isActionEnabled);
+  ButtonStates.fromBytes(Uint8List bytes) {
+    isSkipEnabled = _intToBoolean(bytes[0]);
+    isActionEnabled = _intToBoolean(bytes[1]);
+  }
+  bool isSkipEnabled = false;
+  bool isActionEnabled = false;
+
+  bool _intToBoolean(int value) {
+    return value == 1 ? true : false;
+  }
+
+  int _booleanToInt(final bool value) {
+    return value ? 1 : 0;
+  }
+
+  @override
+  bool equal(Uint8List data) {
+    return (_booleanToInt(isSkipEnabled) == data[0]) && (_booleanToInt(isActionEnabled) == data[1]);
+  }
+
+  @override
+  List<int> getMessage() {
+    return [_booleanToInt(isSkipEnabled), _booleanToInt(isActionEnabled)];
+  }
+
+}
+
 abstract interface class MessageWriter {
   void onRegistered(List<Socket> sockets);
   void onSocketConnected(Socket newSocket);
