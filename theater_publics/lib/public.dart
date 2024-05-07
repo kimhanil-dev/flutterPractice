@@ -4,11 +4,10 @@ library;
 import 'dart:io';
 import 'dart:typed_data';
 
-enum Who implements MessageTransableObject{
+enum Who implements MessageTransableObject {
   client,
   controller,
-  screen
-  ;
+  screen;
 
   @override
   bool equal(Uint8List data) {
@@ -22,6 +21,7 @@ enum Who implements MessageTransableObject{
 }
 
 enum MessageType {
+  onFailed,
   onConnected,
   onTheaterStarted,
   onButtonClicked,
@@ -104,27 +104,31 @@ class MessageHandler {
   }
 
   static List<MessageData> getMessages(Uint8List datas) {
-    List<MessageData> messageDatas = [];
-    bool isInPacket = false;
-    int dataStartIndex = 0;
-    MessageType? messageType;
-    for (int i = 0; i < datas.length; ++i) {
-      if (datas[i] == 1 /*STX*/ && !isInPacket) {
-        isInPacket = true;
-        // ascii number to int
-        messageType = MessageType.values[datas[++i]];
-        dataStartIndex = i + 1;
-      } else if (isInPacket && datas[i] == 3 /*ETX*/) {
-        var msgDatas = datas.sublist(dataStartIndex, i);
-        for (int i = 0; i < msgDatas.length; ++i) {
-          msgDatas[i] -= _messageDataBias;
+    try {
+      List<MessageData> messageDatas = [];
+      bool isInPacket = false;
+      int dataStartIndex = 0;
+      MessageType? messageType;
+      for (int i = 0; i < datas.length; ++i) {
+        if (datas[i] == 1 /*STX*/ && !isInPacket) {
+          isInPacket = true;
+          // ascii number to int
+          messageType = MessageType.values[datas[++i]];
+          dataStartIndex = i + 1;
+        } else if (isInPacket && datas[i] == 3 /*ETX*/) {
+          var msgDatas = datas.sublist(dataStartIndex, i);
+          for (int i = 0; i < msgDatas.length; ++i) {
+            msgDatas[i] -= _messageDataBias;
+          }
+          messageDatas.add(MessageData(messageType!, msgDatas));
+          isInPacket = false;
         }
-        messageDatas.add(MessageData(messageType!, msgDatas));
-        isInPacket = false;
       }
-    }
 
-    return messageDatas;
+      return messageDatas;
+    } on Exception {
+      return [];
+    }
   }
 }
 
@@ -151,10 +155,9 @@ class BytesData implements MessageTransableObject {
   List<int> getMessage() {
     return bytes;
   }
-
 }
 
-class InstantMessageObject<T> implements MessageTransableObject{
+class InstantMessageObject<T> implements MessageTransableObject {
   InstantMessageObject(this.data, this.toListFunc);
   final T data;
   final List<int> Function() toListFunc;
