@@ -28,6 +28,7 @@ enum MessageType {
   onVoteComplited,
   onAchivement,
   onChapterChanged,
+  onChapterEnd,
   activateSkipButton,
   activateActionButton,
   disableSkipButton,
