@@ -15,7 +15,6 @@ class Client {
 
   List<Function(MessageData)> messageListeners = [];
 
-
   bool get isConnected => _bIsConnected;
 
   // TODO: 연결 실패시의 처리 추가
@@ -23,7 +22,8 @@ class Client {
   void connectToServer(final String serverIp, final int serverPort,
       void Function(bool) onConnectionResult) {
     if (_server == null) {
-      Socket.connect(serverIp, serverPort,timeout: const Duration(days: 1)).then((server) {
+      Socket.connect(serverIp, serverPort, timeout: const Duration(days: 1))
+          .then((server) {
         _server = server;
         _server!.listen(listen);
         onConnectionResult(true);
@@ -34,8 +34,8 @@ class Client {
           _bIsConnected = false;
         });
 
-        _server!.handleError((Object error){
-          print('server connection closed : $error');          
+        _server!.handleError((Object error) {
+          print('server connection closed : $error');
         });
 
         _bIsConnected = true;
@@ -52,7 +52,24 @@ class Client {
 
   void sendMessage(
       {required MessageType message, MessageTransableObject? object}) {
-    MessageHandler.sendMessage(_server!, message, object: object);
+    if(!_bIsConnected) {
+      return;
+    }
+
+    try {
+      MessageHandler.sendMessage(_server!, message, object: object);
+    } on SocketException catch (e) {
+      switch (e.osError?.errorCode) {
+        case 10053:
+          print('server is offline');
+          _server!.close();
+          _server = null;
+          _bIsConnected = false;
+          break;
+        default:
+          print('send message failed : ${e.osError!.message}');
+      }
+    }
   }
 
   /// Server에서 데이터가 전달될 경우 실행되는 함수
@@ -60,13 +77,13 @@ class Client {
     var messages = MessageHandler.getMessages(data);
     for (var element in messageListeners) {
       for (var msg in messages) {
-
-        if(msg.messageType == MessageType.reqeustWhoAryYou) {
-          sendMessage(message: MessageType.reqeustWhoAryYou, object: clientType);
+        if (msg.messageType == MessageType.reqeustWhoAryYou) {
+          sendMessage(
+              message: MessageType.reqeustWhoAryYou, object: clientType);
           continue;
         }
 
-        if(msg.messageType == MessageType.ping) {
+        if (msg.messageType == MessageType.ping) {
           sendMessage(message: MessageType.ping);
           continue;
         }

@@ -33,9 +33,6 @@ class Communicator_controller {
   void onConnected(bool result) {
     if (result) {
       _client.sendMessage(message: MessageType.onControllerConnected);
-      Timer.periodic(const Duration(seconds: 2), (timer) {
-        _client.sendMessage(message: MessageType.requestPlayerInfos);
-      });
     } else {
       print('connection failed');
     }
@@ -49,6 +46,10 @@ class Communicator_controller {
     switch (msgData.messageType) {
       case MessageType.answerControllerConnected:
         _client.sendMessage(message: MessageType.requestCurrentChapter);
+        // update player infos
+        Timer.periodic(const Duration(seconds: 2), (timer) {
+          _client.sendMessage(message: MessageType.requestPlayerInfos);
+        });
         break;
       case MessageType.answerCurrentChapter:
         currentChapter = int.parse(String.fromCharCodes(msgData.datas));

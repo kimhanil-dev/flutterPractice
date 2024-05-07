@@ -28,7 +28,10 @@ class ScreenEffectManager implements BackgroundImageSetter {
 
     /* load resources from google drive */
     final gdImageDownloader = GoogleDriveDownloader<Image>();
-    final images = await gdImageDownloader.downloadFiles('1OSlC6zs94sB4cdCwtnS7hMdHz2zgoi9Q', 'bgImages', GoogleDriveDownloader.imageLoader);
+    final images = await gdImageDownloader.downloadFiles(
+        '1OSlC6zs94sB4cdCwtnS7hMdHz2zgoi9Q',
+        'bgImages',
+        GoogleDriveDownloader.imageLoader);
 
     final gdAudioDownloader = GoogleDriveDownloader<Source>();
     final sounds = await gdAudioDownloader.downloadFiles(
@@ -37,30 +40,35 @@ class ScreenEffectManager implements BackgroundImageSetter {
         GoogleDriveDownloader.audioLoader);
     /* -------------------------------  */
 
-     /* load screen effect sequences */
+    /* load screen effect sequences */
     final dotEnv = DotEnv();
     await dotEnv.load(fileName: 'assets/.env');
-    final sfxSequences =  await ScreenEffectSequenceLoader.loadData(dotEnv.env['GSHEETS_CREDENTIALS']!);
+    final sfxSequences = await ScreenEffectSequenceLoader.loadData(
+        dotEnv.env['GSHEETS_CREDENTIALS']!);
     for (var sfxs in sfxSequences) {
       List<ScreenEffect> effects = [];
       final chapter = int.parse(sfxs[0]);
-      if(sfxs[1] != '') { // change background
-        effects.add(ImageEffect(this, images[sfxs[1]]!, chapter, 0, sfxs[1] ));
+      if (sfxs[1] != '') {
+        // change background
+        effects.add(ImageEffect(this, images[sfxs[1]]!, chapter, 0, sfxs[1]));
       }
-      if(sfxs[2] != '') { // play sound
-        effects.add(SoundEffect(_audioPlayer, sounds[sfxs[2]]!, chapter, 0, sfxs[2]));
+      if (sfxs[2] != '') {
+        // play sound
+        effects.add(
+            SoundEffect(_audioPlayer, sounds[sfxs[2]]!, chapter, 0, sfxs[2]));
       }
-      if(sfxs[3] != '') { // play effect
+      if (sfxs[3] != '') {
+        // play effect
         //effects.add(SoundEffect(_audioPlayer, sounds[sfxs[2]]!, chapter, 0, sfxs[2]));
       }
 
-        if(_screenEffects[chapter] == null) {
-          _screenEffects[chapter] = [];
-        } 
+      if (_screenEffects[chapter] == null) {
+        _screenEffects[chapter] = [];
+      }
 
-        _screenEffects[chapter]!.add(effects);
+      _screenEffects[chapter]!.add(effects);
     }
-     /* ---------------------------------- */
+    /* ---------------------------------- */
   }
 
   List<ScreenEffect>? getCurrentScreenEffect() {
@@ -92,6 +100,10 @@ class ScreenEffectManager implements BackgroundImageSetter {
 
   void onMessage(MessageData message) {
     switch (message.messageType) {
+      case MessageType.requestRestartTheater:
+        _currentChapter = 0;
+        _currentSFX = -1;
+        break;
       case MessageType.screenMessage:
         processScreenMessage(ScreenMessage.fromData(message.datas));
         break;

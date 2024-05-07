@@ -376,10 +376,16 @@ class _ServerMainState extends State<ServerMain> {
                 child: const Text('공연 시작')),
             OutlinedButton(
                 onPressed: () {
-                  controller.sendMessage(MessageType.requestNextChapter);
-                  controller.sendMessage(MessageType.screenMessage, data : ScreenMessage(MessageType.onChapterChanged));
+                  controller.sendMessage(MessageType.onChapterEnd);
                   controller.skipVoteCount = 0;
                   controller.actionVoteCount = 0;
+                  _refresh();
+                },
+                child: const Text('챕터 종료')),
+                OutlinedButton(
+                onPressed: () {
+                  controller.sendMessage(MessageType.requestNextChapter);
+                  controller.sendMessage(MessageType.screenMessage, data : ScreenMessage(MessageType.onChapterChanged));
                   _refresh();
                 },
                 child: const Text('다음 챕터')),
