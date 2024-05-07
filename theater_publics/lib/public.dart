@@ -95,7 +95,11 @@ class MessageHandler {
     // ETX
     message.add(3);
 
+    try {
     dest.write(String.fromCharCodes(message));
+    } catch(e) {
+      print(e);
+    }
 
     print('send : ${dest.address} : ${messageType.name}');
   }
