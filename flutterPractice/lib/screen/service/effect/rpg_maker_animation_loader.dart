@@ -6,6 +6,19 @@ import 'dart:typed_data';
 import 'package:acter_project/client/Services/google_drive_image_downloader.dart';
 import 'package:async/async.dart';
 
+class Frame {
+  Frame(this.spriteIndex, this.posX, this.posY, this.scale, this.rotation, this.isMirror, this.opacity, this.blendMode);
+  
+  final int spriteIndex;
+  final int posX;
+  final int posY;
+  final int scale;
+  final int rotation;
+  final bool isMirror;
+  final int opacity;
+  final int blendMode;
+}
+
 
 class Animation {
   Animation(this.name,this.sprite1,  this.sprite2, this.frames);
