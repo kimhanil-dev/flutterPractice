@@ -1,7 +1,9 @@
 import 'package:acter_project/client/Services/achivement_manager.dart';
 import 'package:acter_project/client/Services/client.dart';
+import 'package:acter_project/screen/service/effect/rpg_maker_animation_loader.dart';
 import 'package:acter_project/screen/service/screen_effect_manager.dart';
 import 'package:acter_project/screen/widget/achivement_notification.dart';
+import 'package:acter_project/screen/service/ui/hp_bar.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:global_configuration/global_configuration.dart';
@@ -64,6 +66,23 @@ class VfxEffect extends ScreenEffect {
 
 void main() {
   runApp(const MainApp());
+  AnimationLoader.loadAnimation();
+}
+
+class UIEffect extends ScreenEffect {
+  UIEffect(this.commands, this.ui, super.chapter, super.id, super.name);
+  final List<String> commands;
+  final CommandActor ui;
+
+  @override
+  void endEffect() {
+  }
+
+  @override
+  void startEffect() {
+    ui.runCommand(commands);
+  }
+
 }
 
 class MainApp extends StatelessWidget {
@@ -76,6 +95,7 @@ class MainApp extends StatelessWidget {
           useMaterial3: true,
           colorScheme: const ColorScheme.light(background: Colors.black)),
       home: const LoaderOverlay(child: ScreenPage()),
+      //home: TestWidget(),
     );
   }
 }
@@ -149,6 +169,9 @@ class _ScreenPageState extends State<ScreenPage> with TickerProviderStateMixin {
             width: double.infinity,
             height: double.infinity,
           ),
+          // uis
+          ...screenEffectManager.getUIs(),
+          // notifications
           Stack(
               alignment: Alignment.center,
               children: notificator.getAllNotiWidgets()),

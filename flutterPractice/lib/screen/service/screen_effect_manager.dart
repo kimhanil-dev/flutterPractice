@@ -2,6 +2,7 @@ import 'package:acter_project/client/Services/google_drive_image_downloader.dart
 import 'package:acter_project/screen/service/screen_message.dart';
 import 'package:acter_project/screen/main.dart';
 import 'package:acter_project/screen/service/screen_effect_sequence_loader.dart';
+import 'package:acter_project/screen/service/ui/hp_bar.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -11,7 +12,12 @@ abstract interface class BackgroundImageSetter {
   void setImage(Image image);
 }
 
-class ScreenEffectManager implements BackgroundImageSetter {
+abstract interface class UIBuilder {
+  void addUI(UI ui);
+  void removeUI(UI ui);
+}
+
+class ScreenEffectManager implements BackgroundImageSetter, UIBuilder {
   ScreenEffectManager(this.appUpdater);
 
   int _currentChapter = 0;
@@ -20,6 +26,13 @@ class ScreenEffectManager implements BackgroundImageSetter {
   final _audioPlayer = AudioPlayer();
   List<ScreenEffect>? _curScreenEffects = [];
   late Image backgroundImage;
+
+  final Map<String,UI> uis = {};
+  final List<UI> _activatedUIs = [];
+
+  List<Widget> getUIs() {
+    return _activatedUIs.map((e) => e.getUI()).toList();
+  } 
 
   Function() appUpdater;
 
@@ -40,11 +53,16 @@ class ScreenEffectManager implements BackgroundImageSetter {
         GoogleDriveDownloader.audioLoader);
     /* -------------------------------  */
 
+    /*UI 생성*/
+    uis['hp'] = HpBar()..setWidgetBuilder(this);
+
+    /*-----------------------------------*/
+
     /* load screen effect sequences */
     final dotEnv = DotEnv();
     await dotEnv.load(fileName: 'assets/.env');
     final sfxSequences = await ScreenEffectSequenceLoader.loadData(
-        dotEnv.env['GSHEETS_CREDENTIALS']!);
+        dotEnv.env['GSHEETS_CREDENTIALS']!,5);
     for (var sfxs in sfxSequences) {
       List<ScreenEffect> effects = [];
       final chapter = int.parse(sfxs[0]);
@@ -60,6 +78,10 @@ class ScreenEffectManager implements BackgroundImageSetter {
       if (sfxs[3] != '') {
         // play effect
         //effects.add(SoundEffect(_audioPlayer, sounds[sfxs[2]]!, chapter, 0, sfxs[2]));
+      }
+      if (sfxs[4] != '') {
+        var commands = sfxs[4].split('.');
+        effects.add(UIEffect(commands, uis[commands[0]] as CommandActor,chapter, 0, sfxs[4])); // 수정할 것
       }
 
       if (_screenEffects[chapter] == null) {
@@ -143,4 +165,16 @@ class ScreenEffectManager implements BackgroundImageSetter {
       }
     }
   }
+  
+  // WidgetBuilder
+  @override
+  void addUI(UI ui) {
+    _activatedUIs.add(ui);
+  }
+  
+  @override
+  void removeUI(UI ui) {
+    _activatedUIs.remove(ui);
+  }
+  //
 }

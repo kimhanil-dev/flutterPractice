@@ -114,6 +114,7 @@ class _ServerMainState extends State<ServerMain> {
                     actions: [
                       OutlinedButton(
                           onPressed: () {
+                            controller.chapterState = ChapterState.wait;
                             controller
                                 .sendMessage(MessageType.requestRestartTheater);
                             Navigator.of(context).pop();
@@ -367,7 +368,7 @@ class _ServerMainState extends State<ServerMain> {
               ),
             ),
           ),
-          makeInterfaceWidget('챕터', [
+          makeInterfaceWidget('챕터 - 상태 : ${controller.chapterState.notiName}', [
             OutlinedButton(
                 onPressed: () {
                   controller.sendMessage(MessageType.requestStartThater);
@@ -379,6 +380,7 @@ class _ServerMainState extends State<ServerMain> {
                   controller.sendMessage(MessageType.onChapterEnd);
                   controller.skipVoteCount = 0;
                   controller.actionVoteCount = 0;
+                  controller.chapterState = ChapterState.end;
                   _refresh();
                 },
                 child: const Text('챕터 종료')),
