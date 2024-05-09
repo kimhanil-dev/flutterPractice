@@ -83,9 +83,13 @@ class PlayManager implements MessageListener, MessageWriter {
 
   List<Player> get players => _players.values.toList();
 
-  void onActionVoteIncrease(Socket voter, int count) {}
+  void onActionVoteIncrease(Socket voter, int count) {
+    _players[voter]?.isActionVoted = true;
+  }
 
-  void onSkipVoteIncrease(Socket voter, int count) {}
+  void onSkipVoteIncrease(Socket voter, int count) {
+    _players[voter]?.isSkipVoted = true;
+  }
 
   void bindOnChapterStart(
       void Function(bool isSkipExisted, bool isActionExisted) onChapterStart) {
@@ -118,6 +122,19 @@ class PlayManager implements MessageListener, MessageWriter {
     }
   }
 
+  void initTheater() {
+    _currentChapter = -1;
+    _curChapterAchives.clear();
+    _curSequenceAchivement.clear();
+    _curActionAchivement = null;
+    _curSkipAchivement = null;
+    _sequenceCounter = 0;
+
+    _isSkipped = false;
+    _skipVote.init();
+    _actionVote.init();
+  }
+
   /// return values
   ///
   /// first boolean : is skip existed?
@@ -125,8 +142,6 @@ class PlayManager implements MessageListener, MessageWriter {
   /// second boolean : is action existed?
   (bool isSkipExisted, bool isActionExisted) changeToNextChapter(
       final AchivementDB achivement) {
-    _closeChapter();
-
     ++_currentChapter;
     _curChapterAchives = achivement.getChapterAchivements(_currentChapter);
 
@@ -201,7 +216,12 @@ class PlayManager implements MessageListener, MessageWriter {
     return true;
   }
 
-  void _closeChapter() {
+  void closeChapter() {
+    _players.forEach((key, value) {
+      value.isActionVoted = false;
+      value.isSkipVoted = false;
+    });
+
     for (var chapterEndCallback in _onChapterEnds) {
       chapterEndCallback();
     }
@@ -215,7 +235,7 @@ class PlayManager implements MessageListener, MessageWriter {
     }
 
     // 스킵으로 인해 전달되지 않은, sequence 업적 일괄 전달
-    for(int i = _sequenceCounter; i < _curSequenceAchivement.length ; ++i) {
+    for (int i = _sequenceCounter; i < _curSequenceAchivement.length; ++i) {
       boradcastSequenceAchivement();
     }
 
@@ -246,19 +266,6 @@ class PlayManager implements MessageListener, MessageWriter {
   void listen(Socket socket, MessageData msgData) {
     _skipVote.listen(socket, msgData);
     _actionVote.listen(socket, msgData);
-
-    if (msgData.messageType == MessageType.requestRestartTheater) {
-      _currentChapter = -1;
-      _curChapterAchives.clear();
-      _curSequenceAchivement.clear();
-      _curActionAchivement = null;
-      _curSkipAchivement = null;
-      _sequenceCounter = 0;
-
-      _isSkipped = false;
-      _skipVote.init();
-      _actionVote.init();
-    }
   }
 
   int _idPool = 0;
