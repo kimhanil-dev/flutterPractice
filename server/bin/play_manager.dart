@@ -83,12 +83,16 @@ class PlayManager implements MessageListener, MessageWriter {
 
   List<Player> get players => _players.values.toList();
 
+  late Function(VoteType type,int max, int current) onVoteIncrease;
+
   void onActionVoteIncrease(Socket voter, int count) {
     _players[voter]?.isActionVoted = true;
+    onVoteIncrease(VoteType.skip,(skipMajority * _players.length).floor(),count);
   }
 
   void onSkipVoteIncrease(Socket voter, int count) {
     _players[voter]?.isSkipVoted = true;
+    onVoteIncrease(VoteType.action,(actionMajority * _players.length).floor(),count);
   }
 
   void bindOnChapterStart(
