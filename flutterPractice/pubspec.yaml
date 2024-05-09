@@ -27,6 +27,7 @@ dependencies:
   theater_publics:
     path : ../theater_publics
   audioplayers: ^6.0.0
+  spritewidget: ^2.0.1
 
 
 dev_dependencies:
@@ -42,3 +43,4 @@ flutter:
     - assets/cfg/
     - assets/images/bg/
     - assets/api-key/
+    - assets/sprites/
