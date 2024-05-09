@@ -161,6 +161,7 @@ class BytesData implements MessageTransableObject {
 }
 
 class VoteData implements MessageTransableObject {
+  VoteData(this.type, this.max, this.current);
   VoteData.fromBytes(Uint8List data) {
     type = VoteType.values[data[0]];
     max = data[1];

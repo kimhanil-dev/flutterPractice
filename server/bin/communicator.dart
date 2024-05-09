@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:theater_publics/achivement.dart';
 import 'package:theater_publics/player.dart';
 import 'package:theater_publics/public.dart';
+import 'package:theater_publics/vote.dart';
 
 import 'play_manager.dart';
 import 'server.dart';
@@ -128,5 +129,9 @@ class Communicator_server implements MessageListener, PlayInfoListener {
           msgType: MessageType.onAchivement,
           object: achivement);
     }
+  }
+
+  void onVoteIncrease(VoteType type, int max, int count) {
+    sendMessage(_screen, MessageType.onVote,object: VoteData(type,max,count));
   }
 }
