@@ -4,7 +4,8 @@ import 'package:gsheets/gsheets.dart';
 
 class ScreenEffectSequenceLoader {
   
-  static Future<List<List<String>>> loadData(String credentials) async {
+  // achivement.gsheets의 screen 시트에서 `elementCount`개의 요소를 읽어옵니다.
+  static Future<List<List<String>>> loadData(String credentials, int elementCount) async {
     const spreadsheetId = '1BFOTkpnw7rSNr8sK1JGCC8z4xEcUGehQ4VatQkPQfEc';
     const worksheetTitle = 'screen';
 
@@ -31,7 +32,7 @@ class ScreenEffectSequenceLoader {
         count: count,
         length: length);
     for (var row in screenEffects) {
-      List<String> rowValues = ['','','',''];
+      List<String> rowValues = List<String>.filled(elementCount, '');
       for(var cell in row) {
         rowValues[cell.column - 1] = cell.value;
       }

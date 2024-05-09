@@ -4,6 +4,8 @@ library;
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:theater_publics/vote.dart';
+
 enum Who implements MessageTransableObject {
   client,
   controller,
@@ -156,6 +158,29 @@ class BytesData implements MessageTransableObject {
   List<int> getMessage() {
     return bytes;
   }
+}
+
+class VoteData implements MessageTransableObject {
+  VoteData.fromBytes(Uint8List data) {
+    type = VoteType.values[data[0]];
+    max = data[1];
+    current = data[2];
+  }
+  late final VoteType type;
+  late final int max;
+  late final int current;
+
+  @override
+  bool equal(Uint8List data) {
+    var voteData  = VoteData.fromBytes(data);
+    return (type == voteData.type && max == voteData.max && current == voteData.current);
+  }
+
+  @override
+  List<int> getMessage() {
+    return [type.index, max, current];
+  }
+
 }
 
 class InstantMessageObject<T> implements MessageTransableObject {
