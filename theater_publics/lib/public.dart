@@ -23,7 +23,7 @@ enum Who implements MessageTransableObject {
 }
 
 enum MessageType {
-  onFailed,
+  onFailed(),
   onConnected,
   onTheaterStarted,
   onButtonClicked,
@@ -32,7 +32,7 @@ enum MessageType {
   onChapterChanged,
   onChapterEnd,
   onUpdateButtonState,
-  onVote,
+  onVote(parser: VoteData.parser),
   ping,
 
   reqeustWhoAryYou,
@@ -56,6 +56,13 @@ enum MessageType {
   screenMessage,
   nextSFX,
   ;
+
+  const MessageType({this.parser = _defaultParser});
+
+  final dynamic Function(MessageData) parser;
+  static dynamic _defaultParser(MessageData data) {
+    return Null;
+  }
 
   static MessageType getMessage(String message) =>
       MessageType.values[int.parse(message)];
@@ -182,6 +189,9 @@ class VoteData implements MessageTransableObject {
     return [type.index, max, current];
   }
 
+  static VoteData parser(MessageData msgData) {
+    return VoteData.fromBytes(msgData.datas);
+  }
 }
 
 class InstantMessageObject<T> implements MessageTransableObject {

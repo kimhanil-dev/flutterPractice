@@ -51,7 +51,7 @@ class _ScreenPageState extends State<ScreenPage> with TickerProviderStateMixin {
     context.loaderOverlay.show();
     screenEffectManager = ScreenEffectManager(() {
       setState(() {});
-    });
+    },this);
 
     // loading
     Future<void>.microtask(() async {
@@ -101,7 +101,7 @@ class _ScreenPageState extends State<ScreenPage> with TickerProviderStateMixin {
               height: double.infinity,
             ),
             // uis
-            ...screenEffectManager.getUIs(),
+            ...screenEffectManager.getUIs(context),
             // notifications
             Stack(
                 alignment: Alignment.center,

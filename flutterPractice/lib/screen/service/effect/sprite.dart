@@ -4,7 +4,6 @@ import 'dart:ui';
 
 import 'package:acter_project/client/Services/google_drive_image_downloader.dart';
 import 'package:spritewidget/spritewidget.dart';
-import 'dart:ui' as ui show Image;
 
 class SpriteDownloader {
   static Future<Map<String, SpriteTexture>> download() async {

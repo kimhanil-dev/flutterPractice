@@ -46,7 +46,7 @@ class Frame {
               isMirror: frameInfos[5],
               opacity: frameInfos[6],
               blendMode: frameInfos[7]));
-        } on TypeError catch (e) {
+        } on TypeError {
           // 만약 frames 리스트에 실수형이 존재한다면, 정수형으로 버림 변환 합니다.
           frameInfos = frameInfos.map((e) => e.floor()).toList();
           frames.add(Frame(
