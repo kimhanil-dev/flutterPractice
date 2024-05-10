@@ -25,6 +25,7 @@ void main(List<String> args) async {
   commnuicator = Communicator_server(server, chapterManager, achivementDB);
   server.addMessageListener(commnuicator);
   chapterManager.addPlayInfoListener(commnuicator);
+  chapterManager.onVoteIncrease = commnuicator.onVoteIncrease;
 
   server.createPingStream(const Duration(seconds: 2)).listen((ping) {
     chapterManager.pingListener(ping);

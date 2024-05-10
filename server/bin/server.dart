@@ -113,6 +113,12 @@ class Server {
   void handleClientData(Socket client, Uint8List data) async {
     print('listen : ${client.address}, ');
     var messages = MessageHandler.getMessages(data);
+    if(messages.isEmpty) {
+      sendMessage(dest: client, msgType: MessageType.onFailed);
+      return;
+    }
+
+
     for (var message in messages) {
       // 연결이 client, controller, screen인지 파악
       if (message.messageType == MessageType.reqeustWhoAryYou) {
