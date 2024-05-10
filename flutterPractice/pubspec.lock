@@ -198,6 +198,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.1"
+  flutter_shake_animated:
+    dependency: "direct main"
+    description:
+      name: flutter_shake_animated
+      sha256: "93ce87fa31467c28f10f11147243172a7692df846589b30ff16e592de20341b2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.5"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -464,6 +472,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.1.2"
+  shake_animation_widget:
+    dependency: "direct main"
+    description:
+      name: shake_animation_widget
+      sha256: f3b4edf5a0305b239afd84857e36e9364a792fee283ab3d4d25e8d5e2dd82e4a
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.4"
   sky_engine:
     dependency: transitive
     description: flutter

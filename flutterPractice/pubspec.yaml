@@ -28,6 +28,8 @@ dependencies:
     path : ../theater_publics
   audioplayers: ^6.0.0
   spritewidget: ^2.0.1
+  flutter_shake_animated: ^0.0.5
+  shake_animation_widget: ^3.0.4
 
 
 dev_dependencies:

@@ -1,11 +1,12 @@
-import 'package:acter_project/screen/main.dart';
 import 'package:acter_project/screen/service/effect/rpg_maker_animation_loader.dart';
 import 'package:acter_project/screen/service/effect/sprite.dart';
 import 'package:acter_project/screen/service/screen_effect_manager.dart';
-import 'package:acter_project/screen/service/ui/hp_bar.dart';
+import 'package:acter_project/screen/service/ui/hp/hp_bar.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:spritewidget/spritewidget.dart';
+
+import '../ui/ui.dart';
 
 abstract class ScreenEffect {
   ScreenEffect(this.chapter, this.id, this.name);
@@ -17,21 +18,21 @@ abstract class ScreenEffect {
   void endEffect();
 }
 
-class ImageEffect extends ScreenEffect {
-  ImageEffect(
-      this._bgImageSetter, this._bgImage, super.chapter, super.id, super.name);
+// class ImageEffect extends ScreenEffect {
+//   ImageEffect(
+//       this._bgImageSetter, this._bgImage, super.chapter, super.id, super.name);
 
-  final BackgroundImageSetter _bgImageSetter;
-  final Image _bgImage;
+//   final BackgroundImageSetter _bgImageSetter;
+//   final Image _bgImage;
 
-  @override
-  void startEffect() {
-    _bgImageSetter.setImage(_bgImage);
-  }
+//   @override
+//   void startEffect() {
+//     _bgImageSetter.setImage(_bgImage);
+//   }
 
-  @override
-  void endEffect() {}
-}
+//   @override
+//   void endEffect() {}
+// }
 
 class SoundEffect extends ScreenEffect {
   SoundEffect(
@@ -105,10 +106,10 @@ class VfxEffect extends ScreenEffect {
   }
 }
 
-class UIEffect extends ScreenEffect {
-  UIEffect(this.commands, this.ui, super.chapter, super.id, super.name);
+class CommandEffect extends ScreenEffect {
+  CommandEffect(this.commands, this.ui, super.chapter, super.id, super.name);
   final List<String> commands;
-  final CommandActor ui;
+  final UI ui;
 
   @override
   void endEffect() {}

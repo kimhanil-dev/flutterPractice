@@ -1,17 +1,21 @@
 import 'package:acter_project/client/Services/google_drive_image_downloader.dart';
 import 'package:acter_project/screen/service/effect/rpg_maker_animation_loader.dart';
 import 'package:acter_project/screen/service/effect/sprite.dart';
+import 'package:acter_project/screen/service/message_manager.dart';
 import 'package:acter_project/screen/service/screen_message.dart';
-import 'package:acter_project/screen/main.dart';
 import 'package:acter_project/screen/service/screen_effect_sequence_loader.dart';
-import 'package:acter_project/screen/service/ui/hp_bar.dart';
+import 'package:acter_project/screen/service/ui/hp/hp_bar.dart';
+import 'package:acter_project/screen/service/ui/hp/hp_bar_list.dart';
+import 'package:acter_project/screen/service/ui/image/ui_image.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:spritewidget/spritewidget.dart';
 import 'package:theater_publics/public.dart';
 
 import 'effect/screen_effect.dart';
+import 'ui/ui.dart';
 
 abstract interface class BackgroundImageSetter {
   void setImage(Image image);
@@ -23,7 +27,10 @@ abstract interface class UIBuilder {
 }
 
 class ScreenEffectManager implements BackgroundImageSetter, UIBuilder {
-  ScreenEffectManager(this.appUpdater);
+  ScreenEffectManager(this.appUpdater, this.ticker);
+
+  final TickerProviderStateMixin ticker;
+  MessageManager messageManager = MessageManager();
 
   int _currentChapter = 0;
   int _currentSFX = -1;
@@ -41,8 +48,8 @@ class ScreenEffectManager implements BackgroundImageSetter, UIBuilder {
   Map<String, MySprite> sprites = {};
   Map<String,MyAnimation> animations = {};
 
-  List<Widget> getUIs() {
-    return _activatedUIs.map((e) => e.getUI()).toList();
+  List<Widget> getUIs(BuildContext context) {
+    return _activatedUIs.map((e) => e.getUI(context)).toList();
   }
 
   Function() appUpdater;
@@ -57,8 +64,9 @@ class ScreenEffectManager implements BackgroundImageSetter, UIBuilder {
     final gdImageDownloader = GoogleDriveDownloader<Image>();
     final images = await gdImageDownloader.downloadFiles(
         '1OSlC6zs94sB4cdCwtnS7hMdHz2zgoi9Q',
-        'bgImages',
-        GoogleDriveDownloader.imageLoader);
+        'bgImages',(name, bytes, file) {
+          return Resource<Image>(name.split('.')[0],Image.memory(bytes));
+        },);
 
     final gdAudioDownloader = GoogleDriveDownloader<Source>();
     final sounds = await gdAudioDownloader.downloadFiles(
@@ -95,7 +103,10 @@ class ScreenEffectManager implements BackgroundImageSetter, UIBuilder {
     /* -------------------------------  */
 
     /*UI 생성*/
-    uis['hp'] = HpBar()..setWidgetBuilder(this);
+
+    uis['hp'] = HpBar(ticker, appUpdater,0, 0)..setWidgetBuilder(this);
+    uis['hps'] = HPBarList(ticker, appUpdater)..setWidgetBuilder(this);
+    uis['bg'] = UIImage(ticker, appUpdater,images,0,0)..setWidgetBuilder(this);
 
     /*-----------------------------------*/
 
@@ -109,7 +120,8 @@ class ScreenEffectManager implements BackgroundImageSetter, UIBuilder {
       final chapter = int.parse(sfxs[0]);
       if (sfxs[1] != '') {
         // change background
-        effects.add(ImageEffect(this, images[sfxs[1]]!, chapter, 0, sfxs[1]));
+        var commands = sfxs[1].split('.');
+        effects.add(CommandEffect(commands, uis[commands[0]]!, chapter, 0, ''));
       }
       if (sfxs[2] != '') {
         // play sound
@@ -128,7 +140,7 @@ class ScreenEffectManager implements BackgroundImageSetter, UIBuilder {
       }
       if (sfxs[4] != '') {
         var commands = sfxs[4].split('.');
-        effects.add(UIEffect(commands, uis[commands[0]] as CommandActor,
+        effects.add(CommandEffect(commands, uis[commands[0]]!,
             chapter, 0, sfxs[4])); // 수정할 것
       }
 
@@ -169,8 +181,11 @@ class ScreenEffectManager implements BackgroundImageSetter, UIBuilder {
   }
 
   void onMessage(MessageData message) {
+    messageManager.notifyMessage(message);
+
     switch (message.messageType) {
       case MessageType.onVote:
+        //var voteData = VoteData.fromBytes(message.datas);
         
         break;
       case MessageType.requestRestartTheater:
