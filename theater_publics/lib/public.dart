@@ -25,7 +25,6 @@ enum Who implements MessageTransableObject {
 enum MessageType {
   onFailed,
   onConnected,
-  onClientReady,
   onTheaterStarted,
   onButtonClicked,
   onVoteComplited,
@@ -56,6 +55,9 @@ enum MessageType {
   //screen
   screenMessage,
   nextSFX,
+
+  //client to server
+  requestCurrentVotes,
   ;
 
   const MessageType({this.parser = _defaultParser});
