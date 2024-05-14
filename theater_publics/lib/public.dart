@@ -23,8 +23,9 @@ enum Who implements MessageTransableObject {
 }
 
 enum MessageType {
-  onFailed(),
+  onFailed,
   onConnected,
+  onClientReady,
   onTheaterStarted,
   onButtonClicked,
   onVoteComplited,
