@@ -1,15 +1,36 @@
+import 'dart:ui';
+
 import 'package:acter_project/client/Services/achivement_manager.dart';
 import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/screen/service/screen_effect_manager.dart';
 import 'package:acter_project/screen/service/screen_message.dart';
 import 'package:acter_project/screen/widget/achivement_notification.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:provider/provider.dart';
 import 'package:spritewidget/spritewidget.dart';
 import 'package:theater_publics/public.dart';
 
-void main() {
-  runApp(const MainApp());
+import 'service/data_manager.dart';
+
+Future<FragmentShader> loadShader() async {
+  FragmentProgram program =
+      await FragmentProgram.fromAsset('assets/shaders/transition.frag');
+  FragmentShader shader = program.fragmentShader();
+  return shader;
+}
+
+void main() async {
+  FragmentShader shader = await loadShader();
+  Animate.restartOnHotReload = true;
+
+  runApp(MultiProvider(
+    providers: [
+      Provider(create: (_) => shader),
+    ],
+    child: const MainApp(),
+  ));
 }
 
 class MainApp extends StatelessWidget {
@@ -21,9 +42,29 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
           useMaterial3: true,
           colorScheme: const ColorScheme.light(background: Colors.black)),
-      home: const LoaderOverlay(child: ScreenPage()),
-      //TestWidget(),
+      home: const LoaderOverlay(child: LoadingPage()),
     );
+  }
+}
+
+class LoadingPage extends StatelessWidget {
+  const LoadingPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    context.loaderOverlay.show();
+    DataManager dataManager = DataManager();
+    dataManager.loadDatas().then((value) {
+      context.loaderOverlay.hide();
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(
+        builder: (context) {
+          return Provider(
+              create: (_) => dataManager, child: const ScreenPage());
+        },
+      ), (route) => false);
+    });
+
+    return Container();
   }
 }
 
@@ -38,9 +79,6 @@ class _ScreenPageState extends State<ScreenPage> with TickerProviderStateMixin {
   final Client client = Client(clientType: Who.screen);
   late ScreenEffectManager screenEffectManager;
   final AchivementDataManger achivementDataManager = AchivementDataManger();
-  final List<Widget> dynamicWidgets = [];
-  Image? image = Image.asset('assets/images/bg/bg_0.jpg');
-
   late AchivementNotificator notificator = AchivementNotificator(this);
   bool bIsLoading = true;
 
@@ -49,9 +87,9 @@ class _ScreenPageState extends State<ScreenPage> with TickerProviderStateMixin {
     super.initState();
 
     context.loaderOverlay.show();
-    screenEffectManager = ScreenEffectManager(() {
+    screenEffectManager = ScreenEffectManager(context.read<DataManager>(), () {
       setState(() {});
-    },this);
+    });
 
     // loading
     Future<void>.microtask(() async {
@@ -90,30 +128,25 @@ class _ScreenPageState extends State<ScreenPage> with TickerProviderStateMixin {
 
     return Scaffold(
       body: Container(
-        color: Colors.white,
+        height: 1080,
+        width: 1920,
+        color: Colors.black,
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Image(
-              image: screenEffectManager.backgroundImage.image,
-              fit: BoxFit.fill,
-              width: double.infinity,
-              height: double.infinity,
-            ),
-            // uis
-            ...screenEffectManager.getUIs(context),
+            screenEffectManager.getUI(context),
+            SpriteWidget(screenEffectManager.rootNode),
             // notifications
             Stack(
                 alignment: Alignment.center,
                 children: notificator.getAllNotiWidgets()),
-            SpriteWidget(screenEffectManager.rootNode),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-            screenEffectManager
-                .processScreenMessage(ScreenMessage(MessageType.nextSFX));
+          screenEffectManager
+              .processScreenMessage(ScreenMessage(MessageType.nextSFX));
         },
       ),
     );
@@ -124,14 +157,16 @@ class _ScreenPageState extends State<ScreenPage> with TickerProviderStateMixin {
       case MessageType.onAchivement:
         var achivementId = int.parse(String.fromCharCodes(msgData.datas));
         var achivementData = achivementDataManager.getData(achivementId);
-        notificator
-            .showNotification(
-                achivementDataManager.getImage(achivementId).image,
-                achivementData.name,
-                const Duration(seconds: 1, milliseconds: 500),
-                MediaQuery.of(context).size / 2,
-                const Duration(milliseconds: 250))
-            .then((value) => setState(() {}));
+        if (achivementData != null) {
+          notificator
+              .showNotification(
+                  achivementDataManager.getImage(achivementId).image,
+                  achivementData.name,
+                  const Duration(seconds: 1, milliseconds: 500),
+                  MediaQuery.of(context).size / 2,
+                  const Duration(milliseconds: 250))
+              .then((value) => setState(() {}));
+        }
         break;
       default:
     }

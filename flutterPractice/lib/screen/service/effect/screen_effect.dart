@@ -107,15 +107,14 @@ class VfxEffect extends ScreenEffect {
 }
 
 class CommandEffect extends ScreenEffect {
-  CommandEffect(this.commands, this.ui, super.chapter, super.id, super.name);
+  CommandEffect(this.commands, this.commandManager, super.chapter, super.id, super.name);
   final List<String> commands;
-  final UI ui;
-
+  final CommandManager commandManager;
   @override
   void endEffect() {}
 
   @override
   void startEffect() {
-    ui.runCommand(commands);
+    commandManager.readCommand(commands);
   }
 }

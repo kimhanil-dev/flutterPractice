@@ -30,6 +30,9 @@ dependencies:
   spritewidget: ^2.0.1
   flutter_shake_animated: ^0.0.5
   shake_animation_widget: ^3.0.4
+  flutter_shaders: ^0.1.2
+  flutter_animate: ^4.5.0
+  flutter_svg: ^2.0.10+1
 
 
 dev_dependencies:
@@ -43,6 +46,11 @@ flutter:
     - assets/
     - assets/.env
     - assets/cfg/
+    - assets/images/ui/
     - assets/images/bg/
+    - assets/images/fades/
     - assets/api-key/
     - assets/sprites/
+
+  shaders:
+    - assets/shaders/transition.frag

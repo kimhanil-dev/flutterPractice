@@ -1,8 +1,9 @@
 import 'package:acter_project/client/Services/achivement_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
-import 'start_page.dart';
+import 'page/start_page.dart';
 
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
@@ -12,7 +13,6 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-
   @override
   void initState() {
     super.initState();
@@ -24,11 +24,18 @@ class _MainAppState extends State<MainApp> {
     return MaterialApp(
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: const Color.fromARGB(255, 255, 219, 163),
+            primary: const Color.fromARGB(255, 255, 219, 163),
+            background: const Color.fromARGB(255, 33, 30, 30))
       ),
-      home: const Scaffold(
-        body: Center(
-          child: StartPage(),
+      home: const LoaderOverlay(
+        child: Scaffold(
+          body: Center(
+            child: DefaultTextStyle(
+              style: TextStyle(color: Color.fromARGB(255,255,219,163)),
+              child: StartPage()),
+          ),
         ),
       ),
     );

@@ -27,7 +27,7 @@ class AchivementDataManger {
     return _achivementImages[id] ?? _achivementImages[0]!;
   }
 
-  AchivementData getData(int id) {
-    return _achivementDB.getAchivementData(id)!;
+  AchivementData? getData(int id) {
+    return _achivementDB.getAchivementData(id);
   }
 }

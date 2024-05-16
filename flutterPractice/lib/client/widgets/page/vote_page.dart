@@ -1,23 +1,25 @@
 import 'package:acter_project/client/Services/archive.dart';
 import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/client/Services/achivement_manager.dart';
+import 'package:acter_project/client/widgets/widget/notification.dart';
 import 'package:acter_project/screen/widget/achivement_notification.dart';
 import 'package:theater_publics/public.dart';
 import 'package:theater_publics/vote.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'message_button.dart';
+import '../widget/corner.dart';
+import '../widget/message_button.dart';
 
-class SelectPage extends StatefulWidget {
-  const SelectPage({super.key});
+class VotePage extends StatefulWidget {
+  const VotePage({super.key});
 
   @override
-  State<SelectPage> createState() => _SelectPageState();
+  State<VotePage> createState() => _VotePageState();
 }
 
-class _SelectPageState extends State<SelectPage>
-    with AutomaticKeepAliveClientMixin<SelectPage>, TickerProviderStateMixin {
+class _VotePageState extends State<VotePage>
+    with AutomaticKeepAliveClientMixin<VotePage>, TickerProviderStateMixin {
   bool bIsActionEnabled = false;
   late Archive archive;
   late Client client;
@@ -28,6 +30,15 @@ class _SelectPageState extends State<SelectPage>
   late Size notificationDest;
   late AchivementNotificator notificator;
   late AchivementDataManger achivementDataManger;
+  List<NotificationWidget> notificators = [];
+
+  int count = 0;
+
+  void onNotiFadeOut(NotificationWidget noti) {
+    setState(() {
+      notificators.remove(noti);
+    });
+  }
 
   @override
   void initState() {
@@ -39,8 +50,13 @@ class _SelectPageState extends State<SelectPage>
           {
             achivementId = int.parse(String.fromCharCodes(message.datas));
 
-            var image = achivementDataManger.getImage(achivementId);
             var data = achivementDataManger.getData(achivementId);
+            if(data == null) {
+              print('$achivementId : 존재하지 않는 업적 ID');
+              return; // 업적 오류 데이터 검출
+            }
+
+            var image = achivementDataManger.getImage(achivementId);
 
             notificator
                 .showNotification(
@@ -52,6 +68,11 @@ class _SelectPageState extends State<SelectPage>
                 .then((value) => setState(() {}));
 
             archive.addAchivement(achivementId);
+
+            setState(() {
+              notificators.add(NotificationWidget(
+                  image: image, text: data.name, onFadeOut: onNotiFadeOut));
+            });
           }
           break;
         default:
@@ -74,7 +95,7 @@ class _SelectPageState extends State<SelectPage>
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
-        children: _pageBuilder(),
+        children: [const Corner(),..._pageBuilder()],
       ),
     );
   }
@@ -85,6 +106,16 @@ class _SelectPageState extends State<SelectPage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(
+              height: 200,
+              child: Stack(
+                children: [...notificators],
+              ),
+            ),
+            const SizedBox(
+              width: 20,
+              height: 20,
+            ),
             MessageButtton(
               client,
               VoteType.skip,
@@ -102,7 +133,6 @@ class _SelectPageState extends State<SelectPage>
       )
     ];
 
-    widgets.addAll(notificator.getAllNotiWidgets());
     return widgets;
   }
 

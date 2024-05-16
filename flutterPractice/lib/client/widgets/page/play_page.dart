@@ -1,5 +1,5 @@
-import 'package:acter_project/client/widgets/archive_page.dart';
-import 'package:acter_project/client/widgets/select_page.dart';
+import 'package:acter_project/client/widgets/page/archive_page.dart';
+import 'package:acter_project/client/widgets/page/vote_page.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -31,7 +31,7 @@ class _PlayPageState extends State<PlayPage> with TickerProviderStateMixin {
           PageView(
             controller: _pageController,
             onPageChanged: _handlePageViewChanged,
-            children: const <Widget>[LoaderOverlay(child: SelectPage()), ArchivePage()],
+            children: const <Widget>[LoaderOverlay(child: VotePage()), ArchivePage()],
 
           ),
           TabBar(
