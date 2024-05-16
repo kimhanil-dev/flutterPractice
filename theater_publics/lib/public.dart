@@ -28,10 +28,11 @@ enum MessageType {
   onTheaterStarted,
   onButtonClicked,
   onVoteComplited,
-  onAchivement,
+  onAchivement(parser: Achivement.parse,dataType: Achivement),
   onChapterChanged,
   onChapterEnd,
   onUpdateButtonState,
+  onLockUpdate(parser: BoolData.parse,dataType: BoolData),
   onVote(parser: VoteData.parser),
   ping,
 
@@ -60,12 +61,13 @@ enum MessageType {
   requestCurrentVotes,
   ;
 
-  const MessageType({this.parser = _defaultParser});
+  const MessageType({this.parser, Type? dataType}) : _dataType = dataType;
 
-  final dynamic Function(MessageData) parser;
-  static dynamic _defaultParser(MessageData data) {
-    return Null;
-  }
+  @override
+  get runtimeType => _dataType.runtimeType;
+
+  final Type? _dataType;
+  final dynamic Function(MessageData)? parser;
 
   static MessageType getMessage(String message) =>
       MessageType.values[int.parse(message)];
@@ -245,4 +247,47 @@ class ButtonStates implements MessageTransableObject {
 abstract interface class MessageWriter {
   void onRegistered(List<Socket> sockets);
   void onSocketConnected(Socket newSocket);
+}
+
+class Achivement implements MessageTransableObject {
+  final int id;
+
+  Achivement({required this.id});
+  Achivement.fromBytes(Uint8List data) : id = int.parse(String.fromCharCodes(data));
+
+  @override
+  bool equal(Uint8List data) {
+    return id == Achivement.fromBytes(data).id;
+  }
+
+  @override
+  List<int> getMessage() {
+    return id.toString().codeUnits;
+  }
+
+
+  static Achivement parse(MessageData msgData) {
+    return Achivement.fromBytes(msgData.datas);
+  }
+}
+
+class BoolData implements MessageTransableObject {
+  final bool condition;
+
+  BoolData({required this.condition});
+  BoolData.fromBytes(Uint8List bytes) : condition = bytes[0] == 1 ? true : false;
+  
+  @override
+  bool equal(Uint8List data) {
+    return condition == BoolData.fromBytes(data).condition;
+  }
+  
+  @override
+  List<int> getMessage() {
+    return [condition ? 1 : 0];
+  }
+
+  static BoolData parse(MessageData msgData) {
+    return BoolData.fromBytes(msgData.datas);
+  }  
 }
