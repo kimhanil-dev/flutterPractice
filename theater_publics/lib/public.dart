@@ -27,13 +27,17 @@ enum MessageType {
   onConnected,
   onTheaterStarted,
   onButtonClicked,
-  onVoteComplited,
+  onVoteComplited(parser: StringData.parse,dataType: StringData),
   onAchivement(parser: Achivement.parse,dataType: Achivement),
   onChapterChanged,
   onChapterEnd,
   onUpdateButtonState,
   onLockUpdate(parser: BoolData.parse,dataType: BoolData),
   onVote(parser: VoteData.parser),
+  setChapter(parser: IntData.parse,dataType: IntData),
+  startInstanceActionVote(parser: IntData.parse,dataType: IntData),
+  setBlack,
+  sendName(parser: StringData.parse, dataType: StringData),
   ping,
 
   reqeustWhoAryYou,
@@ -73,6 +77,27 @@ enum MessageType {
       MessageType.values[int.parse(message)];
 
   void sendTo(Socket destination) => destination.write(index);
+}
+
+class StringData extends MessageTransableObject{
+  final String value;
+
+  StringData(this.value);
+  StringData.fromBytes(Uint8List bytes) : value = String.fromCharCodes(bytes);
+
+  @override
+  bool equal(Uint8List data) {
+    return value == StringData.fromBytes(data).value;
+  }
+
+  @override
+  List<int> getMessage() {
+    return [...value.codeUnits];
+  }
+
+  static StringData parse(MessageData msgData) {
+    return StringData.fromBytes(msgData.datas);
+  }
 }
 
 /// 데이터 구조
@@ -290,4 +315,25 @@ class BoolData implements MessageTransableObject {
   static BoolData parse(MessageData msgData) {
     return BoolData.fromBytes(msgData.datas);
   }  
+}
+
+class IntData implements MessageTransableObject {
+  final int value;
+
+  IntData(this.value);
+  IntData.fromBytes(Uint8List bytes) : value = int.parse(String.fromCharCodes(bytes));
+  
+  @override
+  bool equal(Uint8List data) {
+    return value == IntData.fromBytes(data).value;
+  }
+  
+  @override
+  List<int> getMessage() {
+    return [...value.toString().codeUnits];
+  }
+
+  static IntData parse(MessageData msgData) {
+    return IntData.fromBytes(msgData.datas);
+  }
 }

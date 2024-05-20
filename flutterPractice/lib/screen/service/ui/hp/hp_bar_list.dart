@@ -17,6 +17,7 @@ class UIHPBarList extends UI {
 
 class _HPBarListState extends State<UIHPBarList> {
   final List<UIHpBar> hpBars = [];
+  UIHpBar? bossHpBar;
   final double uiGap = 100;
   final Duration hpUpdateTime = const Duration(seconds: 500);
 
@@ -25,6 +26,8 @@ class _HPBarListState extends State<UIHPBarList> {
     super.initState();
 
     widget.setCommand('set', setHp);
+    widget.setCommand('setBoss', setBossHp);
+    widget.setCommand('addBoss', addBossHPBar);
     widget.setCommand('add', addHPBar);
 
     setState(() {});
@@ -32,13 +35,22 @@ class _HPBarListState extends State<UIHPBarList> {
 
   @override
   Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.topLeft,
-      child: ListView(
-        padding: const EdgeInsets.all(10),
+    List<Widget> hps = [
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [...hpBars.map((e) => e)],
-      ),
-    );
+      )
+    ];
+    if (bossHpBar != null) {
+      hps.add(bossHpBar!);
+    }
+
+    return Align(
+        alignment: Alignment.topCenter,
+        child: Column(
+          children: [...hps],
+        ));
   }
 
   void setHp(List<String> args) {
@@ -46,6 +58,19 @@ class _HPBarListState extends State<UIHPBarList> {
     double newHp = double.parse(args[1]);
 
     hpBars[hpIndex].runCommand(['set', newHp.toString()]);
+  }
+
+  void setBossHp(List<String> args) {
+    double newHp = double.parse(args[0]);
+    bossHpBar?.runCommand(['set', newHp.toString()]);
+  }
+
+  void addBossHPBar(List<String> args) {
+    setState(() {
+      bossHpBar = UIHpBar(
+        hpUpdateTime: hpUpdateTime,
+      );
+    });
   }
 
   void addHPBar(List<String> args) {

@@ -71,7 +71,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\flutter_platform_alert\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\video_player_win\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -91,10 +91,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_HAS_EXCEPTIONS=0;FLUTTER_VERSION=\"0.1.0\";FLUTTER_VERSION_MAJOR=0;FLUTTER_VERSION_MINOR=1;FLUTTER_VERSION_PATCH=0;FLUTTER_VERSION_BUILD=0;NOMINMAX;UNICODE;_UNICODE;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\flutter_platform_alert\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\video_player_win\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\flutter_platform_alert\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\video_player_win\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -102,7 +102,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\flutter\Debug\flutter_wrapper_app.lib;dwmapi.lib;..\plugins\audioplayers_windows\Debug\audioplayers_windows_plugin.lib;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\flutter_windows.dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\flutter\Debug\flutter_wrapper_app.lib;dwmapi.lib;..\plugins\audioplayers_windows\Debug\audioplayers_windows_plugin.lib;..\plugins\flutter_platform_alert\Debug\flutter_platform_alert_plugin.lib;..\plugins\video_player_win\Debug\video_player_win_plugin.lib;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\flutter_windows.dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -120,7 +120,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Profile|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\flutter_platform_alert\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\video_player_win\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DisableSpecificWarnings>"4100"</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -140,10 +140,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_HAS_EXCEPTIONS=0;FLUTTER_VERSION=\"0.1.0\";FLUTTER_VERSION_MAJOR=0;FLUTTER_VERSION_MINOR=1;FLUTTER_VERSION_PATCH=0;FLUTTER_VERSION_BUILD=0;NOMINMAX;UNICODE;_UNICODE;CMAKE_INTDIR=\"Profile\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\flutter_platform_alert\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\video_player_win\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\flutter_platform_alert\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\video_player_win\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -151,7 +151,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\flutter\Profile\flutter_wrapper_app.lib;dwmapi.lib;..\plugins\audioplayers_windows\Profile\audioplayers_windows_plugin.lib;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\flutter_windows.dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\flutter\Profile\flutter_wrapper_app.lib;dwmapi.lib;..\plugins\audioplayers_windows\Profile\audioplayers_windows_plugin.lib;..\plugins\flutter_platform_alert\Profile\flutter_platform_alert_plugin.lib;..\plugins\video_player_win\Profile\video_player_win_plugin.lib;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\flutter_windows.dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -169,7 +169,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\flutter_platform_alert\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\video_player_win\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DisableSpecificWarnings>"4100"</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -189,10 +189,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;_HAS_EXCEPTIONS=0;FLUTTER_VERSION=\"0.1.0\";FLUTTER_VERSION_MAJOR=0;FLUTTER_VERSION_MINOR=1;FLUTTER_VERSION_PATCH=0;FLUTTER_VERSION_BUILD=0;NOMINMAX;UNICODE;_UNICODE;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\flutter_platform_alert\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\video_player_win\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\Programming\flutterPractice\flutterPractice\windows;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\cpp_client_wrapper\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\audioplayers_windows\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\flutter_platform_alert\windows\include;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\.plugin_symlinks\video_player_win\windows\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -200,7 +200,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>..\flutter\Release\flutter_wrapper_app.lib;dwmapi.lib;..\plugins\audioplayers_windows\Release\audioplayers_windows_plugin.lib;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\flutter_windows.dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>..\flutter\Release\flutter_wrapper_app.lib;dwmapi.lib;..\plugins\audioplayers_windows\Release\audioplayers_windows_plugin.lib;..\plugins\flutter_platform_alert\Release\flutter_platform_alert_plugin.lib;..\plugins\video_player_win\Release\video_player_win_plugin.lib;D:\Programming\flutterPractice\flutterPractice\windows\flutter\ephemeral\flutter_windows.dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -285,9 +285,17 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+    <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\plugins\flutter_platform_alert\flutter_platform_alert_plugin.vcxproj">
+      <Project>{489E6F8D-6D13-3197-8E1C-5EC8E074A3D8}</Project>
+      <Name>flutter_platform_alert_plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\flutter\flutter_wrapper_app.vcxproj">
       <Project>{5C6F1E2C-97B1-3B1B-AA81-0848B77C8082}</Project>
       <Name>flutter_wrapper_app</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\plugins\video_player_win\video_player_win_plugin.vcxproj">
+      <Project>{C899569C-D58D-3379-83CC-372DFD9664C2}</Project>
+      <Name>video_player_win_plugin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,5 +1,6 @@
 import 'package:acter_project/screen/service/screen_effect_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
 import '../ui.dart';
@@ -22,11 +23,13 @@ class UIHpBar extends UI {
       {this.hpColor = Colors.red,
       this.hpUpdateTime = const Duration(microseconds: 500),
       this.hpUpdateCurve = Curves.ease,
+      this.padding = const EdgeInsets.all(50),
       super.key});
 
   final Color hpColor;
   final Duration hpUpdateTime;
   final Curve hpUpdateCurve;
+  final EdgeInsets padding;
 
   @override
   // TODO: implement isForward
@@ -59,34 +62,37 @@ class HPBarState extends State<UIHpBar> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Stack(
-        children: [
-          Container(
-            color: Colors.grey,
-            width: 250,
-            height: 50,
-          ),
-          Container(
-            width: 250,
-            height: 50,
-            color: Colors.red,
-          )
-        ],
-      ),
-    )
-        // begin
-        .animate()
-        .fadeIn(duration: .35.seconds)
-        .slide(begin: const Offset(0, .2))
-        // set hp
-        .animate(controller: controller, autoPlay: false)
-        .scale(
-            alignment: Alignment.centerLeft,
-            duration: 2.seconds,
-            begin: Offset(_prvHpBarScale, 1),
-            end: Offset(_curHpBarScale, 1))
-        .shake(duration: 2.seconds,hz: 50,offset: const Offset(0, 0),curve: Curves.bounceIn,rotation: 0.01 );
+    return Padding(
+      padding: widget.padding,
+      child: Container(
+        child: Stack(
+          children: [
+            Container(
+              color: Colors.grey,
+              width: 250,
+              height: 50,
+            ),
+            Container(
+              width: 250,
+              height: 50,
+              color: Colors.red,
+            )
+          ],
+        ),
+      )
+          // begin
+          .animate()
+          .fadeIn(duration: .35.seconds)
+          .slide(begin: const Offset(0, .2))
+          // set hp
+          .animate(controller: controller, autoPlay: false)
+          .scale(
+              alignment: Alignment.centerLeft,
+              duration: 2.seconds,
+              begin: Offset(_prvHpBarScale, 1),
+              end: Offset(_curHpBarScale, 1))
+          .shake(duration: 2.seconds,hz: 50,offset: const Offset(0, 0),curve: Curves.bounceIn,rotation: 0.01 ),
+    );
   }
 
   void setHp(double newHp) {
@@ -95,11 +101,18 @@ class HPBarState extends State<UIHpBar> with TickerProviderStateMixin {
       _prvHpBarScale = _curHpBarScale;
       _curHpBarScale = curHp / maxHp;
 
+      controller.reset();
       controller.forward();
     });
   }
 
   void set(List<String> args) {
     setHp(double.parse(args[0]));
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

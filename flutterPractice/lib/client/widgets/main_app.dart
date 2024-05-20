@@ -1,4 +1,7 @@
 import 'package:acter_project/client/Services/achivement_manager.dart';
+import 'package:acter_project/client/widgets/page/name_page.dart';
+import 'package:acter_project/client/widgets/page/play_page.dart';
+import 'package:acter_project/client/widgets/page/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
@@ -26,7 +29,7 @@ class _MainAppState extends State<MainApp> {
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
             seedColor: const Color.fromARGB(255, 255, 219, 163),
-            primary: const Color.fromARGB(255, 255, 219, 163),
+            primary: Color.fromARGB(255, 255, 219, 163),
             background: const Color.fromARGB(255, 33, 30, 30))
       ),
       home: const LoaderOverlay(

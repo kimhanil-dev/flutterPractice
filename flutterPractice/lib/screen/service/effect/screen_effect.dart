@@ -53,13 +53,16 @@ class SoundEffect extends ScreenEffect {
 }
 
 class VfxEffect extends ScreenEffect {
-  VfxEffect(this.parent, this.sprites, this.animation, super.chapter, super.id,
-      super.name);
+  VfxEffect(this.audioPlayer, this.audioSources, this.parent, this.sprites,
+      this.animation, super.chapter, super.id, super.name);
   final Node parent;
   final Map<String, MySprite> sprites;
   final MyAnimation animation;
+  final Map<String, Source> audioSources;
+  final AudioPlayer audioPlayer;
 
-  Future<void> _spawnEffect(Node parent, Frame frame, Duration lifeTime) async {
+  Future<void> _spawnEffect(
+      int frameIndex, Node parent, Frame frame, Duration lifeTime) async {
     SpriteTexture? texture;
     if (frame.spriteIndex < 0) {
       return;
@@ -69,7 +72,7 @@ class VfxEffect extends ScreenEffect {
       texture = sprites[animation.sprite1]?.sprites[frame.spriteIndex];
     }
 
-    if(texture == null) {
+    if (texture == null) {
       return;
     }
 
@@ -78,6 +81,16 @@ class VfxEffect extends ScreenEffect {
     sprite.scale = frame.scale.toDouble() / 100;
 
     parent.addChild(sprite);
+
+    for (var timing in animation.timings) {
+      if (timing.frame == frameIndex) {
+        var sound = audioSources[timing.sound];
+        if (sound != null) {
+          audioPlayer.setVolume(timing.soundVolume / 100); 
+          audioPlayer.play(sound);
+        }
+      }
+    }
 
     await Future.delayed(lifeTime);
     parent.removeChild(sprite);
@@ -92,8 +105,10 @@ class VfxEffect extends ScreenEffect {
     Future.microtask(() async {
       // frame이 여러개가 존재할 예정
       for (var frame in animation.frames) {
+        int i = 0;
         for (var e in frame) {
-          _spawnEffect(parent, e, lifeTime);
+          _spawnEffect(i, parent, e, lifeTime);
+          ++i;
         }
         await Future.delayed(lifeTime);
       }
@@ -107,7 +122,8 @@ class VfxEffect extends ScreenEffect {
 }
 
 class CommandEffect extends ScreenEffect {
-  CommandEffect(this.commands, this.commandManager, super.chapter, super.id, super.name);
+  CommandEffect(
+      this.commands, this.commandManager, super.chapter, super.id, super.name);
   final List<String> commands;
   final CommandManager commandManager;
   @override

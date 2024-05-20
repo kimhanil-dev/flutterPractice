@@ -79,7 +79,7 @@ class GoogleDriveDownloader<E> {
 
   static Resource<audio.Source> audioLoader(
       String name, Uint8List bytes, io.File file) {
-    return Resource<audio.Source>(name, audio.DeviceFileSource(file.path));
+    return Resource<audio.Source>(name.split('.')[0], audio.DeviceFileSource(file.path));
   }
 
   static Resource<Image> imageLoader(

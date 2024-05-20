@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:acter_project/client/Services/client.dart';
+import 'package:acter_project/client/widgets/page/name_page.dart';
 import 'package:acter_project/client/widgets/page/play_page.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -19,6 +20,7 @@ class WaitConnectingPage extends StatefulWidget {
 
 class _WaitConnectingPageState extends State<WaitConnectingPage> {
   late Client client;
+  late NameContainer name;
   String loadingText = '당신의 의지가 세계와 연결되는 중 입니다.';
 
   @override
@@ -26,6 +28,8 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
     super.initState();
 
     client = context.read<Client>();
+    name = context.read<NameContainer>();
+
     initClient();
   }
 
@@ -38,6 +42,11 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
       client.connectToServer(serverIp, serverPort, (isConnected) {
         if (isConnected) {
           setState(() => loadingText = '연결 성공');
+
+          // 이름 전달
+          client.sendMessage(
+              message: MessageType.sendName, object: StringData(name.name));
+
           Future.delayed(3.seconds).then(
               (value) => setState(() => loadingText = '세계가 시작되기를 기다리는 중 입니다.'));
         } else {
@@ -59,93 +68,106 @@ class _WaitConnectingPageState extends State<WaitConnectingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: SvgPicture.asset(
-                          'assets/images/ui/DecorShape1.svg',
-                          colorFilter: ColorFilter.mode(
-                              Theme.of(context).colorScheme.primary,
-                              BlendMode.srcIn),
-                        )
-                            .animate(onPlay: (controller) => controller.repeat())
-                            .rotate(
-                                end: 1,
-                                duration: getRandomDouble().seconds,
-                                curve: Curves.easeInExpo)),
-                    SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: SvgPicture.asset(
-                                'assets/images/ui/DecorShape2.svg',
-                                colorFilter: ColorFilter.mode(
-                                    Theme.of(context).colorScheme.primary,
-                                    BlendMode.srcIn))
-                            .animate(onPlay: (controller) => controller.repeat())
-                            .rotate(
-                                end: 1,
-                                duration: getRandomDouble().seconds,
-                                curve: Curves.easeInExpo)),
-                    SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: SvgPicture.asset(
-                                'assets/images/ui/DecorShape3.svg',
-                                colorFilter: ColorFilter.mode(
-                                    Theme.of(context).colorScheme.primary,
-                                    BlendMode.srcIn))
-                            .animate(onPlay: (controller) => controller.repeat())
-                            .rotate(
-                                end: 1,
-                                duration: getRandomDouble().seconds,
-                                curve: Curves.easeInExpo)),
-                    SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: SvgPicture.asset(
-                                'assets/images/ui/DecorShape4.svg',
-                                colorFilter: ColorFilter.mode(
-                                    Theme.of(context).colorScheme.primary,
-                                    BlendMode.srcIn))
-                            .animate(onPlay: (controller) => controller.repeat())
-                            .rotate(
-                                end: 1,
-                                duration: getRandomDouble().seconds,
-                                curve: Curves.easeInExpo)),
-                    SizedBox(
-                        width: 50,
-                        height: 50,
-                        child: SvgPicture.asset(
-                                'assets/images/ui/DecorShape5.svg',
-                                colorFilter: ColorFilter.mode(
-                                    Theme.of(context).colorScheme.primary,
-                                    BlendMode.srcIn))
-                            .animate(onPlay: (controller) => controller.repeat())
-                            .rotate(
-                                end: 1,
-                                duration: getRandomDouble().seconds,
-                                curve: Curves.easeInExpo))
-                  ],
-                ),
-                const Gap(30),
-                Text(
-                  loadingText,
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary, fontSize: 15),
-                ),
-              ],
-            )
-          ],
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+        body: Center(
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: SvgPicture.asset(
+                            'assets/images/ui/DecorShape1.svg',
+                            colorFilter: ColorFilter.mode(
+                                Theme.of(context).colorScheme.primary,
+                                BlendMode.srcIn),
+                          )
+                              .animate(
+                                  onPlay: (controller) => controller.repeat())
+                              .rotate(
+                                  end: 1,
+                                  duration: getRandomDouble().seconds,
+                                  curve: Curves.easeInExpo)),
+                      const Gap(2),
+                      SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: SvgPicture.asset(
+                                  'assets/images/ui/DecorShape2.svg',
+                                  colorFilter: ColorFilter.mode(
+                                      Theme.of(context).colorScheme.primary,
+                                      BlendMode.srcIn))
+                              .animate(
+                                  onPlay: (controller) => controller.repeat())
+                              .rotate(
+                                  end: 1,
+                                  duration: getRandomDouble().seconds,
+                                  curve: Curves.easeInExpo)),
+                      const Gap(2),
+                      SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: SvgPicture.asset(
+                                  'assets/images/ui/DecorShape3.svg',
+                                  colorFilter: ColorFilter.mode(
+                                      Theme.of(context).colorScheme.primary,
+                                      BlendMode.srcIn))
+                              .animate(
+                                  onPlay: (controller) => controller.repeat())
+                              .rotate(
+                                  end: 1,
+                                  duration: getRandomDouble().seconds,
+                                  curve: Curves.easeInExpo)),
+                      const Gap(2),
+                      SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: SvgPicture.asset(
+                                  'assets/images/ui/DecorShape4.svg',
+                                  colorFilter: ColorFilter.mode(
+                                      Theme.of(context).colorScheme.primary,
+                                      BlendMode.srcIn))
+                              .animate(
+                                  onPlay: (controller) => controller.repeat())
+                              .rotate(
+                                  end: 1,
+                                  duration: getRandomDouble().seconds,
+                                  curve: Curves.easeInExpo)),
+                      const Gap(2),
+                      SizedBox(
+                          width: 50,
+                          height: 50,
+                          child: SvgPicture.asset(
+                                  'assets/images/ui/DecorShape5.svg',
+                                  colorFilter: ColorFilter.mode(
+                                      Theme.of(context).colorScheme.primary,
+                                      BlendMode.srcIn))
+                              .animate(
+                                  onPlay: (controller) => controller.repeat())
+                              .rotate(
+                                  end: 1,
+                                  duration: getRandomDouble().seconds,
+                                  curve: Curves.easeInExpo))
+                    ],
+                  ),
+                  const Gap(30),
+                  Text(
+                    loadingText,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        fontSize: 15),
+                  ),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:acter_project/controller/commnuicator.dart';
 import 'package:acter_project/screen/service/screen_message.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:global_configuration/global_configuration.dart';
 import 'package:theater_publics/public.dart';
@@ -64,6 +66,7 @@ class _ServerMainState extends State<ServerMain> {
   late Communicator_controller controller;
   AchivementDB achivementDB = AchivementDB();
   bool bIsInited = false;
+  bool isLocked = false;
 
   @override
   void initState() {
@@ -369,28 +372,141 @@ class _ServerMainState extends State<ServerMain> {
             ),
           ),
           makeInterfaceWidget('챕터 - 상태 : ${controller.chapterState.notiName}', [
-            OutlinedButton(
-                onPressed: () {
-                  controller.sendMessage(MessageType.requestStartThater);
-                  controller.sendMessage(MessageType.screenMessage, data : ScreenMessage(MessageType.onChapterChanged));
-                },
-                child: const Text('공연 시작')),
-            OutlinedButton(
-                onPressed: () {
-                  controller.sendMessage(MessageType.onChapterEnd);
-                  controller.skipVoteCount = 0;
-                  controller.actionVoteCount = 0;
-                  controller.chapterState = ChapterState.end;
-                  _refresh();
-                },
-                child: const Text('챕터 종료')),
-                OutlinedButton(
-                onPressed: () {
-                  controller.sendMessage(MessageType.requestNextChapter);
-                  controller.sendMessage(MessageType.screenMessage, data : ScreenMessage(MessageType.onChapterChanged));
-                  _refresh();
-                },
-                child: const Text('다음 챕터')),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: OutlinedButton(
+                            onPressed: () {
+                              controller
+                                  .sendMessage(MessageType.requestStartThater);
+                              controller.sendMessage(MessageType.screenMessage,
+                                  data: ScreenMessage(
+                                      MessageType.onChapterChanged));
+                            },
+                            child: const Text('공연 시작')),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: OutlinedButton(
+                            onPressed: () {
+                              controller.sendMessage(MessageType.onChapterEnd);
+                              controller.skipVoteCount = 0;
+                              controller.actionVoteCount = 0;
+                              controller.chapterState = ChapterState.end;
+                              _refresh();
+                            },
+                            child: const Text('챕터 종료')),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: OutlinedButton(
+                            onPressed: () {
+                              controller
+                                  .sendMessage(MessageType.requestNextChapter);
+                              controller.sendMessage(MessageType.screenMessage,
+                                  data: ScreenMessage(
+                                      MessageType.onChapterChanged));
+                              _refresh();
+                            },
+                            child: const Text('다음 챕터')),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: OutlinedButton(
+                            onPressed: () {
+                              // 액션 버튼 활성화
+                              controller
+                                  .sendMessage(MessageType.onUpdateButtonState);
+                              _refresh();
+                            },
+                            child: const Text('액션 활성화')),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: OutlinedButton(
+                            onPressed: () {
+                              controller.sendMessage(MessageType.setChapter,
+                                  data: IntData(20));
+                              _refresh();
+                            },
+                            child: const Text('종장 으로')),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: OutlinedButton(
+                            onPressed: () {
+                              isLocked = !isLocked;
+                              controller.sendMessage(MessageType.onLockUpdate,
+                                  data: BoolData(condition: isLocked));
+                              _refresh();
+                            },
+                            child: Text(isLocked ? '잠금 해제' : '잠금')),
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: OutlinedButton(
+                            onPressed: () {
+                              // 액션 버튼 활성화
+                              controller
+                                  .sendMessage(MessageType.setChapter,data: IntData(30));
+                              _refresh();
+                            },
+                            child: const Text('크래딧')),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: OutlinedButton(
+                            onPressed: () {
+                              controller.sendMessage(MessageType.setChapter,
+                                  data: IntData(20));
+                              _refresh();
+                            },
+                            child: const Text('종장 으로')),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: OutlinedButton(
+                            onPressed: () {
+                              isLocked = !isLocked;
+                              controller.sendMessage(MessageType.onLockUpdate,
+                                  data: BoolData(condition: isLocked));
+                              _refresh();
+                            },
+                            child: Text(isLocked ? '잠금 해제' : '잠금')),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            )
           ]),
           makeInterfaceWidget('업적', [
             OutlinedButton(
@@ -406,9 +522,18 @@ class _ServerMainState extends State<ServerMain> {
             )
           ]),
           makeInterfaceWidget('화면', [
-            OutlinedButton(onPressed: () {
-              controller.sendMessage(MessageType.screenMessage, data: ScreenMessage(MessageType.nextSFX));
-            }, child: const Text('화면 전환')),
+            OutlinedButton(
+                onPressed: () {
+                  controller.sendMessage(MessageType.screenMessage,
+                      data: ScreenMessage(MessageType.nextSFX));
+                },
+                child: const Text('화면 전환')),
+            OutlinedButton(
+                onPressed: () {
+                  controller.sendMessage(MessageType.screenMessage,
+                      data: ScreenMessage(MessageType.setBlack));
+                },
+                child: const Text('암 전')),
           ]),
         ],
       ),

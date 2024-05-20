@@ -11,6 +11,12 @@
       <FullPath>D:\Programming\flutterPractice\flutterPractice\build\windows\x64\plugins\audioplayers_windows\Debug\audioplayers_windows_plugin.dll</FullPath>
     </ProjectOutput>
     <ProjectOutput>
+      <FullPath>D:\Programming\flutterPractice\flutterPractice\build\windows\x64\plugins\flutter_platform_alert\Debug\flutter_platform_alert_plugin.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Programming\flutterPractice\flutterPractice\build\windows\x64\plugins\video_player_win\Debug\video_player_win_plugin.dll</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
       <FullPath>D:\Programming\flutterPractice\flutterPractice\build\windows\x64\runner\Debug\acter_project.exe</FullPath>
     </ProjectOutput>
   </ProjectOutputs>

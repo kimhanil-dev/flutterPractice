@@ -47,6 +47,16 @@ if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   include("D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/cmake_install.cmake")
 endif()
 
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/flutter_platform_alert/cmake_install.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_LOCAL_ONLY)
+  # Include the install script for the subdirectory.
+  include("D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/video_player_win/cmake_install.cmake")
+endif()
+
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
     list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
@@ -152,34 +162,46 @@ endif()
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Runtime" OR NOT CMAKE_INSTALL_COMPONENT)
   if(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Dd][Ee][Bb][Uu][Gg])$")
     list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-     "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Debug/audioplayers_windows_plugin.dll")
+     "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Debug/audioplayers_windows_plugin.dll;D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Debug/flutter_platform_alert_plugin.dll;D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Debug/video_player_win_plugin.dll")
     if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
       message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
     if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
       message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
-    file(INSTALL DESTINATION "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Debug" TYPE FILE FILES "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/Debug/audioplayers_windows_plugin.dll")
+    file(INSTALL DESTINATION "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Debug" TYPE FILE FILES
+      "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/Debug/audioplayers_windows_plugin.dll"
+      "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/flutter_platform_alert/Debug/flutter_platform_alert_plugin.dll"
+      "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/video_player_win/Debug/video_player_win_plugin.dll"
+      )
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Pp][Rr][Oo][Ff][Ii][Ll][Ee])$")
     list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-     "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Profile/audioplayers_windows_plugin.dll")
+     "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Profile/audioplayers_windows_plugin.dll;D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Profile/flutter_platform_alert_plugin.dll;D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Profile/video_player_win_plugin.dll")
     if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
       message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
     if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
       message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
-    file(INSTALL DESTINATION "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Profile" TYPE FILE FILES "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/Profile/audioplayers_windows_plugin.dll")
+    file(INSTALL DESTINATION "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Profile" TYPE FILE FILES
+      "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/Profile/audioplayers_windows_plugin.dll"
+      "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/flutter_platform_alert/Profile/flutter_platform_alert_plugin.dll"
+      "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/video_player_win/Profile/video_player_win_plugin.dll"
+      )
   elseif(CMAKE_INSTALL_CONFIG_NAME MATCHES "^([Rr][Ee][Ll][Ee][Aa][Ss][Ee])$")
     list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-     "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/audioplayers_windows_plugin.dll")
+     "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/audioplayers_windows_plugin.dll;D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/flutter_platform_alert_plugin.dll;D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release/video_player_win_plugin.dll")
     if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
       message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
     if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
       message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
     endif()
-    file(INSTALL DESTINATION "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release" TYPE FILE FILES "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/Release/audioplayers_windows_plugin.dll")
+    file(INSTALL DESTINATION "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/Release" TYPE FILE FILES
+      "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/Release/audioplayers_windows_plugin.dll"
+      "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/flutter_platform_alert/Release/flutter_platform_alert_plugin.dll"
+      "D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/video_player_win/Release/video_player_win_plugin.dll"
+      )
   endif()
 endif()
 

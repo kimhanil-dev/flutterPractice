@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:googleapis/batch/v1.dart';
 import 'package:theater_publics/public.dart';
 
 /// connectToServer로 서버에 연결합니다.
@@ -26,7 +27,6 @@ class Client {
           .then((server) {
         _server = server;
         _server!.listen(listen);
-        onConnectionResult(true);
 
         _server!.done.then((value) {
           //TODO : 런타임 로그 남기기
@@ -40,8 +40,11 @@ class Client {
 
         _bIsConnected = true;
 
+
         print('Connection from'
             '${_server!.remoteAddress.address}:${_server!.remotePort}');
+        
+        onConnectionResult(true);
       });
     }
   }
@@ -50,10 +53,14 @@ class Client {
     messageListeners.add(messageListener);
   }
 
+  void removeMessageListener(void Function(MessageData) messageListener) {
+    messageListeners.remove(messageListener);
+  }
+
   void sendMessage(
       {required MessageType message, MessageTransableObject? object}) {
     if(!_bIsConnected) {
-      return;
+      assert(false);
     }
 
     try {

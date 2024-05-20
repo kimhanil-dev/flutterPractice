@@ -12,14 +12,10 @@ class Archive {
   set achivements(List<int> value) => _achivements = value.toSet();
 
   // TODO : 연속으로 호출될때 문제 없는지 확인할 것
-  bool addAchivement(int achivementId) {
+  void addAchivement(int achivementId) async {
     if (_achivements.add(achivementId)) {
-      ArchiveSaveLoader.save(this);
-
-      return true;
+      await ArchiveSaveLoader.save(this);
     }
-
-    return false;
   }
 }
 
@@ -28,14 +24,24 @@ class ArchiveSaveLoader {
   static Future<void> save(final Archive archive) async {
     var saveFile = '${(await getApplicationCacheDirectory()).path}/archive.sav';
     File file = File(saveFile);
-    file
-        .writeAsBytes(archive.achivements)
-        .then((value) => print('file saved... : ${file.path}'));
+    String buffer = '';
+    for (var aID in archive.achivements) {
+      buffer+='$aID,';
+    }
+    file.writeAsStringSync(buffer);
+    print('file saved... : ${file.path}');
   }
 
   static Future<void> load(Archive archive) async {
     var saveFile = '${(await getApplicationCacheDirectory()).path}/archive.sav';
     File file = File(saveFile);
-    archive.achivements = file.readAsBytesSync();
+    var rawData = file.readAsStringSync();
+    var ids = rawData.split(',');
+    List<int> parsedIds = [];
+   for(int i = 0; i < (ids.length - 1); ++i) {
+    parsedIds.add(int.parse(ids[i]));
+   }
+
+   archive.achivements = parsedIds;
   }
 }

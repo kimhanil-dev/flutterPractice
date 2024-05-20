@@ -6,9 +6,12 @@ class CommandBinder {
   }
 
   void call(String command, List<String> args) {
-    assert(_commands.containsKey(command));
+    if (!_commands.containsKey(command)) {
+      print('command : $command not found');
+      assert(false);
+    }
     for (var e in _commands[command]!) {
-      e(args);      
+      e(args);
     }
   }
 }

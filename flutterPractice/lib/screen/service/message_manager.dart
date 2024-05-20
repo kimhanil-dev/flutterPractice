@@ -23,7 +23,7 @@ class MessageManager {
 
   void notifyMessage(MessageData msgData) {
     listeners[msgData.messageType]?.forEach((element) {
-      element.listen(msgData.messageType.parser(msgData));
+      element.listen(msgData.messageType.parser!(msgData));
     });
   }
 }

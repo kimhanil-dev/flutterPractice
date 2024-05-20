@@ -1,8 +1,11 @@
 import 'package:acter_project/client/Services/archive.dart';
 import 'package:acter_project/client/Services/client.dart';
 import 'package:acter_project/client/Services/achivement_manager.dart';
+import 'package:acter_project/client/curve/sin_curve.dart';
+import 'package:acter_project/client/vmodel/achivement_notificator.dart';
+import 'package:acter_project/client/vmodel/client_message_manager.dart';
 import 'package:acter_project/client/widgets/widget/notification.dart';
-import 'package:acter_project/screen/widget/achivement_notification.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:theater_publics/public.dart';
 import 'package:theater_publics/vote.dart';
 import 'package:flutter/material.dart';
@@ -20,71 +23,38 @@ class VotePage extends StatefulWidget {
 
 class _VotePageState extends State<VotePage>
     with AutomaticKeepAliveClientMixin<VotePage>, TickerProviderStateMixin {
-  bool bIsActionEnabled = false;
   late Archive archive;
   late Client client;
-  int achivementId = 0;
-  bool bIsAchived = false;
-  ButtonStates buttonState = ButtonStates(false, false);
 
-  late Size notificationDest;
-  late AchivementNotificator notificator;
   late AchivementDataManger achivementDataManger;
-  List<NotificationWidget> notificators = [];
+  late AchivementNotificator notificator;
+  late ClientMessageBinder msgBinder;
+  late AnimationController controller;
 
-  int count = 0;
+  bool isLocked = false;
 
-  void onNotiFadeOut(NotificationWidget noti) {
-    setState(() {
-      notificators.remove(noti);
-    });
-  }
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
-    client = context.read<Client>();
-    client.addMessageListener((message) {
-      switch (message.messageType) {
-        case MessageType.onAchivement:
-          {
-            achivementId = int.parse(String.fromCharCodes(message.datas));
-
-            var data = achivementDataManger.getData(achivementId);
-            if(data == null) {
-              print('$achivementId : 존재하지 않는 업적 ID');
-              return; // 업적 오류 데이터 검출
-            }
-
-            var image = achivementDataManger.getImage(achivementId);
-
-            notificator
-                .showNotification(
-                    image.image,
-                    data.name,
-                    const Duration(seconds: 3),
-                    notificationDest / 2,
-                    const Duration(microseconds: 250))
-                .then((value) => setState(() {}));
-
-            archive.addAchivement(achivementId);
-
-            setState(() {
-              notificators.add(NotificationWidget(
-                  image: image, text: data.name, onFadeOut: onNotiFadeOut));
-            });
-          }
-          break;
-        default:
-      }
-    });
-
-    notificator = AchivementNotificator(this);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      notificationDest = MediaQuery.of(context).size;
-    });
 
     achivementDataManger = context.read<AchivementDataManger>();
+
+    controller = AnimationController(vsync: this, duration: 2.seconds);
+
+    // Bind To MessageType
+    msgBinder = ClientMessageBinder(client: client = context.read<Client>());
+    {
+      msgBinder.bind<Achivement>(MessageType.onAchivement, onAchivement);
+      msgBinder.bind<BoolData>(MessageType.onLockUpdate, (p0) {
+        isLocked = p0.condition;
+        if (mounted) {
+          setState(() {});
+        }
+      });
+    }
   }
 
   @override
@@ -93,9 +63,38 @@ class _VotePageState extends State<VotePage>
     archive = Provider.of<Archive>(context);
 
     return Scaffold(
-      body: Stack(
+      body: Align(
         alignment: Alignment.center,
-        children: [const Corner(),..._pageBuilder()],
+        child: Stack(
+          alignment: Alignment.center,
+          children: isLocked
+              ? [
+                  Image.asset(
+                    'assets/result.png',
+                    color: Theme.of(context).primaryColor,
+                  )
+                      .animate(
+                        controller: controller,
+                        onPlay: (controller) => controller.repeat(),
+                      )
+                      .blur(
+                          duration: 2.seconds,
+                          curve: SinCurve(),
+                          begin: Offset(1, 1),
+                          end: Offset(4, 4))
+                      .scale(
+                          duration: 1.seconds,
+                          curve: SinCurve(),
+                          begin: Offset(1, 1),
+                          end: Offset(2, 2))
+                      .fadeOut(duration: 2.seconds, curve: SinCurve()),
+                  Image.asset(
+                    'assets/result.png',
+                    color: Theme.of(context).primaryColor,
+                  )
+                ]
+              : [const Corner(), ..._pageBuilder()],
+        ),
       ),
     );
   }
@@ -106,11 +105,9 @@ class _VotePageState extends State<VotePage>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(
+            const SizedBox(
               height: 200,
-              child: Stack(
-                children: [...notificators],
-              ),
+              child: NotificationWidget(),
             ),
             const SizedBox(
               width: 20,
@@ -136,6 +133,11 @@ class _VotePageState extends State<VotePage>
     return widgets;
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  void onAchivement(Achivement achivement) {
+    var data = achivementDataManger.getData(achivement.id);
+    if (data != null) {
+      archive.addAchivement(achivement.id);
+      //addNotiWidget(achivementDataManger.getImage(achivement.id), data.name);
+    }
+  }
 }

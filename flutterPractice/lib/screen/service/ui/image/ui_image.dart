@@ -16,13 +16,11 @@ class UIImage extends UI {
   bool get isForward => false;
 
   @override
-  State<UIImage> createState() => UIImageState();
+  State<UIImage> createState() => UIWinState();
 }
 
-class UIImageState extends State<UIImage> with TickerProviderStateMixin {
-  late FragmentShader shader;
+class UIWinState extends State<UIImage> with TickerProviderStateMixin {
   late AnimationController controller;
-  late Effect shaderEffect;
   Image? image;
   Image? nextImage;
   double posX = 0;
@@ -36,9 +34,6 @@ class UIImageState extends State<UIImage> with TickerProviderStateMixin {
     widget.setCommand('set', set);
 
     // add animations
-    shader = context.read<FragmentShader>();
-    shader.setImageSampler(1, context.read<DataManager>().fades['fade3']!);
-
     controller = AnimationController(
       vsync: this,
       duration: 2000.ms,
@@ -48,42 +43,23 @@ class UIImageState extends State<UIImage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
-      child: image ?? Image.asset('assets/black.png'))
-        .animate(controller: controller, onComplete: fadeComplite)
-        .shader(
-            duration: 2.seconds,
-            shader: shader,
-            update: (details) {
-              var x = MediaQuery.of(context).size.width;
-              var y = MediaQuery.of(context).size.height;
-              details.shader.setFloat(0, x);
-              details.shader.setFloat(1, y);
-              details.shader.setFloat(2, (details.value * 2) - 1);
-              details.shader.setFloat(3, 1.0);
-              details.shader.setImageSampler(0, details.image);
-            });
-  }
-
-  void fadeComplite(AnimationController controller) {
-    setState(() {
-      if (nextImage != null) {
-        image = Image(image: nextImage!.image, fit: BoxFit.fill);
-      }
-    });
-    controller.reverse();
+    return Center(child: image ?? Container(),);
   }
 
   void set(List<String> args) {
     setState(() {
-      nextImage = context.read<DataManager>().bgImages[args[0]]!;
-      posX = double.parse(args[1]);
-      posX = double.parse(args[2]);
+      if (args.isEmpty) {
+        image = null;
+        return;
+      }
 
-      controller.reset();
-      controller.forward();
+      image = context.read<DataManager>().bgImages[args[0]];
     });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

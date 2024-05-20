@@ -152,7 +152,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\runner\ALL_BUILD.vcxproj">
+    <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\plugins\video_player_win\ALL_BUILD.vcxproj">
       <Project>{FE6E31D9-EC13-3805-8401-4FF7153A48A6}</Project>
       <Name>ALL_BUILD</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

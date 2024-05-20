@@ -230,6 +230,15 @@ audioplayers_windows_IS_TOP_LEVEL:STATIC=OFF
 audioplayers_windows_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/flutter/ephemeral/.plugin_symlinks/audioplayers_windows/windows
 
 //Value Computed by CMake
+flutter_platform_alert_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/flutter_platform_alert
+
+//Value Computed by CMake
+flutter_platform_alert_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+flutter_platform_alert_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/flutter/ephemeral/.plugin_symlinks/flutter_platform_alert/windows
+
+//Value Computed by CMake
 runner_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner
 
 //Value Computed by CMake
@@ -237,6 +246,15 @@ runner_IS_TOP_LEVEL:STATIC=OFF
 
 //Value Computed by CMake
 runner_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/runner
+
+//Value Computed by CMake
+video_player_win_BINARY_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/video_player_win
+
+//Value Computed by CMake
+video_player_win_IS_TOP_LEVEL:STATIC=OFF
+
+//Value Computed by CMake
+video_player_win_SOURCE_DIR:STATIC=D:/Programming/flutterPractice/flutterPractice/windows/flutter/ephemeral/.plugin_symlinks/video_player_win/windows
 
 
 ########################
@@ -317,7 +335,7 @@ CMAKE_MODULE_LINKER_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_MT
 CMAKE_MT-ADVANCED:INTERNAL=1
 //number of local generators
-CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=4
+CMAKE_NUMBER_OF_MAKEFILES:INTERNAL=6
 //Platform information initialized
 CMAKE_PLATFORM_INFO_INITIALIZED:INTERNAL=1
 //noop for ranlib

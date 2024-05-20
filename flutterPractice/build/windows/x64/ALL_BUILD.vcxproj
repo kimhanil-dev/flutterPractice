@@ -148,6 +148,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <Project>{EEFC7483-85DB-3332-8F20-E3C0E42A19D6}</Project>
       <Name>audioplayers_windows_plugin</Name>
     </ProjectReference>
+    <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\plugins\flutter_platform_alert\flutter_platform_alert_plugin.vcxproj">
+      <Project>{489E6F8D-6D13-3197-8E1C-5EC8E074A3D8}</Project>
+      <Name>flutter_platform_alert_plugin</Name>
+    </ProjectReference>
     <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\flutter\flutter_wrapper_app.vcxproj">
       <Project>{5C6F1E2C-97B1-3B1B-AA81-0848B77C8082}</Project>
       <Name>flutter_wrapper_app</Name>
@@ -155,6 +159,16 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\flutter\flutter_wrapper_plugin.vcxproj">
       <Project>{E2A435F7-7E19-3FBA-955D-58899218D56A}</Project>
       <Name>flutter_wrapper_plugin</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\plugins\video_player_win\video_player_win_DEPENDENCIES_DOWNLOAD.vcxproj">
+      <Project>{C1984718-F7F6-3A39-9C42-41D140C0B8AE}</Project>
+      <Name>video_player_win_DEPENDENCIES_DOWNLOAD</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Programming\flutterPractice\flutterPractice\build\windows\x64\plugins\video_player_win\video_player_win_plugin.vcxproj">
+      <Project>{C899569C-D58D-3379-83CC-372DFD9664C2}</Project>
+      <Name>video_player_win_plugin</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

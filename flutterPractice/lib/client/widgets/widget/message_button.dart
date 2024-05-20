@@ -1,4 +1,5 @@
 import 'package:acter_project/client/Services/client.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:theater_publics/public.dart';
@@ -34,14 +35,16 @@ class _MessageButttonState extends State<MessageButtton> {
     switch (message.messageType) {
       case MessageType.requestCurrentVotes:
         if (widget.voteType == VoteType.skip) {
-          setState(() {
-            isActivated = message.datas[0] == 1 ? true : false;
-          }); // skip vote existed?
+          isActivated = message.datas[0] == 1 ? true : false;
         } else {
-          setState(() {
-            isActivated = message.datas[1] == 1 ? true : false;
-          }); // action vote existed?
+          isActivated = message.datas[1] == 1 ? true : false;
         }
+
+        if (mounted) {
+          setState(() {});
+        }
+
+        // action vote existed?
         break;
       case MessageType.onUpdateButtonState:
         {
@@ -104,13 +107,19 @@ class _MessageButttonState extends State<MessageButtton> {
     Future.delayed(3.seconds).then((value) => widget.client.sendMessage(
         message: MessageType.onButtonClicked, object: widget.voteType));
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    widget.client.removeMessageListener(onListenMessage);
+  }
 }
 
 class CustomButton extends StatelessWidget {
   const CustomButton(
       {super.key,
       required this.text,
-      this.size = const Size(250,50),
+      this.size = const Size(250, 50),
       required this.color,
       required this.isActivated,
       required this.onPressed});
@@ -141,7 +150,12 @@ class CustomButton extends StatelessWidget {
           ],
         ),
       ),
-      onPressed: isActivated ? onPressed : null,
+      onPressed: isActivated
+          ? () {
+              HapticFeedback.lightImpact();
+              onPressed();
+            }
+          : null,
     );
   }
 }

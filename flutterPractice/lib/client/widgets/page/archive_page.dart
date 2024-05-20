@@ -10,40 +10,58 @@ import 'package:provider/provider.dart';
 
 import '../widget/corner.dart';
 
-class ArchivePage extends StatelessWidget {
+class ArchivePage extends StatefulWidget {
   const ArchivePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  State<ArchivePage> createState() => _ArchivePageState();
+}
+
+class _ArchivePageState extends State<ArchivePage> {
+  late AchivementDataManger achivementDataManager;
+  late Archive archive;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
     context.loaderOverlay.show();
-    final achivementDataManager = Provider.of<AchivementDataManger>(context);
-    final archive = Provider.of<Archive>(context);
+    achivementDataManager = context.read<AchivementDataManger>();
+    archive = context.read<Archive>();
     ArchiveSaveLoader.load(archive).then((value) {
       context.loaderOverlay.hide();
+      setState(() {});
     });
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(children: [
         const Corner(),
         Column(
           children: [
-           
             Expanded(
                 child: Column(
-                  children: [
-                    const Gap(30),
-                     Text('업적',style: TextStyle(color: Theme.of(context).primaryColor,fontSize: 28),),
-                    SizedBox(
-                      width: 150,
-                      height: 150,
-                      child: SvgPicture.asset(
-                        'assets/images/ui/Callout5.svg',
-                        colorFilter: ColorFilter.mode(
-                            Theme.of(context).primaryColor, BlendMode.srcIn),
-                      ),
-                    ),
-                  ],
-                )),
+              children: [
+                const Gap(30),
+                Text(
+                  '업적',
+                  style: TextStyle(
+                      color: Theme.of(context).primaryColor, fontSize: 28),
+                ),
+                SizedBox(
+                  width: 150,
+                  height: 150,
+                  child: SvgPicture.asset(
+                    'assets/images/ui/Callout5.svg',
+                    colorFilter: ColorFilter.mode(
+                        Theme.of(context).primaryColor, BlendMode.srcIn),
+                  ),
+                ),
+              ],
+            )),
             Expanded(
               flex: 3,
               child: GridView(
@@ -51,7 +69,7 @@ class ArchivePage extends StatelessWidget {
                     crossAxisCount: 4),
                 children: [
                   for (var id in archive.achivements)
-                    AspectRatio(
+                     AspectRatio(
                         aspectRatio: 1,
                         child: IconButton(
                           icon: FittedBox(

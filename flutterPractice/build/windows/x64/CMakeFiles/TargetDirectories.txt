@@ -11,3 +11,10 @@ D:/Programming/flutterPractice/flutterPractice/build/windows/x64/runner/CMakeFil
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/CMakeFiles/audioplayers_windows_plugin.dir
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/CMakeFiles/INSTALL.dir
 D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/audioplayers_windows/CMakeFiles/ALL_BUILD.dir
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/flutter_platform_alert/CMakeFiles/flutter_platform_alert_plugin.dir
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/flutter_platform_alert/CMakeFiles/INSTALL.dir
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/flutter_platform_alert/CMakeFiles/ALL_BUILD.dir
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/video_player_win/CMakeFiles/video_player_win_DEPENDENCIES_DOWNLOAD.dir
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/video_player_win/CMakeFiles/video_player_win_plugin.dir
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/video_player_win/CMakeFiles/INSTALL.dir
+D:/Programming/flutterPractice/flutterPractice/build/windows/x64/plugins/video_player_win/CMakeFiles/ALL_BUILD.dir

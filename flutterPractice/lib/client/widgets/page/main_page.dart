@@ -1,4 +1,5 @@
 import 'package:acter_project/client/Services/client.dart';
+import 'package:acter_project/client/widgets/page/name_page.dart';
 import 'package:acter_project/client/widgets/page/vote_page.dart';
 import 'package:acter_project/client/widgets/widget/corner.dart';
 import 'package:acter_project/client/widgets/widget/message_button.dart';
@@ -15,6 +16,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var client = Provider.of<Client>(context);
+    var nameContainer = Provider.of<NameContainer>(context);
 
     return Scaffold(
       body: Center(
@@ -31,11 +33,11 @@ class MainPage extends StatelessWidget {
                     isActivated: true,
                     onPressed: () {
                       if (client.isConnected) {
-                        Navigator.of(context).push(MaterialPageRoute(
+                        Navigator.of(context,rootNavigator: true).push(MaterialPageRoute(
                             builder: (context) => const VotePage()));
                       } else {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const WaitConnectingPage()));
+                        Navigator.of(context,rootNavigator: true).push(MaterialPageRoute(
+                            builder: (context) => Provider<NameContainer>(create: (_) => nameContainer, child: const WaitConnectingPage())));
                       }
                     }),
                 const Gap(50),
@@ -44,7 +46,7 @@ class MainPage extends StatelessWidget {
                     color: Theme.of(context).primaryColor,
                     isActivated: true,
                     onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(
+                      Navigator.of(context,rootNavigator: true).push(MaterialPageRoute(
                           builder: (context) => const ArchivePage()));
                     })
               ],
