@@ -8,10 +8,7 @@ class AchivementDataManger {
   final Map<int, Image> _achivementImages = {};
 
   Future<void> loadDatas() async {
-    var dotEnv = DotEnv(); 
-    await dotEnv.load(fileName: 'assets/.env');
-    
-    await _achivementDB.loadData(dotEnv.env['GSHEETS_CREDENTIALS']!);
+    await _achivementDB.loadData(const String.fromEnvironment('GSHEET_API_KEY'));
     var gdDownloader = GoogleDriveDownloader<Image>();
     final images = await gdDownloader.downloadFiles('1uR1WyjYKLvcdz1EHQCYpPOGuNLK_0a_m','image',GoogleDriveDownloader.imageLoader);
 

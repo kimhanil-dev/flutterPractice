@@ -23,8 +23,7 @@ class GoogleDriveDownloader<E> {
     // connect to google `Drive Api`;
     var client = await clientViaServiceAccount(
       
-        ServiceAccountCredentials.fromJson(await rootBundle
-            .loadString('assets/api-key/google-drive-api-key.json')),
+        ServiceAccountCredentials.fromJson(const String.fromEnvironment('GOOGLE_DRIVE_API_KEY')),
         [drive.DriveApi.driveReadonlyScope]);
     var driveApi = drive.DriveApi(client);
 
