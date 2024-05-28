@@ -14,20 +14,30 @@
 - 관객이 자신의 모바일 기기에서 실질적으로 조작하게 되는 어플리케이션으로, '투표'를 하기 위한 인터페이스 역할을 수행한다.
 - 챕터에 따라, '스킵' 버튼, '액션' 버튼이 활성화 되면 관객은 자신의 의지에 따라 '챕터'를 스킵할지 투표하거나, '액션'을 수행할지 투표할 수 있다.
 - 관객은 연극의 흐름에 따라 다양한 '업적'을 얻을 수 있으며, 자신이 얻은 업적은 '업적 페이지'에서 확인 가능하다
-  
+![image](https://github.com/kimhanil-dev/flutterPractice/assets/128380417/7d7f384f-06e5-4c72-85f6-db38e3dc1d5d)
+
 ## 컨트롤러
 - '챕터 종료', '챕터 시작', '이팩트 재생' 등 연극이 진행되는 도중 스크린이나 챕터의 전환을 컨트롤하기 위한 패널로, 연극의 스태프가 실시간으로 스크린을 조작하고 연극의 상태를 확인하기 위해서 만들어짐
+
+![KakaoTalk_20240528_213553110](https://github.com/kimhanil-dev/flutterPractice/assets/128380417/e13465c8-0aff-44d6-8bb7-07f67332fc6c)
    
 ## 스크린
 - 관객들에게 몰입도 향상을 위한 비주얼적 요소를 제공하기 위해서 만들어짐
 - HP, VFX, SFX, 배경, 이미지, 등을 챕터별로 구현하고 배치하여, 마치 게임처럼 느껴지게 하는것이 목적
 - 연극이라는 특성에 맞게 컨트롤러에서 '큐 버튼'을 클릭하면 저장된 액션들이 차례차례 실행된다.
+- VFX는 RPG Maker의 VFX를 그대로 사용할 수 있도록 구현하였다.
+![image](https://github.com/kimhanil-dev/flutterPractice/assets/128380417/4ac5b634-477d-4a45-b5d3-8c0c6ab6df88)
+
 
 ## 데이터
 - Google Drive와 GSheet API를 활용하여, 데이터를 저장하고 원하는 데이터를 생성하였다.
 - Google Drive는 이미지, 사운드, VFX를 저장하는 리소스 저장소로 사용 되었으며, '클라이언트 어플리케이션', '스크린'은 변경된 데이터가 존재한다면 Google Drive에서 데이터를 다운로드 받아 업데이트 한다.
 - GSheet는 '스크린'의 장면 시퀀스를 스크립팅 하거나, '업적'정보, '챕터'의 정보를 Excel로 정리하고 생산하는데 사용되었다.
 - 오프라인 저장소나 Excel 데이터를 생성해서 사용하지 않은 이유는, 해당 데이터들이 변경될때마다 다시 빌드하고 싶지 않았기 때문이다.
+![image](https://github.com/kimhanil-dev/flutterPractice/assets/128380417/12f512f0-89cb-4b84-8ae3-1fc6b7a93986)
+![image](https://github.com/kimhanil-dev/flutterPractice/assets/128380417/6145fecb-33d1-455d-9091-4afdeeda0185)
+
+
 
 ## 프레임워크, 서버
 ### Flutter
